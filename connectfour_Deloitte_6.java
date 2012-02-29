@@ -1,14 +1,5 @@
 import java.util.*;
 
-/**
- * Author: Matthew Gavin
- * Date: 2/26/2012
- * Problem: Deloitte Contest - Problem 6: Connect 4
- * Description: Using floodfill to solve the problem,check 4 distinct directions
- * Prof. Isaac Traxler
- * Compiled with: javac connectfour_Deloitte_6.java
- * Compiler: javac 1.6.0_18
- */
 
 
 public class connectfour_Deloitte_6
