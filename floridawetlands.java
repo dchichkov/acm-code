@@ -1,15 +1,4 @@
-/**
- *Author: Matthew Gavin
- *Date: 2/21/2012
- *Problem: Florida Wetlands UVA-469
- *Description: Using floodfill
- *Prof: Isaac Traxler
- *Compiled with: javac floridawetlands.java
- *Compiler: 1.7.0_02
- *
- *Comments: AHHHHH WHITESPACE, ANSWER FORMATTING, INPUT!! ARGHHH
- *          FINALLYYYYYYY!!!
- */
+
 
 import java.util.Scanner;
 
