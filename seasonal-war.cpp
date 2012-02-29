@@ -1,12 +1,3 @@
-/*
- * Author: Matthew Gavin
- * Date: 2/5/2012
- * Problem: Seasonal War UVA-352
- * Description: Using floodfill to solve the problem.
- * Prof. Isaac Traxler
- * Compiled with: g++ seasonal-war.cpp -o war
- * 
- */
 
 #include <iostream>
 #include <string>
