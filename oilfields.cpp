@@ -1,12 +1,3 @@
-/*
- * Author: Matthew Gavin
- * Date: 2/5/2012
- * Problem: Seasonal War UVA-572
- * Description: Using floodfill to solve the problem.
- * Prof. Isaac Traxler
- * Compiled with: g++ oilfields.cpp -o oilfields
- * 
- */
 
 #include <iostream>
 #include <string>
