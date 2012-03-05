@@ -45,18 +45,18 @@ void process()
 
 int main()
 {
-  //getline(cin, temp);
-  bool moreToDo;
-  while (moreToDo = !cin.eof())
+    //getline(cin, temp);
+    bool moreToDo;
+    while (moreToDo = !cin.eof())
     {
 
 
-      getInput();
-      process();
+        getInput();
+        process();
 
-      /*output*/
+        /*output*/
 
 
-      /*output*/
+        /*output*/
     }
 }
