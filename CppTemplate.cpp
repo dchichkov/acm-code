@@ -47,23 +47,16 @@ int main()
 {
   //getline(cin, temp);
   bool moreToDo;
-  while (moreToDo = !cin.eof()) //more to do, however you want to express end of input
-  {
-    /* EXAMPLE DEBUG STATEMENTS
-    int a = 6;
-    string b("Hello world!");
-    string c = "Howdy, yall!";
-    print(a, endl);
-    print(b, "\t");
-    print(c, "");
-    */
-
-    getInput();
-    process();
-
-    /*output*/
+  while (moreToDo = !cin.eof())
+    {
 
 
-    /*output*/
-  }
+      getInput();
+      process();
+
+      /*output*/
+
+
+      /*output*/
+    }
 }
