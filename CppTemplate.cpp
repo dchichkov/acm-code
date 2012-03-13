@@ -33,6 +33,11 @@ using namespace std;
 
 /*global variables*/
 
+void dump()
+{
+  //dump output
+}
+
 void getInput()
 {
   //get input
