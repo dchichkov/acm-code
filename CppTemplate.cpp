@@ -35,7 +35,7 @@ using namespace std;
 
 void dump()
 {
-  //dump output
+  //dump data
 }
 
 void getInput()
