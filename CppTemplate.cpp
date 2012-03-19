@@ -35,17 +35,17 @@ using namespace std;
 
 void dump()
 {
-  //dump data
+    //dump data
 }
 
 void getInput()
 {
-  //get input
+    //get input
 }
 
 void process()
 {
-  //process input
+    //process input
 }
 
 int main()
