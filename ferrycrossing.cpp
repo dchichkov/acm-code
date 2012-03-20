@@ -65,12 +65,16 @@ pair<int, int> process()
     int car_time = 0;
     for (int i = 0; i < car_times.size(); ++i)
     {
-        print(car_times[i], " ");
-        if (results.first > car_times[i])
+        print(car_times[i], "\t");
+        if ((results.first) > car_times[i])
         {
-            car_times[i] = results.first + trip_time;
+            car_times[i] += trip_time;
+            print(car_times[i], "\t");
         }
-        results.first = car_times[i] + trip_time;
+        if ((i+1)%max_carry == 0 || (i == car_times.size()-1))
+            results.first = car_times[i] + trip_time;
+        /*        else if 
+                  results.first = car_times[i];*/
         
        
         print(results.first, endl);
