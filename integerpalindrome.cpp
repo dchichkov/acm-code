@@ -20,7 +20,7 @@
 #include <regex.h> 
 
 #define DEBUG
-//#undef DEBUG //uncomment this line to pull out print statements
+#undef DEBUG //uncomment this line to pull out print statements
 #ifdef DEBUG
 #define print(a, end) cout << #a << ": " << a << end
 #else
@@ -31,6 +31,7 @@ using namespace std;
 
 /*global variables*/
 string num, base;
+string digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 /*global variables*/
 
 void dump()
@@ -40,26 +41,34 @@ void dump()
 
 void getInput()
 {
+	num = "0"; base = "0";
     //get input
-	cin >> num >> base;
+	stringstream s;
+	string ss;
+	getline(cin, ss); if (ss.length() == 0) throw 0;
+	s.str(ss);
+	s >> num >> base;
+
+	print(num, "\t"); print(base, endl);
 	for (int i = 0; i < num.length(); ++i)
 	{
 		if(!isdigit(num[i]))
-			throw "Error: Check number is not a positive base10 number.";
+			throw string("Error: Check number is not a positive base10 number.");
 	}
 
 	for (int i = 0; i < base.length(); ++i)
 	{
 		if (!isdigit(base[i]))
-			throw "Error: Base number is not a positive base10 number.";
+			throw string("Error: Base number is not a positive base10 number.");
 	}
 
-	if (cin.peek() != '\n')
-		throw "Error: Invalid number of arguments. Expected 2 numbers for input.";
+	if (num == "0" || base == "0" || !s.eof())
+		throw string("Error: Invalid number of arguments. Expected 2 numbers for input.");
 
+	if (atoi(base.c_str()) > 62)
+		throw string("Error: Base " + base + " is an unsupported base system. Maximum Base system is Base62.");	//this is wrong in the problem description, and wrong in the expected output... awesome.
 	
-	
-	cin.ignore(numeric_limits<int>::max(), '\n'); //goto next line
+
 }
 
 bool process()
@@ -68,24 +77,29 @@ bool process()
 	//convert base
 	//check palindrome
 	stringstream s(num);
-	int number, the_base;
+	int number = 0, the_base = 0;
 	string converted;
-	s >> number;
-	s << base;
+	s >> number; s.clear();
+	s.str(base);
 	s >> the_base;
-	if (the_base > 62)
-		throw "Error: Base " + base + " is an unsupported base system. Maximum Base system is Base 62.";
-	
+
+	print(number, "\t"); print(the_base, endl);
 	while (number != 0)
 	{
-		converted += (number % base)+'0';
-		number /= base;
+		converted = digits[(number % the_base)] + converted;
+		number /= the_base;
 	}
 	cout << converted;
+
+	//check palindrome
+	int length = converted.length() - 1;
 	for (int i = 0; i < converted.length()/2; ++i)
 	{
-		if (converted[i] != converted[converted.length()-i])
+		if (converted[i] != converted[length-i])
+		{
+			print(converted[i], "\t"); print(converted[length-i], endl);
 			return false;
+		}
 	}
 
 	return true;		   
@@ -100,7 +114,7 @@ int main()
 		try
 		{
 			getInput();
-			cout << num << " in base" << base << "is ";
+			cout << num << " in base" << base << " is ";
 			if (process())
 			{
 				cout << " - Yes" << endl;
@@ -108,9 +122,14 @@ int main()
 			{
 				cout << " - No" << endl;
 			}
-		} catch (string& Exception)
+		}
+		catch (string& e)
 		{
-			cout << Exception << endl;
+			cout << e << endl;
+		}
+		catch (...)
+		{
+			//lol; hiding error hackery
 		}
 
         /*output*/
