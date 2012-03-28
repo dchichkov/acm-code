@@ -1,3 +1,12 @@
+/**
+ * Author: Matthew Gavin
+ * Date: 3/28/2012
+ * Problem: Count the Factors - 10699
+ * Description: Implementing the Sieve of Eratosthenes.
+ * Prof. Isaac Traxler
+ * Compiled with: g++ countfactors.cpp -o cf
+ * Compiler: g++ 4.6.1
+ */
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
@@ -11,7 +20,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-//#include <algorithm>
+#include <algorithm>
 #include <functional>
 #include <sstream>
 #include <complex>
@@ -20,7 +29,7 @@
 #include <regex.h> 
 
 #define DEBUG
-//#undef DEBUG //uncomment this line to pull out print statements
+#undef DEBUG //uncomment this line to pull out print statements
 #ifdef DEBUG
 #define print(a, end) cout << #a << ": " << a << end
 #else
@@ -30,9 +39,12 @@
 using namespace std;
 
 /*global variables*/
-int number = 1, count = 0;
-
+const int UPPERLIMIT = 1000000;
+int number = 1, counter = 0;
+vector<int> primes;
+int a[UPPERLIMIT];
 /*global variables*/
+
 
 void dump()
 {
@@ -48,36 +60,34 @@ void getInput()
 void process()
 {
     //process input
-	vector<int> primes;
-	int * a = new int[number];
+    int num = number;
+    for (vector<int>::reverse_iterator jt = primes.rbegin(); jt != primes.rend(); ++jt)
+    {
+        if (num % *jt == 0)
+        {
+            print(*jt, endl);
+            num /= *jt;
+            counter++;
+        }
+    }
+}
+
+int main()
+{
 	//SoE
-	for (int i = 0; i < number; ++i) a[i] = i;
-	for (int i = 2; i < number; ++i)
+	for (int i = 0; i < UPPERLIMIT; ++i) a[i] = i;
+	for (int i = 2; i < UPPERLIMIT; ++i)
 	{
 		if (a[i] != 0)
 		{
 			//found prime
 			primes.push_back(i);
-			for (int j = i*2; j < number; j=j+i) { a[j] = 0; }
+			for (int j = i*2; j < UPPERLIMIT; j=j+i) { a[j] = 0; }
 		}
 	}
+    print(primes.size(), endl);
 
-	for (vector<int>::iterator it = primes.begin(); it != primes.end(); ++it)
-	{
-		for (vector<int>::iterator jt = primes.begin(); jt != primes.end(); ++jt)
-		   if ((*jt) % (*it) == 0)
-				(*jt)++;
-		print(*it, "\t");
-	}
-	
-	for (vector<int>::iterator it = primes.begin(); it != primes.end(); ++it)
-		if ((*it) == 0)
-			count++;
-}
-
-int main()
-{
-    //getline(cin, temp);
+    
     bool moreToDo;
     while (moreToDo = (number != 0))
     {
@@ -88,10 +98,10 @@ int main()
         process();
 
         /*output*/
-		cout << number << " : " << count << endl;
+		cout << number << " : " << counter << endl;
 
         /*output*/
 
-		count = 0;
+		counter = 0;
     }
 }
