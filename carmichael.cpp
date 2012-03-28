@@ -1,16 +1,3 @@
-/**
- * Author: Matthew Gavin
- * Date: 3/28/2012
- * Problem: Carmichael Numbers - 10006
- * Description: Implementing the Sieve of Eratosthenes. Also there would have been no
- *              way to meet the time limit knowing the simpler form of modular
- *              exponentiation. You had to know the binary method.
- *              link : http://en.wikipedia.org/wiki/Modular_exponentiation
- *              and I still don't understand it yet.
- * Prof. Isaac Traxler
- * Compiled with: g++ carmichael.cpp -o cm
- * Compiler: g++ 4.6.1
- */
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
