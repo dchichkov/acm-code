@@ -38,7 +38,7 @@ void dump()
     //dump data
 }
 
-void getInput()
+bool getInput()
 {
     //get input
 }
@@ -50,13 +50,10 @@ void process()
 
 int main()
 {
-    //getline(cin, temp);
     bool moreToDo;
-    while (moreToDo = !cin.eof())
+    while (moreToDo = getInput())
     {
 
-
-        getInput();
         process();
 
         /*output*/
