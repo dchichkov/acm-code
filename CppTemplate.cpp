@@ -41,6 +41,7 @@ void dump()
 bool getInput()
 {
     //get input
+    return true;
 }
 
 void process()
