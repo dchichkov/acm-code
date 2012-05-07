@@ -2,30 +2,50 @@
 #include <cstdlib>
 #include <cmath>
 #include <limits>
-#include <cfloat>
 #include <cctype>
 #include <map>
-#include <utility>
 #include <set>
 #include <iostream>
-#include <memory>
+#include <stack>
+#include <queue>
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <functional>
 #include <sstream>
+
+#include <cfloat>
+#include <utility>
+/* //niche useful stuff
+#include <iterator>    
+#include <memory>
+#include <functional>
 #include <complex>
-#include <stack>
-#include <queue> 
+#include <bitset>
+#include <cassert>
 #include <regex.h> 
+*/
 
 #define DEBUG
 //#undef DEBUG //uncomment this line to pull out print statements
 #ifdef DEBUG
-#define print(a, end) cout << #a << ": " << a << end
+#define TAB '\t'
+#define debug(a, end) cout << #a << ": " << a << end
 #else
-#define print(a, end)
+#define debug(a, end)
 #endif
+
+typedef pair<int, int> point;
+typedef long long int64; //for clarity
+typedef vector<int> vi; //?
+typedef vector<point> vp; //?
+template<class T> void chmin(T &t, T f) { if (t > f) t = f; } //change min
+template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
+
+#define UN(v) SORT(v),v.erase(unique(v.begin(),v.end()),v.end())   
+#define SORT(c) sort((c).begin(),(c).end())   
+#define FOR(i,a,b) for (int  i=(a); i < (b); i++)    
+#define REP(i,n) FOR(i,0,n)    
+#define CL(a,b) memset(a,b,sizeof(a))
 
 using namespace std;
 
@@ -63,3 +83,31 @@ int main()
         /*output*/
     }
 }
+
+
+
+/* topics to cover:
+   stl algorithms
+   stringstream(s) (advantage over itoa atoi)
+   printf/scanf
+   malloc/memset
+   cstring(s)
+   c++ strings
+   climits
+   cfloat
+   utility
+   functional
+   cassert
+   bitset
+   memory
+   complex
+   regex.h
+
+   reasons to use java:
+   BigInteger
+   GregorianCalendar
+
+   things to do:
+   sample problem sets for right before the competition
+   problem sets that include niche programming things like converting strings to integers / memsets / using vectors + sets + maps / counting digits in a number / converting base of a number / --
+*/
