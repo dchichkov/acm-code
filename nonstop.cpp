@@ -71,14 +71,14 @@ bool process(int open, int closed, int speed, double distance)
     debug(open, TAB); debug(closed, TAB); debug(speed, TAB); debug(distance, endl);
     //process input
     debug(distance/speed, endl);
-    int time_it_takes = (distance*3600/speed); //hours to seconds
+    double time_it_takes = (distance*3600/speed); //hours to seconds
     debug(time_it_takes, endl);
-    int check = time_it_takes%(open+closed);//(int)fmod(time_it_takes, (open+closed));
+    double check = fmod(time_it_takes, (open+closed));
     debug(check, endl);
-    if (check < open)
-        return true;
-    else if (check >= open)
+    if ((check > open))
         return false;
+    else if (check <= open)
+        return true;
     
 }
 
@@ -124,7 +124,7 @@ int main()
             if (success)
             {
                 successful_speeds.push_back(speed);
-                debug(speed, TAB);
+                debug(speed, endl);
             }
             else
             {
@@ -139,6 +139,12 @@ int main()
         }
         else
         {
+            //delete end of the speeds
+            for (vi::reverse_iterator it = successful_speeds.rbegin(); it != successful_speeds.rend(); ++it)
+            {
+                if (*it == -1) { successful_speeds.erase(--it.base()); }
+                else { break; }
+            }
             for (vi::iterator it = successful_speeds.begin(); it != successful_speeds.end(); ++it)
             {
                 if (*it != -1)
