@@ -1,13 +1,22 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 unsigned short number;
+char numbey[7];
+char* normalness = " is normal.\n";
+char* carmichaelness1 = "The number ";
+char* carmichaelness2 = " is a Carmichael number.\n";
 
 int main()
 {
     while (1)
     {
-        scanf("%u", &number);
-
-        if (number == 561 ||
+        fgets(&numbey, 7, stdin);
+        numbey[strlen(numbey)-1] = '\0';
+        number = atoi(numbey);
+        
+        if (number == 561 || /* praying for a short-circuit */
             number == 1105 ||
             number == 1729 ||
             number == 2465 ||
@@ -22,9 +31,16 @@ int main()
             number == 52633 ||
             number == 62745 ||
             number == 63973)
-            printf("The number %u is a Carmichael number.\n", number);
+        {
+            fputs(carmichaelness1, stdout);
+            fputs(numbey, stdout);
+            fputs(carmichaelness2, stdout);
+        }
         else if (number != 0)
-            printf("%u is normal.\n", number);
+        {
+            fputs(numbey, stdout);
+            fputs(normalness, stdout);
+        }
         else
             break;
     }

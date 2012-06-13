@@ -25,8 +25,6 @@
 #include <regex.h> 
 */
 
-using namespace std;
-
 #define DEBUG
 //#undef DEBUG //uncomment this line to pull out print statements
 #ifdef DEBUG
@@ -48,6 +46,8 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 #define FOR(i,a,b) for (int  i=(a); i < (b); i++)    
 #define REP(i,n) FOR(i,0,n)    
 #define CL(a,b) memset(a,b,sizeof(a))
+
+using namespace std;
 
 /*global variables*/
 

@@ -50,7 +50,8 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 #define CL(a,b) memset(a,b,sizeof(a))
 
 /*global variables*/
-
+int num_times = 0;
+string in;
 /*global variables*/
 
 void dump()
@@ -61,26 +62,42 @@ void dump()
 bool getInput()
 {
     //get input
+    cin >> in;
     return true;
 }
 
 void process()
 {
     //process input
+    if (in == "1" or in == "4" or in == "78")
+    {
+        printf("+\n");
+    }
+    else if (in.substr(in.length()-2, 2) == "35")
+    {
+        printf("-\n");
+    }
+    else if (in.at(0) == '9' and in.at(in.length()-1) == '4')
+    {
+        printf("*\n");
+    }
+    else if (in.substr(0, 3) == "190")
+    {
+        printf("?\n");
+    }
+    else
+    {
+        printf("shouldn't reach here\n");
+    }
 }
 
 int main()
 {
-    bool moreToDo;
-    while (moreToDo = getInput())
+    scanf("%d", &num_times);
+    for (int i = 0; i < num_times; i++)
     {
-
+        getInput();
         process();
-
-        /*output*/
-
-
-        /*output*/
     }
 }
 
