@@ -3,28 +3,6 @@
 #include <vector>
 #include <cstring>
 #include <cstdlib>
-#include <cmath>
-#include <limits>
-#include <cctype>
-#include <map>
-#include <set>
-#include <stack>
-#include <queue>
-#include <string>
-#include <algorithm>
-#include <sstream>
-
-#include <cfloat>
-#include <utility>
-/* //niche useful stuff
-#include <iterator>    
-#include <memory>
-#include <functional>
-#include <complex>
-#include <bitset>
-#include <cassert>
-#include <regex.h> 
-*/
 
 using namespace std;
 
@@ -85,31 +63,3 @@ int main()
         /*output*/
     }
 }
-
-
-
-/* topics to cover:
-   stl algorithms
-   stringstream(s) (advantage over itoa atoi)
-   printf/scanf
-   malloc/memset
-   cstring(s)
-   c++ strings
-   climits
-   cfloat
-   utility
-   functional
-   cassert
-   bitset
-   memory
-   complex
-   regex.h
-
-   reasons to use java:
-   BigInteger
-   GregorianCalendar
-
-   things to do:
-   sample problem sets for right before the competition
-   problem sets that include niche programming things like converting strings to integers / memsets / using vectors + sets + maps / counting digits in a number / converting base of a number / --
-*/
