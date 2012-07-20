@@ -146,7 +146,7 @@ int main()
             }
         }
         
-        //dump();
+        dump();
         
         //fill adjacent bad spots
         for (int i = 1; i < LENGTH-1; ++i)
