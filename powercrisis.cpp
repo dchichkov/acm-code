@@ -3,11 +3,12 @@
 #include <vector>
 #include <cstring>
 #include <cstdlib>
+#include <queue>
 
 using namespace std;
 
 #define DEBUG
-//#undef DEBUG //uncomment this line to pull out print statements
+#undef DEBUG //uncomment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -31,7 +32,7 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 
 int magic_number(int N)
 {
-    int m = 2;
+    int m = 1;
     bool valid = false;
     vi places;
     for (; m < N && !valid; ++m)
@@ -39,7 +40,8 @@ int magic_number(int N)
         places.clear();
         for (int i = 0; i < N; ++i)
             places.push_back(i+1);
-        for (int j = m; ; (j > places.size()-1) ? j %= places.size()  : j += m)
+
+        for (int k = m-1, j = 0;; j %= places.size())
         {
             debug(places.size(), TAB); debug(j, endl);
             
@@ -52,9 +54,13 @@ int magic_number(int N)
                 break;
             }
             else
-                printf("%d\n", *places.erase(places.begin()+(j-1)));
+                (places.erase(places.begin()+(j)));
+
+            j+=k;
         }
-        cout << valid << endl;
+        
+        debug(valid, TAB); debug(m, endl);
+        if (valid) break;
     }
     return m;
 }
@@ -66,6 +72,7 @@ int main()
     while (N != 0)
     {
         printf("%d\n", magic_number(N));
+        scanf("%d", &N);
     }
     return 0;
 }
