@@ -34,7 +34,7 @@ int num_cases,
     sim_days,
     num_parties;
 int parties[100];
-int days[3650];
+bool days[3650];
 int days_missed = 0;
 
 /*global variables*/
@@ -45,13 +45,13 @@ void process()
 
     for (int i = 0; i < num_parties; ++i)
         for (int j = parties[i]; j < sim_days+1; j += parties[i])
-                days[j-1] = 1;
+                days[j-1] = true;
 
     //cancel out weekends :/
     for (int h = 6; h < sim_days+1; h += 7)
     {
-        days[h-1] = 0;
-        days[h] = 0;
+        days[h-1] = false;
+        days[h] = false;
     }
     // :\
 
@@ -67,7 +67,7 @@ int main()
     while (num_cases-- > 0)
     {
         CL(parties, 0);//clear parties
-        CL(days, 0); //clear days
+        CL(days, false); //clear days
         days_missed = 0;
         scanf("%d", &sim_days);
         scanf("%d", &num_parties);
