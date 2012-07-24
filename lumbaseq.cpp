@@ -1,11 +1,13 @@
 #include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 using namespace std;
 
 int main()
 {
     int a[10];
-    int num_cases;
+    int num_cases = 0;
     scanf("%d", &num_cases);
     bool ordered = false;
     printf("Lumberjacks:\n");
@@ -21,8 +23,12 @@ int main()
         {
             for (int i = 2; i < 10; ++i)
             {
-                //printf("%d ", a[i]);
-                if (a[i-1] < a[i]) break;
+                //printf("%d > %d \n", a[i-1],  a[i]);
+                if (a[i-1] < a[i])
+                {
+                    ordered = false;
+                    break;
+                }
                 else ordered = true;
                 
             }
@@ -31,8 +37,12 @@ int main()
         {
             for (int i = 2; i < 10; ++i)
             {
-                //printf("%d ", a[i]);
-                if (a[i-1] > a[i]) break;
+                //printf("%d < %d \n", a[i-1],  a[i]);
+                if (a[i-1] > a[i])
+                {
+                    ordered = false;
+                    break;
+                }
                 else ordered = true;
                 
             }
@@ -40,6 +50,7 @@ int main()
         
         (ordered) ? printf("Ordered\n") : printf("Unordered\n");
         ordered = false;
+        memset(a, 0, sizeof(a));
     }
 
     return 0;
