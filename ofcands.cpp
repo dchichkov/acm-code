@@ -34,7 +34,7 @@ struct shape {
     point start_p;
     int length;
     string type;
-    int r, g, b;
+    long r, g, b;
 };
 
 /*global variables*/
@@ -132,7 +132,7 @@ void process()
 {
     //process input
     point q;
-    int r = 0, g = 0, b = 0;
+    long r = 0, g = 0, b = 0;
     bool done = false;
     while (num_queries-- > 0)
     {
@@ -169,17 +169,17 @@ void process()
                     g += it->g;
                     b += it->b;
                 }
-                debug(r, TAB); debug(g, TAB); debug(b, TAB);
+                debug(r, TAB); debug(g, TAB); debug(b, TAB); debug(comp_shapes.size()-1, endl);
                 r += comp_shapes.size()-1;
                 g += comp_shapes.size()-1;
                 b += comp_shapes.size()-1;
-                debug(r, TAB); debug(g, TAB); debug(b, TAB);
+                debug(r, TAB); debug(g, TAB); debug(b, endl);
                 r /= comp_shapes.size();
                 g /= comp_shapes.size();
                 b /= comp_shapes.size();
             }
         }
-        printf("(%d, %d, %d)\n", r, g, b);
+        printf("(%ld, %ld, %ld)\n", r, g, b);
 
         r = g = b = 0;
         comp_shapes.clear();
