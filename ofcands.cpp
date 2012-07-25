@@ -141,9 +141,9 @@ void process()
         for (vector<shape>::iterator it = shapes.begin(); it != shapes.end(); ++it)
         {
             if (it->type == SQUARE)
-                done = is_bound_squa(*it, q);
+            {done = is_bound_squa(*it, q); if (done) debug("on square", endl); }
             else if (it->type == CIRCLE)
-                done = is_bound_circ(*it, q);
+            {    done = is_bound_circ(*it, q); if (done) debug("on circle", endl); }
             if (done) break;
         }
         if (!done)
@@ -152,11 +152,12 @@ void process()
             {
                 //reuse done for a different purpose, to say yes if point is in an object
                 if (it->type == SQUARE)
-                    done = is_in_squa(*it, q);
+                {    done = is_in_squa(*it, q); if (done) debug("in square", endl); }
                 else if (it->type == CIRCLE)
-                    done = is_in_circ(*it, q);
+                {    done = is_in_circ(*it, q); if (done) debug("in circle", endl); }
 
                 if (done) comp_shapes.push_back(*it);
+                done = false;
             }
 
             if (comp_shapes.size() == 0) r = g = b = 255; //not in a shape, so white
@@ -170,13 +171,13 @@ void process()
                     b += it->b;
                 }
                 debug(r, TAB); debug(g, TAB); debug(b, TAB); debug(comp_shapes.size()-1, endl);
-                r += comp_shapes.size()-1;
-                g += comp_shapes.size()-1;
-                b += comp_shapes.size()-1;
+                if (r != 0) r += comp_shapes.size()-1;
+                if (g != 0) g += comp_shapes.size()-1;
+                if (b != 0) b += comp_shapes.size()-1;
                 debug(r, TAB); debug(g, TAB); debug(b, endl);
                 r /= comp_shapes.size();
                 g /= comp_shapes.size();
-                b /= comp_shapes.size();
+                b /= comp_shapes.size(); 
             }
         }
         printf("(%ld, %ld, %ld)\n", r, g, b);
