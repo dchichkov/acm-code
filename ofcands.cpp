@@ -30,6 +30,11 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 #define CL(a,b) memset(a,b,sizeof(a))
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
+int round1(int p, int q)   /* Rounds fraction p/q */
+{
+   return (p / q) + (((2 * (p % q)) >= q) ? 1 : 0);
+}
+
 struct shape {
     point start_p;
     int length;
@@ -47,12 +52,12 @@ const string SQUARE = "SQUARE", CIRCLE = "CIRCLE";
 bool is_bound_circ(shape s, point q)
 {
     double l;
-    long x, y, x2, y2;
+    long long x, y, x2, y2;
     x = q.first;
     y = q.second;
     x2 = s.start_p.first;
     y2 = s.start_p.second;
-    l = sqrt(((x2-x)*(x2-x))+((y2-y)*(y2-y))); //distance formula
+    l = sqrt((double)(((x2-x)*(x2-x))+((y2-y)*(y2-y)))); //distance formula
     debug(l, TAB); debug(s.length, endl);
     if (l == (double)s.length) return true;
     return false;
@@ -60,9 +65,8 @@ bool is_bound_circ(shape s, point q)
 
 bool is_bound_squa(shape s, point q)
 {
-    if (q.first == s.start_p.first && q.second >= s.start_p.second && q.second <= s.start_p.second + s.length)
-        return true;
-    else if (q.second == s.start_p.second && q.first >= s.start_p.first && q.first <= s.start_p.first + s.length)
+    if ((q.first == s.start_p.first && q.second >= s.start_p.second && q.second <= s.start_p.second + s.length) ||
+        (q.second == s.start_p.second && q.first >= s.start_p.first && q.first <= s.start_p.first + s.length))
         return true;
 
     return false;
@@ -71,12 +75,12 @@ bool is_bound_squa(shape s, point q)
 bool is_in_circ(shape s, point q)
 {
     double l;
-    long x, y, x2, y2;
+    long long x, y, x2, y2;
     x = q.first;
     y = q.second;
     x2 = s.start_p.first;
     y2 = s.start_p.second;
-    l = sqrt(((x2-x)*(x2-x))+((y2-y)*(y2-y))); //distance formula
+    l = sqrt((double)(((x2-x)*(x2-x))+((y2-y)*(y2-y)))); //distance formula
     debug(l, TAB); debug(s.length, endl);
     if (l < (double)s.length) return true;
     return false;
@@ -171,19 +175,23 @@ void process()
                     b += it->b;
                 }
                 debug(r, TAB); debug(g, TAB); debug(b, TAB); debug(comp_shapes.size()-1, endl);
-                if (r != 0) r += comp_shapes.size()-1;
+                /*if (r != 0) r += comp_shapes.size()-1;
                 if (g != 0) g += comp_shapes.size()-1;
-                if (b != 0) b += comp_shapes.size()-1;
+                if (b != 0) b += comp_shapes.size()-1;*/
                 debug(r, TAB); debug(g, TAB); debug(b, endl);
-                r /= comp_shapes.size();
+                /*r /= comp_shapes.size();
                 g /= comp_shapes.size();
-                b /= comp_shapes.size(); 
+                b /= comp_shapes.size();*/
+                r = round1(r, comp_shapes.size());
+                g = round1(g, comp_shapes.size());
+                b = round1(b, comp_shapes.size());
             }
         }
         printf("(%ld, %ld, %ld)\n", r, g, b);
 
         r = g = b = 0;
         comp_shapes.clear();
+        done = false;
     }
 }
 
