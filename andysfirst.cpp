@@ -34,9 +34,20 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 
 /*global variables*/
 set<string> words;
-set<string> invalid_words;
-
+string unacceptable = " !\"#$%&'()*+,-./0123456789:;<=>?@[\\]^_`{|}~\t\r\n";
 /*global variables*/
+
+void splitwords(string word)
+{
+    int x = 0;
+    int y = 0;
+    while ((x = word.find_first_not_of(unacceptable, x)) != string::npos)
+    {
+        y = word.find_first_of(unacceptable, x);
+        words.insert(word.substr(x, y-x));
+        x = y;
+    }
+}
 
 void dump()
 {
@@ -46,82 +57,34 @@ void dump()
 bool getInput()
 {
     //get input
-    string str;
-    int x = 0;
-    while (cin >> str)
+    //char word[250];
+    int what = 0;
+    string word;
+    //while(scanf("%[A-Za-z]%*[0-9\\\(\)\{\}\'\.\,\"\:\;\?\-\! \n$%^&*!@#+=?<>;]", word) != EOF)
+    while (cin >> word)
     {
-        x = 0;
-        str += ".";
-        REP(i, str.length())
-            str[i] = tolower(str[i]);
-        REP(i, str.length())
-        {
-            if (!isalpha(str[i]))
-            {
-                //char c = str[i];
-                str.erase(i,1);
-                /*if (c == '\'' && str[i-1] == 'n' && str != "cant.")
-                {
-                    debug(str, endl);
-                    words.insert(str.substr(x, i-x-1));
-                }
-                else*/
-                words.insert(str.substr(x, i-x));
-                debug(str.substr(x, i-x), TAB);
-                x = i;
-                //i--;
-            }
-        }
-        if (!x)
-            words.insert(str);
-        debug(str, endl);
+        //if (++what == 5000) break;
+        //if (strcmp(word, "") == 0) break;
+        //debug(word, TAB);
+        REP(i, word.length())
+            word[i] = tolower(word[i]);
+        /*words.insert(word);
+        CL(word, 0);*/
+        splitwords(word);
     }
     
     return true;
 }
 
 void process()
-{
-    //process input
-
-    /*for (set<string>::iterator it = invalid_words.begin(); it != invalid_words.end(); ++it)
-    {
-        set<string>::const_iterator jt;
-        jt = words.find(*it);
-        if (jt != words.end())
-            words.erase(*it);
-    }*/
-
-    /*for (set<string>::iterator it = words.begin(); it != words.end(); ++it)
-        if (it->length() == 1 && (*it != "a" && *it != "i") || it->length() == 0)
-        words.erase(*it);*/
+{   
     for (set<string>::iterator it = words.begin(); it != words.end(); ++it)
-        if (it->length() == 1)
-        {
-            REP(i, it->length())
-                if (!isalpha(it->at(i)))
-                {
-                    words.erase(*it);
-                    break;
-                }
-        }
-        else if  (it->length() == 0)
-            words.erase(*it);
-
-    for (set<string>::iterator it = words.begin(); it != words.end(); ++it)
-        printf("%s\n", it->c_str());
-            
+        if (it->length() != 0)
+            printf("%s\n", it->c_str());       
 }
 
 int main()
 {
-    
-    invalid_words.insert("re");
-    invalid_words.insert("ve");
-    invalid_words.insert("ll");
-    invalid_words.insert("em");
-    invalid_words.insert("im");
-    
     getInput();
     process();
     return 0;
