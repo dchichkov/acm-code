@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 struct shape {
     int px, py;
@@ -10,11 +11,23 @@ struct shape {
 };
 
 #define REP(a, b) for ((a) = 0; (a) < (b); ++(a))
+
+#ifdef DEBUG
+#define debug(a, b) printf("%s -> %s %s", #a, a, b);
+#define debug2(a, b) printf("%s -> %d %s", #a, a, b);
+#define NEWLINE "\n"
+#else
+#define NEWLINE
 #define debug(a, b)
+#define debug2(a, b)
+#endif
+
 
 /*global variables*/
 int num_cases, num_shapes, num_queries;
 struct shape shapes[102];
+char line[50];
+char* next;
 /*global variables*/
 
 
@@ -23,36 +36,41 @@ void dump()
     int i;
     REP(i, num_shapes)
     {
-        debug(shapes[i].type, endl);
-        debug(shapes[i].px, endl);
-        debug(shapes[i].py, endl);
-        debug(shapes[i].length, endl);
-        debug(shapes[i].r, endl);
-        debug(shapes[i].g, endl);
-        debug(shapes[i].b, endl);
+        debug(shapes[i].type, NEWLINE);
+        debug2(shapes[i].px, NEWLINE);
+        debug2(shapes[i].py, NEWLINE);
+        debug2(shapes[i].length, NEWLINE);
+        debug2(shapes[i].r, NEWLINE);
+        debug2(shapes[i].g, NEWLINE);
+        debug2(shapes[i].b, NEWLINE);
     }
 }
 int main()
 {
-    scanf("%d", &num_cases);
-    int count = 0;
+    /*scanf("%d", &num_cases);*/
+    fgets(line, 50, stdin);
+    num_cases = strtol(line, NULL, 10);
+    int count = num_cases;
     while (num_cases-- > 0)
     {
-        ++count;
-        printf("Case %d:\n", count);
+        printf("Case %d:\n", count-num_cases);
         {
-            
-            scanf("%d %d", &num_shapes, &num_queries);
+            fgets(line, 50, stdin);
+            num_shapes = strtol(line, &next, 10);
+            num_queries = strtol(next, &next, 10);
+            /*scanf("%d %d", &num_shapes, &num_queries);*/
             int i;
             REP(i, num_shapes)
             {
-                scanf("%6s %d %d %d %d %d %d", shapes[i].type,
-                      &shapes[i].px,
-                      &shapes[i].py,
-                      &shapes[i].length,
-                      &shapes[i].r,
-                      &shapes[i].g,
-                      &shapes[i].b);
+                fgets(line, 50, stdin);
+                debug(line, NEWLINE);
+                strcpy(shapes[i].type, strtok(line, " "));
+                shapes[i].px = strtol(line+7, &next, 10);
+                shapes[i].py = strtol(next, &next, 10);
+                shapes[i].length = strtol(next, &next, 10);
+                shapes[i].r = strtol(next, &next, 10);
+                shapes[i].g = strtol(next, &next, 10);
+                shapes[i].b = strtol(next, NULL, 10);
                 shapes[i].ox = shapes[i].px+shapes[i].length;
                 shapes[i].oy = shapes[i].py+shapes[i].length;
             }
@@ -63,11 +81,13 @@ int main()
             int qx, qy;
             int r = 0, g = 0, b = 0;
             int count = 0;
-            int a = 0, c = 0;
+            int a, c;
             while (num_queries-- > 0)
             {
-                
-                scanf("%d %d", &qx, &qy);
+                /*scanf("%d %d", &qx, &qy);*/
+                fgets(line, 50, stdin);
+                qx = strtol(line, &next, 10);
+                qy = strtol(next, NULL, 10);
                 int i;
                 REP(i, num_shapes)
                 {
@@ -113,9 +133,9 @@ int main()
 
                 if (count)
                 {
-                    r = (2*r+count)/(2*count);
-                    g = (2*g+count)/(2*count);
-                    b = (2*b+count)/(2*count);
+                    r = ((r<<1)+count)/(count<<1);
+                    g = ((g<<1)+count)/(count<<1);
+                    b = ((b<<1)+count)/(count<<1);
                 }
                 else
                     r = g = b = 255;
