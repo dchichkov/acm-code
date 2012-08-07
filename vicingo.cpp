@@ -69,14 +69,8 @@ void getInput()
             scanf("%c%*[\n]", &board[i][j]);
 }
 
-bool floodfill(int x, int y, char check)
+void floodfill(int x, int y, char check)
 {
-    debug("floodfill", TAB); debug(x, TAB); debug(y, TAB); debug(check, endl);
-    /*
-      true = hit opposite color
-      false = !true
-    */
-    //dump();
     for (int i = 0; i < 4; ++i)
     {
         if (board[x+rangex[i]][y+rangey[i]] == empty)
@@ -85,16 +79,9 @@ bool floodfill(int x, int y, char check)
             (check == white) ? c = white_num : c = black_num;
             board[x+rangex[i]][y+rangey[i]] = c;
             //floodfill again
-            if (floodfill(x+rangex[i], y+rangey[i], check))
-            {
-                board[x+rangex[i]][y+rangey[i]] = bad_spot;
-                return true; //keep the chain going
-            }
+            floodfill(x+rangex[i], y+rangey[i], check);
         }
-        else if (board[x+rangex[i]][y+rangey[i]] == opposite(check) || board[x+rangex[i]][y+rangey[i]] == bad_spot )
-            return true;
     }
-    return false;
 }
 
 void floodfill_bad(int x, int y)
@@ -102,12 +89,25 @@ void floodfill_bad(int x, int y)
     for (int i = 0; i < 4; ++i)
     {
         if (board[x+rangex[i]][y+rangey[i]] == black_num ||
-            board[x+rangex[i]][y+rangey[i]] == white_num ||
-            board[x+rangex[i]][y+rangey[i]] == empty)
+            board[x+rangex[i]][y+rangey[i]] == white_num)
         {
             board[x+rangex[i]][y+rangey[i]] = bad_spot;
             //floodfill again
             floodfill_bad(x+rangex[i], y+rangey[i]);
+        }
+    }
+}
+
+void check_bounds(int x, int y, char check)
+{
+    for (int i = 0; i < 4; ++i)
+    {
+        if (board[x+rangex[i]][y+rangey[i]] == opposite(check))
+        {
+            debug(x, TAB); debug(y, TAB); debug(x+rangex[i], TAB);
+            debug(y+rangey[i], endl);
+            board[x][y] = bad_spot;
+            break;
         }
     }
 }
@@ -135,29 +135,30 @@ int main()
 
         //fill territories
         for (int i = 1; i < LENGTH-1; ++i)
-        {
             for (int j = 1; j < WIDTH-1; ++j)
-            {
-                debug(board[i][j], "");
-                if (board[i][j] == black)
-                    floodfill(i, j, black);
-                else if (board[i][j] == white)// and total_white != 1)
-                    floodfill(i, j, white);
-            }
-        }
-        
-        dump();
-        
-        //fill adjacent bad spots
+                if (board[i][j] == black ||
+                    board[i][j] == white)
+                    floodfill(i, j, board[i][j]);
+
+        //dump();
+        //infect
         for (int i = 1; i < LENGTH-1; ++i)
         {
             for (int j = 1; j < WIDTH-1; ++j)
             {
-                debug(board[i][j], "");
-                if (board[i][j] == bad_spot)
-                    floodfill_bad(i, j);
+                if (board[i][j] == white_num)
+                    check_bounds(i, j, white);
+                else if (board[i][j] == black_num)
+                    check_bounds(i, j, black);
             }
         }
+        
+        //fill adjacent bad spots
+        for (int i = 1; i < LENGTH-1; ++i)
+            for (int j = 1; j < WIDTH-1; ++j)
+                if (board[i][j] == bad_spot)
+                    floodfill_bad(i, j);
+
         //dump();
         
         //count again
