@@ -53,7 +53,8 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 
 /*global variables*/
 int num_reads;
-int count_sort[100];
+//long int count_sort[105];
+multiset<int> ages;
 /*global variables*/
 
 void dump()
@@ -63,7 +64,7 @@ void dump()
 
 bool getInput()
 {
-    CL(count_sort, 0);
+    //CL(count_sort, 0);
     
     //get input
     scanf("%d", &num_reads);
@@ -73,26 +74,23 @@ bool getInput()
 
 void process()
 {
+    ages.clear();
     //process input
     int age = 0;
-    int count = 0;
     REP(i, num_reads)
     {
         scanf("%d", &age);
-        count_sort[age]++;
-        ++count;
+        ages.insert(age);
     }
 
-    int x = 0;
-    REP(i, 99)
+    int i = 0;
+    for (multiset<int>::iterator it = ages.begin(); it != ages.end(); ++it, ++i)
     {
-        REP(j, count_sort[i])
-        {
-            printf("%d", i);
-            if (++x != count)
-                printf(" ");
-        }
+        printf("%d", *it);
+        if (i != ages.size()-1)
+            printf(" ");
     }
+
     printf("\n");
 }
 
