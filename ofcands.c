@@ -28,6 +28,7 @@ int num_cases, num_shapes, num_queries;
 struct shape shapes[102];
 char line[50];
 char* next;
+char buf[255];
 /*global variables*/
 
 
@@ -45,12 +46,43 @@ void dump()
         debug2(shapes[i].b, NEWLINE);
     }
 }
+
+int myItoA(int num, char *buff)
+ { /* FUNCTION myItoA */
+   int lngth;
+
+   if (10 > num)
+    { /* 0-9 */
+       buff[0]=num+'0';
+       buff[1]=0;
+       lngth=1;
+    } /* 0-9 */
+   else
+      if (100 > num)
+       { /* 10 to 99 */
+          buff[0]=num / 10+'0';
+          buff[1]=num % 10 + '0';
+          buff[2]=0;
+          lngth=2;
+       } /* 10 to 99 */
+      else
+       { /* 100 to 255 */
+          buff[0]=num / 100+'0';
+          buff[1]=num /10 % 10 + '0';
+          buff[2]=num % 10 + '0';
+          buff[3]=0;
+          lngth=3;
+       } /* 100 to 255 */
+    return lngth;
+ } /* FUNCTION myItoA */
+
 int main()
 {
     /*scanf("%d", &num_cases);*/
     fgets(line, 50, stdin);
     num_cases = strtol(line, NULL, 10);
     int count = num_cases;
+    int offset;
     while (num_cases-- > 0)
     {
         printf("Case %d:\n", count-num_cases);
@@ -140,7 +172,20 @@ int main()
                 else
                     r = g = b = 255;
             end:
-                printf("(%d, %d, %d)\n", r, g, b);
+                /*printf("(%d, %d, %d)\n", r, g, b);*/
+                
+                buf[0]='(';
+                offset=myItoA(r, &buf[1])+1;
+                buf[offset++] = ',';
+                buf[offset++] = ' ';
+                offset=offset + myItoA(g, &buf[offset]);
+                buf[offset++] = ',';
+                buf[offset++] = ' ';
+                offset=offset + myItoA(b, &buf[offset]);
+                buf[offset++] = ')';
+                /*buf[offset++] = '\n';*/
+                buf[offset] = 0;
+                puts(buf);
                 
                 r = g = b = 0;
                 count = 0;
