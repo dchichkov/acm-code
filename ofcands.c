@@ -22,6 +22,7 @@ struct shape {
 #define debug2(a, b)
 #endif
 
+typedef unsigned short ushort;
 
 /*global variables*/
 int num_cases, num_shapes, num_queries;
@@ -47,33 +48,33 @@ void dump()
     }
 }
 
-int myItoA(int num, char *buff)
+ushort myItoA(ushort num, char *buff)
  { /* FUNCTION myItoA */
-   int lngth;
+   ushort lngth;
 
    if (10 > num)
     { /* 0-9 */
-       buff[0]=num+'0';
-       buff[1]=0;
-       lngth=1;
+       buff[0]= num + 0x30;
+       buff[1]= 0;
+       lngth= 1;
     } /* 0-9 */
    else
-      if (100 > num)
+       if (100 > num)
        { /* 10 to 99 */
-          buff[0]=num / 10+'0';
-          buff[1]=num % 10 + '0';
-          buff[2]=0;
-          lngth=2;
+           buff[0]= num / 10 + 0x30;
+           buff[1]= num % 10 + 0x30;
+           buff[2]= 0;
+           lngth=2;
        } /* 10 to 99 */
-      else
+       else
        { /* 100 to 255 */
-          buff[0]=num / 100+'0';
-          buff[1]=num /10 % 10 + '0';
-          buff[2]=num % 10 + '0';
-          buff[3]=0;
-          lngth=3;
+           buff[0]= num / 100 + 0x30;
+           buff[1]= num / 10  % 10 + 0x30;
+           buff[2]= num % 10 + 0x30;
+           buff[3]= 0;
+           lngth=3;
        } /* 100 to 255 */
-    return lngth;
+   return lngth;
  } /* FUNCTION myItoA */
 
 int main()
@@ -82,7 +83,7 @@ int main()
     fgets(line, 50, stdin);
     num_cases = strtol(line, NULL, 10);
     int count = num_cases;
-    int offset;
+    ushort offset;
     while (num_cases-- > 0)
     {
         printf("Case %d:\n", count-num_cases);
@@ -96,7 +97,13 @@ int main()
             {
                 fgets(line, 50, stdin);
                 debug(line, NEWLINE);
-                strcpy(shapes[i].type, strtok(line, " "));
+                shapes[i].type[0] = line[0];
+                shapes[i].type[1] = line[1];
+                shapes[i].type[2] = line[2];
+                shapes[i].type[3] = line[3];
+                shapes[i].type[4] = line[4];
+                shapes[i].type[5] = line[5];
+                shapes[i].type[6] = 0;
                 shapes[i].px = strtol(line+7, &next, 10);
                 shapes[i].py = strtol(next, &next, 10);
                 shapes[i].length = strtol(next, &next, 10);
@@ -183,9 +190,10 @@ int main()
                 buf[offset++] = ' ';
                 offset=offset + myItoA(b, &buf[offset]);
                 buf[offset++] = ')';
-                /*buf[offset++] = '\n';*/
+                buf[offset++] = '\n';
                 buf[offset] = 0;
-                puts(buf);
+                /*puts(buf);*/
+                fwrite(buf, sizeof(char), strlen(buf), stdout);
                 
                 r = g = b = 0;
                 count = 0;
