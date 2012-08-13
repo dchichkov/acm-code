@@ -8,7 +8,7 @@
 using namespace std;
 
 #define DEBUG
-#undef DEBUG //uncomment this line to pull out print statements
+//#undef DEBUG //uncomment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -62,29 +62,35 @@ void process()
 {
     //process input
     top = 0;
-    int row = 1;
+    int row = 0;
     
     REP(i, strlen(line))
     {
         switch (line[i])
         {
         case 'R':
-            ++top;
+            ++row;
+            if (row > 0 && row > top )
+                ++top;
             break;
         case 'C':
             break;
         case 'F':
-            --top;
+            --row;
+            if (row < 0)
+                ++top;
             break;
         }
     }
-    if (top < 0)
+    debug(top, endl);
+    debug(row, endl);
+    /*if (top < 0)
         row = -(top) + 1;
     else
     {
         row = 1;
         top += 1;
-    }
+        }*/
     
     top = abs(top);
     debug(top, endl);
