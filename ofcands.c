@@ -1,3 +1,9 @@
+/**
+   Problem: Of Circles and Squares (UVa 10823)
+   Developed by Isaac Traxler and Matthew Gavin
+
+ **/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -193,7 +199,7 @@ int main()
                 buf[offset++] = '\n';
                 buf[offset] = 0;
                 /*puts(buf);*/
-                fwrite(buf, sizeof(char), strlen(buf), stdout);
+                fwrite(buf, sizeof(char), offset, stdout);
                 
                 r = g = b = 0;
                 count = 0;
