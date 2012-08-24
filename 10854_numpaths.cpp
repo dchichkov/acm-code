@@ -46,23 +46,72 @@ bool getInput()
     scanf("%s\n", cur_line);
     return true;
 }
+/*
+int else_nested_if();
 
-int process()
+int if_nested_if()
 {
-    int branches = 0;
+    int value = 0;
+    bool has_nest = false;
     do
     {
         getInput();
-        if (strcmp("IF", cur_line) == 0 || strcmp("ELSE", cur_line) == 0)
+        cout << "if_nested_if: \t";
+        debug(cur_line, endl);
+        if (strcmp(cur_line, "IF") == 0)
         {
-            branches += 1;
-            branches += process();
+            has_nest = true;
+            value = if_nested_if();
         }
-        else if (strcmp("END_IF", cur_line) == 0)
+        else if (strcmp(cur_line, "ELSE") == 0)
+        {
+            value = else_nested_if();
             break;
+        }
+    } while (true);
+    debug(has_nest, TAB); debug(value, endl);
+    if (!has_nest) return value+2;
+    else return value+1;
+}
 
-    }while (strcmp("ENDPROGRAM", cur_line) != 0);
-    return branches;
+int else_nested_if()
+{
+    int value = 0;
+    bool has_nest = false;
+    do
+    {
+        getInput();
+        cout << "else_nested_if: \t";
+        debug(cur_line, endl);
+        if (strcmp(cur_line, "IF") == 0)
+        {
+            value = if_nested_if();
+            has_nest = true;
+        }
+    } while (strcmp(cur_line, "END_IF") != 0);
+
+    debug(has_nest, TAB); debug(value, endl);
+    if (!has_nest) return value+2;
+    else return value+1;
+    }*/
+
+int process()
+{
+    int value = 0;
+    do
+    {
+        getInput();
+        cout << "process: \t";
+        debug(cur_line, endl);
+        if (strcmp(cur_line, "IF") == 0)
+        {
+            value += if_nested_if();
+            count = 0;
+        }
+    }
+    while (strcmp(cur_line, "ENDPROGRAM") != 0);
+    debug(value, endl);
+    return value;
 }
 
 int main()
