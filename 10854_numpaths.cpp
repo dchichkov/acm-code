@@ -8,7 +8,7 @@
 using namespace std;
 
 #define DEBUG
-//#undef DEBUG //uncomment this line to pull out print statements
+#undef DEBUG //uncomment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -32,7 +32,6 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 
 /*global variables*/
 char cur_line[25];
-int count = 1;
 /*global variables*/
 
 void dump()
@@ -46,72 +45,66 @@ bool getInput()
     scanf("%s\n", cur_line);
     return true;
 }
-/*
-int else_nested_if();
 
-int if_nested_if()
+int count_else();
+
+int count_ifs()
 {
-    int value = 0;
-    bool has_nest = false;
+    int count = 0;
     do
     {
         getInput();
-        cout << "if_nested_if: \t";
+        //cout << "count_ifs: \t";
         debug(cur_line, endl);
         if (strcmp(cur_line, "IF") == 0)
         {
-            has_nest = true;
-            value = if_nested_if();
+            count += count_ifs();
         }
-        else if (strcmp(cur_line, "ELSE") == 0)
-        {
-            value = else_nested_if();
-            break;
-        }
-    } while (true);
-    debug(has_nest, TAB); debug(value, endl);
-    if (!has_nest) return value+2;
-    else return value+1;
+    }
+    while (strcmp(cur_line, "ELSE") != 0);
+    if (!count) count = 1;
+    count += count_else();
+
+    return count;
 }
 
-int else_nested_if()
+int count_else()
 {
-    int value = 0;
-    bool has_nest = false;
+    int count = 0;
     do
     {
+    again:
         getInput();
-        cout << "else_nested_if: \t";
+        //cout << "count_else: \t";
         debug(cur_line, endl);
         if (strcmp(cur_line, "IF") == 0)
         {
-            value = if_nested_if();
-            has_nest = true;
+            count += count_ifs();
+            goto again;
         }
-    } while (strcmp(cur_line, "END_IF") != 0);
+    }
+    while (strcmp(cur_line, "END_IF") != 0);
+    if (!count) count = 1;
+    return count;
+}
 
-    debug(has_nest, TAB); debug(value, endl);
-    if (!has_nest) return value+2;
-    else return value+1;
-    }*/
-
-int process()
+unsigned long process()
 {
-    int value = 0;
+    unsigned long branches = 1;
     do
     {
         getInput();
-        cout << "process: \t";
+        //cout << "process: \t";
         debug(cur_line, endl);
         if (strcmp(cur_line, "IF") == 0)
         {
-            value += if_nested_if();
-            count = 0;
+            debug(branches, endl);
+            branches *= count_ifs();
         }
     }
     while (strcmp(cur_line, "ENDPROGRAM") != 0);
-    debug(value, endl);
-    return value;
+    debug(branches, endl);
+    return branches;
 }
 
 int main()
@@ -120,12 +113,8 @@ int main()
     scanf("%d", &nc);
     while (nc-- > 0)
     {
-        count += process();
-
         /*output*/
-        printf("%d\n", count);
-        
-        count = 1;
+        printf("%ld\n", process());
         /*output*/
     }
 
