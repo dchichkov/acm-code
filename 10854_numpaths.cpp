@@ -4,7 +4,6 @@
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
-
 using namespace std;
 
 #define DEBUG
@@ -33,6 +32,7 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 /*global variables*/
 char cur_line[25];
 /*global variables*/
+
 
 void dump()
 {
