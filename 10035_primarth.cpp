@@ -67,12 +67,12 @@ void process()
     {
         dig1 = c[i] - '0';
         dig2 = d[i] - '0';
-        debug(dig1, TAB); debug(dig2, endl);
         if ((dig1 + dig2 + amt_carried) >= 10)
         {
             num_carries++;
-            amt_carried = (dig1+dig2+amt_carried)%10;
-        }
+            amt_carried = 1;
+        } else amt_carried = 0;
+        debug(dig1, TAB); debug(dig2, TAB); debug(num_carries, TAB); debug(amt_carried, endl);
     }
 
     if (num_carries == 0)
