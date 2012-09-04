@@ -49,42 +49,21 @@ bool getInput()
 
 void process()
 {
-    //process input
-    //get prime factors of b!
-    map<int, int> primefacts;
+    int n;
+    int m = a;
     for (int i = 2; i <= b; ++i)
-        primefacts[i] = 0;
-        
-    for (int i = 2; i <= b; ++i)
-        for (int j = 2; j <= i; ++j)
-            if (i%j == 0)
-                primefacts[j] += 1;
-
-    for (map<int, int>::iterator it = primefacts.begin(); it != primefacts.end(); ++it)
     {
-        print(it->first, "\t"); print(it->second, endl);
-    }
-    
-    int n = a;
-    for (map<int, int>::iterator it = primefacts.begin(); it != primefacts.end(); ++it)
-    {
-        if (n % it->first == 0)
+        if (a%i == 0)
         {
-            for (int i = 0; i < it->second; ++i)
-            {
-
-                if (n%it->first == 0)
-                    n /= it->first;
-                else
-                    break;
-            }
+            n = a/i;
+            a /= n*i;
         }
     }
 
-    if (n == 1)
-        cout << a << " divides " << b << "!" << endl;
+    if (a == 1)
+        cout << m << " divides " << b << "!" << endl;
     else
-        cout << a << " does not divide " << b << "!" << endl;
+        cout << m << " does not divide " << b << "!" << endl;
 }
 
 int main()

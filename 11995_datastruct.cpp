@@ -64,9 +64,12 @@ void do_stackop(int op, int num)
         stack1.push(num);
         break;
     case 2: //remove and check
-        if (stack1.top() != num)
-            is_stack = false;
-        stack1.pop();
+        if (!stack1.empty())
+        {
+            if (stack1.top() != num)
+                is_stack = false;
+            stack1.pop();
+        }
         break;
     }
 }
@@ -79,9 +82,12 @@ void do_queueop(int op, int num)
         queue1.push(num);
         break;
     case 2: //remove and check
-        if (queue1.front() != num)
-            is_queue = false;
-        queue1.pop();
+        if (!queue1.empty())
+        {
+            if (queue1.front() != num)
+                is_queue = false;
+            queue1.pop();
+        }
         break;
     }
 
@@ -95,9 +101,12 @@ void do_pqueueop(int op, int num)
         pqueue1.push(num);
         break;
     case 2: //remove and check
-        if (pqueue1.top() != num)
-            is_pqueue = false;
-        pqueue1.pop();
+        if (!pqueue1.empty())
+        {
+            if (pqueue1.top() != num)
+                is_pqueue = false;
+            pqueue1.pop();
+        }
         break;
     }
 }
@@ -110,9 +119,9 @@ void process()
     REP(i, num_toscan)
     {
         scanf("%d %d\n", &op, &num);
-        if (is_stack) do_stackop(op, num);
-        if (is_queue) do_queueop(op, num);
-        if (is_pqueue) do_pqueueop(op, num);
+        do_stackop(op, num);
+        do_queueop(op, num);
+        do_pqueueop(op, num);
     }
     if (is_stack)
         imp_count += 1;
