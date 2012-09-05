@@ -1,3 +1,20 @@
+/**
+ * Author: Matthew Gavin
+ * Date: 9/5/2012
+ * Problem: 10854 Number of Paths
+ * Description: Solution -> For every branch path, count the number of branching paths,
+ *                          and return them multiplied together.
+ *                          If there is no branching path, return 1.
+ *                          Do that instead of trying to count up all the paths as you go along parsing it..
+ *                          Although do you count as you go along in the same way a compiler would? Or
+ *                          is this the more correct method? Idk
+ *                          Never would've thought of this without Andrew's submission..
+ *
+ * Prof. Isaac Traxler
+ * Compiled with: g++ 10854_numpaths.cpp -o 10854
+ * Compiler: g++ 4.6.1
+ */
+
 #include <cstdio>
 #include <iostream>
 #include <vector>
@@ -50,59 +67,61 @@ int count_else();
 
 int count_ifs()
 {
-    int count = 0;
-    do
+    int count = 0, total = 1; //the total is 1 for this branch
+    //at an if branch
+    getInput(); //grab next token
+    while (strcmp(cur_line, "ELSE") != 0) //keep going within this branch
     {
-        getInput();
-        //cout << "count_ifs: \t";
-        debug(cur_line, endl);
-        if (strcmp(cur_line, "IF") == 0)
+        if (strcmp(cur_line, "IF") == 0) //we hit a branch
         {
-            count += count_ifs();
+            count = count_ifs(); //count branching ifs, don't keep a total count, so reset it everytime, the count only represents this branch
+            count += count_else(); //count corresponding else branch
+            total *= count; //multiply the number of branches
         }
+        getInput(); //grab next token
     }
-    while (strcmp(cur_line, "ELSE") != 0);
-    if (!count) count = 1;
-    count += count_else();
 
-    return count;
+    return total;
 }
 
 int count_else()
 {
-    int count = 0;
-    do
+    int count = 0, total = 1; //the total is 1 for this branch
+    //at an else branch
+    getInput(); //grab next token .. this kind of "hiccups" over the else token, which happens when we count else's at every branch
+    while (strcmp(cur_line, "END_IF") != 0) //keep going within this branch
     {
-    again:
-        getInput();
-        //cout << "count_else: \t";
-        debug(cur_line, endl);
-        if (strcmp(cur_line, "IF") == 0)
+        if (strcmp(cur_line, "IF") == 0) //we hit a branch
         {
-            count += count_ifs();
-            goto again;
+            count = count_ifs(); //count branching ifs, don't keep a total count, so reset it everytime, the count only represents this branch
+            count += count_else(); //count corresponding else branch
+            total *= count; //multiply the number of branches
         }
+        getInput(); //grab next token
     }
-    while (strcmp(cur_line, "END_IF") != 0);
-    if (!count) count = 1;
-    return count;
+
+    return total;
+    
 }
 
 unsigned long process()
 {
-    unsigned long branches = 1;
-    do
+    unsigned long branches = 1, count = 0;
+    //so this is the main branch
+    getInput();
+    while (strcmp(cur_line, "ENDPROGRAM") != 0) //make sure we're not at the end
     {
-        getInput();
-        //cout << "process: \t";
-        debug(cur_line, endl);
         if (strcmp(cur_line, "IF") == 0)
         {
-            debug(branches, endl);
-            branches *= count_ifs();
+            //we hit a branch
+            //multiply by branching ifs
+            count = count_ifs(); //don't keep a total count, so reset it everytime, the count only represents this branch
+            //multiply by branching elses , because else's follow ifs and are a separate branch
+            count += count_else();
+            branches *= count;
         }
+        getInput(); //go again if necessary
     }
-    while (strcmp(cur_line, "ENDPROGRAM") != 0);
     debug(branches, endl);
     return branches;
 }
