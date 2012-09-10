@@ -69,7 +69,7 @@ void do_stackop(int op, int num)
             if (stack1.top() != num)
                 is_stack = false;
             stack1.pop();
-        }
+        } else is_stack = false;
         break;
     }
 }
@@ -87,7 +87,7 @@ void do_queueop(int op, int num)
             if (queue1.front() != num)
                 is_queue = false;
             queue1.pop();
-        }
+        } else is_queue = false;
         break;
     }
 
@@ -106,7 +106,7 @@ void do_pqueueop(int op, int num)
             if (pqueue1.top() != num)
                 is_pqueue = false;
             pqueue1.pop();
-        }
+        } else is_pqueue = false;
         break;
     }
 }
