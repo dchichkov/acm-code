@@ -57,10 +57,11 @@ void process()
     {
         scanf("%d", &num);
         streak += num;
+        streak = max(streak, 0);
         max1 = max(streak, max1);
     }
 
-    (max1 == 0) ? printf("Losing streak.\n") : printf("The maximum winning streak is %d.\n", max1);
+    (streak == 0) ? printf("Losing streak.\n") : printf("The maximum winning streak is %d.\n", max1);
     streak = 0;
     //process input
 }
