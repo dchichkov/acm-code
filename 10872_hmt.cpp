@@ -1,3 +1,15 @@
+/**
+ * Author: Matthew Gavin
+ * Date: 9/24/2012
+ * Problem: 10872 How Many Triangles
+ * Description: I cheated and looked up the answer -->
+ *              http://www.themathcircle.org/integertriangles.pdf
+ *
+ * Prof. Isaac Traxler
+ * Compiled with: g++ 10872_hmt.cpp -o 10872
+ * Compiler: g++ 4.6.1
+ */
+
 #include <cstdio>
 #include <iostream>
 #include <vector>
@@ -31,8 +43,10 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int N;
+long long int N;
 long long int answer;
+int counter;
+char line[20];
 /*global variables*/
 
 void dump()
@@ -42,35 +56,29 @@ void dump()
 
 bool getInput()
 {
+    fgets(line, 20, stdin);
     //get input
-    scanf("%d", &N);
+    //scanf("%lld", &N);
+    N = strtol(line, NULL, 10);
     if (N == 0) return false;
     return true;
 }
 
 void process()
 {
-    //process input
-    debug(floor(N/2), endl);
-    for (int i = 1; i <= floor(N/2); ++i)
-    {
-        for (int j = (N-i)/2; j >= floor(N/3); --j)
-        {
-            debug((N-i)/2, endl);
-            for (int k = 1; k <= j; ++k)
-            {
-                debug(i, TAB); debug(j, TAB); debug(k, endl);
-                if ((i + j + k) == N) answer++;
-            }
-        }
-    }
+    printf("Case %d: ", counter++);
+    if (N%2 == 0)
+        answer = (N*N+24)/48; //rounding by adding 1/2
+    else
+        answer = ((N+3)*(N+3)+24)/48; //same rounding here
 
-    printf("%lld\n", answer);
+    printf("%lld\n", (N==3) ? 1 : answer);
 }
 
 int main()
 {
     bool moreToDo;
+    counter = 1;
     while (moreToDo = getInput())
     {
 
