@@ -46,7 +46,7 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 long long int N;
 long long int answer;
 int counter;
-char line[20];
+char line[30];
 /*global variables*/
 
 void dump()
@@ -56,7 +56,7 @@ void dump()
 
 bool getInput()
 {
-    fgets(line, 20, stdin);
+    fgets(line, 30, stdin);
     //get input
     //scanf("%lld", &N);
     N = strtol(line, NULL, 10);
@@ -66,20 +66,25 @@ bool getInput()
 
 void process()
 {
-    printf("Case %d: ", counter++);
+    fputs("Case ", stdout);
     if (N%2 == 0)
         answer = (N*N+24)/48; //rounding by adding 1/2
     else
-        answer = ((N+3)*(N+3)+24)/48; //same rounding here
+    {
+        N += 3;
+        answer = ((N)*(N)+24)/48; //same rounding here
+    }
 
-    printf("%lld\n", (N==3) ? 1 : answer);
+    //printf("%lld\n", (N==3) ? 1 : answer);
+    sprintf(line, "%d: %lld", counter++, (N==3) ? 1 : answer);
+    fputs(line, stdout);
+    puts("");
 }
 
 int main()
 {
-    bool moreToDo;
     counter = 1;
-    while (moreToDo = getInput())
+    while (getInput())
     {
 
         process();

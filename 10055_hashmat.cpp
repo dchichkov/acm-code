@@ -31,7 +31,7 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-
+long long int N, M;
 /*global variables*/
 
 void dump()
@@ -42,12 +42,14 @@ void dump()
 bool getInput()
 {
     //get input
+    if (scanf("%lld %lld\n", &N, &M) == EOF) return false;
     return true;
 }
 
 void process()
 {
     //process input
+    printf("%lld\n", abs(M-N));
 }
 
 int main()
