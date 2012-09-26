@@ -8,7 +8,7 @@
 using namespace std;
 
 #define DEBUG
-//#undef DEBUG //uncomment this line to pull out print statements
+#undef DEBUG //uncomment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -31,7 +31,7 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-
+unsigned int i, j;
 /*global variables*/
 
 void dump()
@@ -42,19 +42,35 @@ void dump()
 bool getInput()
 {
     //get input
+    if (scanf("%u %u\n", &i, &j) == EOF) return false;
     return true;
 }
 
 void process()
 {
-    //process input
+    unsigned int m = 0, m_ = 0;
+
+    for (int t = min(i,j), x = t; t <= max(i, j); ++t, x = t)
+    {
+        while (++m_ && x != 1)
+        {
+            if (x%2)
+                x = 3*x+1;
+            else
+                x /= 2;
+        }
+        m = max(m, m_);
+        m_ = 0;
+    }
+
+    printf("%u %u %u\n", i, j, m);
 }
 
 int main()
 {
     while (getInput())
     {
-
+        debug(i, TAB); debug(j, endl);
         process();
 
         /*output*/
