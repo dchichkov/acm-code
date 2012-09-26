@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <bitset>
+#include <algorithm>
 
 using namespace std;
 
@@ -32,8 +33,9 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-bitset<50> sample;
-int a[50000];
+//bitset<50> sample;
+unsigned long long sample, sample2;
+long long a[50000];
 int num;
 /*global variables*/
 
@@ -56,24 +58,52 @@ bool ispalindrome(string x, size_t n)
     return true;
 }
 
+void longtobinary(long long unsigned int x)
+{
+    int sizeinbits = sizeof(x)*8;
+    string bin_string;
+    long long unsigned int ctrl_var = 1;
+    for (long long unsigned int i = 0; i < sizeinbits; ++i, ctrl_var = 1)
+        bin_string.insert(0, (ctrl_var<<i)&x ? "1" : "0");
+
+    printf("bin_string(longuinttobinary): %s\n", bin_string.c_str());
+
+}
+
 void precompute()
 {
     a[0] = 1;
-    for (int i = 1, num = i+1; i < 50000; ++num)
+	a[1] = 3;
+	int n;
+    for (int i = 1, num = i+1; i < 50000 && num < 100; ++num)
     {
         sample &= ~sample; //clear
         sample |= num;
-        debug(sample.to_string(), endl);
-        /*if (ispalindrome(sample.to_string(), log2(num)+1))
-          {*/
-        debug((sample ^ ((sample >> log2(num)) << log2(num))).to_string(), endl);
-        if ((sample ^ ((sample >> log2(num)) << log2(num))).to_ulong() ==
-            (sample >> log2(num)).to_ulong())
+		sample2 &= ~sample2; //clear
+		sample2 |= num;
+        /*debug(sample.to_string(), endl);
+		n = log2(num);
+        if ((sample ^ ((sample >> n) << n)) ==
+            (sample >> n))
         {
             cout << num << ": " << i << endl;
             a[i++] = num;
-        }
+			}*/
+		if (num%2)
+		{ //even numbers
+			n = log2(num);
+		} else 	n = log2(num)+1;
+		
+		debug(num, TAB); debug(n, endl);
+		sample <<= n;
+		debug(sample, TAB); debug(sample2, TAB);
+		sample |= sample2;
+		debug(sample, endl);
+		a[++i] = sample;
+		cout << sample << ": " << i << endl;
+		longtobinary(sample);
     }
+	sort(a, a+50000);
 }
 
 bool getInput()
@@ -86,13 +116,14 @@ bool getInput()
 void process()
 {
     //process input
-    printf("%d\n", a[num-1]);
+    printf("%lld\n", a[num-1]);
 }
 
 int main()
 {
+	CL(a, 0);
     precompute();
-    debug(ispalindrome("abcba", 5), endl);
+
     bool moreToDo;
     while (moreToDo = getInput())
     {
