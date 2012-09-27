@@ -33,9 +33,13 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-//bitset<50> sample;
-unsigned long long sample, sample2;
-long long a[50000];
+typedef pair<int, vector<int> > bit_factors;
+//.first = # bits
+//.second = factor
+vector<bit_factors> factors;
+
+vector<int> ans;
+
 int num;
 /*global variables*/
 
@@ -44,66 +48,57 @@ void dump()
     //dump data
 }
 
-bool ispalindrome(string x, size_t n)
+void inttobin(int n)
 {
-    string s = x.substr(x.length()-n);
-    debug(s, endl);
-    for (size_t i = 0; i < s.length()/2; ++i)
-    {
-        debug(s[i], TAB); debug(s[s.length()-i-1], endl);
-        if (s[i] != s[s.length()-i-1])
-            return false;
-    }
-
-    return true;
-}
-
-void longtobinary(long long unsigned int x)
-{
-    int sizeinbits = sizeof(x)*8;
-    string bin_string;
-    long long unsigned int ctrl_var = 1;
-    for (long long unsigned int i = 0; i < sizeinbits; ++i, ctrl_var = 1)
-        bin_string.insert(0, (ctrl_var<<i)&x ? "1" : "0");
-
-    printf("bin_string(longuinttobinary): %s\n", bin_string.c_str());
-
+	int bits = sizeof(n)*8;
+	int check_bit = 1;
+	string bit_string;
+	for (int i = 0; i < bits; ++i)
+	{
+		bit_string.insert(0, (n & (check_bit << i)) ? "1" : "0");
+	}
+	cout << bit_string << endl;
 }
 
 void precompute()
 {
-    a[0] = 1;
-	a[1] = 3;
-	int n;
-    for (int i = 1, num = i+1; i < 50000 && num < 100; ++num)
-    {
-        sample &= ~sample; //clear
-        sample |= num;
-		sample2 &= ~sample2; //clear
-		sample2 |= num;
-        /*debug(sample.to_string(), endl);
-		n = log2(num);
-        if ((sample ^ ((sample >> n) << n)) ==
-            (sample >> n))
-        {
-            cout << num << ": " << i << endl;
-            a[i++] = num;
-			}*/
-		if (num%2)
-		{ //even numbers
-			n = log2(num);
-		} else 	n = log2(num)+1;
-		
-		debug(num, TAB); debug(n, endl);
-		sample <<= n;
-		debug(sample, TAB); debug(sample2, TAB);
-		sample |= sample2;
-		debug(sample, endl);
-		a[++i] = sample;
-		cout << sample << ": " << i << endl;
-		longtobinary(sample);
-    }
-	sort(a, a+50000);
+	bit_factors one, two;
+	one.first = 1;
+	one.second.push_back(1);
+	two.first = 2;
+	two.second.push_back(3);
+
+	factors.push_back(one);
+	factors.push_back(two);
+
+	int shft = 0;
+	
+	FOR(i, 3, 31)
+	{
+		//if (i%2 == 0)
+		{
+			bit_factors even_bits;
+			even_bits.first = i;
+			int base = 1;
+			base <<= i-1;
+			base += 1;
+			even_bits.second.push_back(base);
+			for ( size_t it = (i%2) ? 0 : 1; it < factors.size(); it += 2)
+			{
+				debug(it, TAB);
+				debug(i, TAB); debug(factors[it].first, TAB);
+				shft = (i - factors[it].first) / 2;
+				debug(shft, endl);
+				for ( vi::iterator jt = factors[it].second.begin(); jt != factors[it].second.end(); ++jt)
+				{
+					//inttobin((base | ((*jt) << shft)));
+					debug(*jt, TAB); debug((base | ((*jt) << shft)), endl);
+					even_bits.second.push_back(base | ((*jt) << shft));
+				}
+			}
+			factors.push_back(even_bits);
+		}
+	}
 }
 
 bool getInput()
@@ -116,13 +111,20 @@ bool getInput()
 void process()
 {
     //process input
-    printf("%lld\n", a[num-1]);
+    printf("%d\n", ans[num-1]);
 }
 
 int main()
 {
-	CL(a, 0);
+
     precompute();
+
+	{
+		for (vector<bit_factors>::iterator it = factors.begin(); it != factors.end(); ++it)
+			for (vi::iterator jt = it->second.begin(); jt != it->second.end(); ++jt)
+				ans.push_back(*jt);
+	}
+	sort(ans.begin(), ans.end());
 
     bool moreToDo;
     while (moreToDo = getInput())
