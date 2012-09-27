@@ -72,31 +72,34 @@ void precompute()
 	factors.push_back(two);
 
 	int shft = 0;
-	
-	FOR(i, 3, 31)
+	const int UPTO_NUM_BITS = 31;
+	FOR(i, 3 /*bits*/, UPTO_NUM_BITS)
 	{
-		//if (i%2 == 0)
 		{
-			bit_factors even_bits;
-			even_bits.first = i;
+			bit_factors bit_pals;
+			bit_pals.first = i;
 			int base = 1;
 			base <<= i-1;
 			base += 1;
-			even_bits.second.push_back(base);
+			bit_pals.second.push_back(base);
 			for ( size_t it = (i%2) ? 0 : 1; it < factors.size(); it += 2)
 			{
 				debug(it, TAB);
 				debug(i, TAB); debug(factors[it].first, TAB);
+                
 				shft = (i - factors[it].first) / 2;
+                
 				debug(shft, endl);
+                
 				for ( vi::iterator jt = factors[it].second.begin(); jt != factors[it].second.end(); ++jt)
 				{
 					//inttobin((base | ((*jt) << shft)));
 					debug(*jt, TAB); debug((base | ((*jt) << shft)), endl);
-					even_bits.second.push_back(base | ((*jt) << shft));
+                    
+					bit_pals.second.push_back(base | ((*jt) << shft));
 				}
 			}
-			factors.push_back(even_bits);
+			factors.push_back(bit_pals);
 		}
 	}
 }
@@ -124,7 +127,7 @@ int main()
 			for (vi::iterator jt = it->second.begin(); jt != it->second.end(); ++jt)
 				ans.push_back(*jt);
 	}
-	sort(ans.begin(), ans.end());
+	//sort(ans.begin(), ans.end()); //not sure if needed, but what the hey, qsort an already sorted list (update: nope not needed)
 
     bool moreToDo;
     while (moreToDo = getInput())
