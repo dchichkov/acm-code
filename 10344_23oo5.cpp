@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <stdlib.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -57,42 +58,27 @@ bool getInput()
     return true;
 }
 
-bool process(vi numa, int num, int total, int op, string b)
+bool process(int nums[], int size, int total, int op)
 {
-    /*char k[10];
-    sprintf(k, "%d", num);
-    switch(op)
-    {
-    case 0:
-        b += "+";
-        break;
-    case 1:
-        b += "-";
-        break;
-    case 2:
-        b += "*";
-        break;
-    }
-    b += k;*/
     //process input
     switch (op)
     {
     case 0:
-        total += num;
+        total += nums[0];
         break;
     case 1:
-        total -= num;
+        total -= nums[0];
         break;
     case 2:
-        total *= num;
+        total *= nums[0];
     }
 
-    if (numa.size() == 0)
+    if (size == 1)
     {
         //debug(total, endl);
         if (total == 23)
         {
-            //cout << b << endl;
+            debug(b, endl);
             return true;
         }
         else
@@ -100,16 +86,10 @@ bool process(vi numa, int num, int total, int op, string b)
     }
     else
     {
-        REP(i, numa.size())
-        {
-            vi numbs(numa.begin(), numa.end());
-            int numba = numa[i];
-            numbs.erase(numbs.begin()+i);
-            REP(j, 3)
-            {
-                if (process(numbs, numba, total, j, b))
-                    return true;
-            }
+        REP(j, 3)
+        {           
+            if (process(&nums[1], size-1, total, j))
+                return true;
         }
     }
 
@@ -122,16 +102,20 @@ int main()
     while (getInput())
     {
 
-        REP(i, 5)
+        sort(nums, nums+5);
+        do
         {
-            string a;
-            vi numbs(nums, nums+5);
-            int it = numbs[i];
-            numbs.erase(numbs.begin()+i);
-            derp = process(numbs, it, it, -1, a);
-            if (derp) break;
+            REP(j, 3)
+            {           
+                if (process(&nums[1], 4, nums[0], j))
+                {
+                    derp = true;
+                    break;
+                }
+            }
             
-        }
+
+        } while (next_permutation(nums, nums+5));
         if (derp)
             printf("Possible\n");
         else printf("Impossible\n");
