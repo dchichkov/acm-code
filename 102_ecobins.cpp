@@ -8,7 +8,7 @@
 using namespace std;
 
 #define DEBUG
-//#undef DEBUG //uncomment this line to pull out print statements
+#undef DEBUG //uncomment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -36,7 +36,7 @@ int configs[6][3][3] = { {{0,1,1}, {3,0,3}, {2,2,0}},
                          {{0,3,3}, {2,0,2}, {1,1,0}},
                          {{0,2,2}, {1,0,1}, {3,3,0}},
                          {{0,2,2}, {3,0,3}, {1,1,0}}};
-char* ans[6] = {"BCG", "BGC", "CBG", "CGB", "GBC", "GCB" };
+char ans[6][4] = {"BCG", "BGC", "CBG", "CGB", "GBC", "GCB" };
 /*global variables*/
 
 void dump()
@@ -58,7 +58,7 @@ bool getInput()
 void process()
 {
     //process input
-    int calc = 0, j;
+    int calc = 0, j, mint = 0x0FFFFFFF;
 
     REP(i, 6)
     {
@@ -68,12 +68,22 @@ void process()
             {
                 if (configs[6-i-1][k][l] != 0)
                 {
-
+                    calc += bins[l][configs[6-i-1][k][l]-1];
                 }
             }
         }
-
+        
+        if (calc <= mint)
+        {
+            mint = calc;
+            debug(calc, TAB);
+            j = 6-i-1;
+            debug(j, endl);
+        }
+        calc = 0;
     }
+
+    printf("%s %d\n", ans[j], mint);
 }
 
 int main()
