@@ -57,9 +57,10 @@ int main()
 
         process();
 
-        /*CLEAR GLOBAL VARIABLES!*/
+        /*output*/
 
-        /*CLEAR GLOBAL VARIABLES!*/
+
+        /*output*/
     }
 
     return 0;

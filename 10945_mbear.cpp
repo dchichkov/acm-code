@@ -4,11 +4,12 @@
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
+#include <cctype>
 
 using namespace std;
 
 #define DEBUG
-//#undef DEBUG //uncomment this line to pull out print statements
+#undef DEBUG //uncomment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -31,7 +32,7 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-
+string line;
 /*global variables*/
 
 void dump()
@@ -39,8 +40,27 @@ void dump()
     //dump data
 }
 
+bool is_palindrome(const string& s)
+{
+    string x;
+    for (size_t i = 0; i < s.length(); ++i)
+        if (isalpha(s[i]))
+            x += tolower(s[i]);
+
+    for (size_t i = 0; i < x.length()/2; ++i)
+    {
+        debug(x[i], TAB); debug(x[x.length()-i-1], endl);
+        if (x[i] != x[x.length()-i-1]) return false;
+    }
+
+    return true;
+}
+
 bool getInput()
 {
+
+    getline(cin, line);
+    if (line == "DONE") return false;
     //get input
     return true;
 }
@@ -48,6 +68,7 @@ bool getInput()
 void process()
 {
     //process input
+    printf("%s\n", is_palindrome(line) ? "You won't be eaten!" : "Uh oh..");
 }
 
 int main()
@@ -57,9 +78,10 @@ int main()
 
         process();
 
-        /*CLEAR GLOBAL VARIABLES!*/
+        /*output*/
 
-        /*CLEAR GLOBAL VARIABLES!*/
+
+        /*output*/
     }
 
     return 0;

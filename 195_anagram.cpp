@@ -4,6 +4,9 @@
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
+#include <vector>
+#include <algorithm>
+#include <cctype>
 
 using namespace std;
 
@@ -31,7 +34,28 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
+struct compare
+{
+    bool operator() (const string& a, const string& b)
+    {
+        bool t = false;
+        for (size_t i = 0; i < a.length() && i < b.length(); ++i)
+            if (toupper(a[i]) < toupper(b[i]))
+                return true;
+            else if (toupper(a[i]) > toupper(b[i]))
+                return false;
+            else if (toupper(a[i]) == toupper(b[i]))
+                if ( a[i] < b[i] )
+                    return true;
+        /*t = a[i] < b[i] ? true : false;
 
+          return t;*/
+
+    }
+};
+
+
+string word;
 /*global variables*/
 
 void dump()
@@ -42,23 +66,36 @@ void dump()
 bool getInput()
 {
     //get input
+    cin >> word;
+    
     return true;
 }
 
 void process()
 {
     //process input
+    vector<string> words;
+    SORT(word);
+    do
+    {
+        words.push_back(word);
+    } while (next_permutation(word.begin(), word.end()));
+
+    sort(words.begin(), words.end(), compare());
+    for (vector<string>::iterator it = words.begin(); it != words.end(); ++it)
+        printf("%s\n", it->c_str());
 }
 
 int main()
 {
-    while (getInput())
+    int nc;
+    scanf("%d", &nc);
+    while (nc-- > 0)
     {
-
+        getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
