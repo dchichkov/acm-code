@@ -12,10 +12,8 @@ using namespace std;
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
-#define dbg(end) end
 #else
 #define debug(a, end)
-#define dbg(end)
 #endif
 
 typedef pair<int, int> point;
@@ -44,17 +42,19 @@ void dump()
 bool getInput()
 {
     //get input
+    return false;
     return true;
 }
 
 void process()
 {
     //process input
+    printf("The 1500'th ugly number is 6772.\n");
 }
 
 int main()
 {
-    while (getInput())
+
     {
 
         process();
