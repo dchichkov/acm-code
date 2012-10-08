@@ -8,7 +8,7 @@
 using namespace std;
 
 #define DEBUG
-//#undef DEBUG //uncomment this line to pull out print statements
+#undef DEBUG //uncomment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -34,7 +34,6 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 
 /*global variables*/
 int a, b;
-char c[5], d[5];
 /*global variables*/
 
 void dump()
@@ -49,37 +48,33 @@ bool getInput()
     return true;
 }
 
-void process()
+bool is_palindrome(const string& s)
 {
-    //process input
-    if (a == 0 && b < 9)
-        b += 1;
-    else
+    debug(s, endl);
+    REP(i, s.length()/2)
     {
-        int p;
-        sprintf(c, "%02d", a);
-        sprintf(d, "%02d", b);
-        //turn around
-        char e = c[0];
-        c[0] = c[1];
-        c[1] = e;
-
-        sscanf(c, "%d", &p);
-        if (p > b) {
-            b = p;
-        }
-        else if (p < b)
-        {
-            a = (a+1)%24;
-            sprintf(c, "%02d", a);
-            //turn around
-            char e = c[0];
-            c[0] = c[1];
-            c[1] = e;
-            sscanf(c, "%d", &b);
-        }
+        if (s[i] != s[s.length()-i-1])
+            return false;
     }
 
+    return true;
+}
+
+void process()
+{
+    int d = ((a*100) + b) % 2400;
+    char c[5];
+    do
+    {
+        if (((d+1)%100) > 59) d = ((d+100)/100*100)%2400;
+        else
+            d = (d+1)%2400;
+        sprintf(c, "%d", d);
+    } while (!is_palindrome(c));
+    
+    sscanf(c, "%d", &d);
+    a = d/100;
+    b = d%100;
     printf("%02d:%02d\n", a, b);
 }
 
