@@ -4,8 +4,8 @@
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
-#include <vector>
 #include <algorithm>
+#include <sstream>
 
 using namespace std;
 
@@ -35,8 +35,7 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-char line1[1005], line2[1005];
-int counted[50];
+vector<int> v;
 /*global variables*/
 
 void dump()
@@ -44,74 +43,56 @@ void dump()
     //dump data
 }
 
-int count_char(const char* s, const char& ltr)
-{
-    int count = 0;
-    REP(i, strlen(s))
-        if (s[i] == ltr) ++count;
-
-    return count;
-}
-
 bool getInput()
 {
     //get input
     if (feof(stdin)) return false;
-    fgets(line1, 1005, stdin);
-    if (feof(stdin)) return false;
-    fgets(line2, 1005, stdin);
-    
-    /*
     string line;
-    line.clear();
-    REP(i, line1.length())
-        if (isalpha(line1[i]) && islower(line1[i]))
-            line += line1[i];
+    getline(cin, line);
+    istringstream s(line);
+    int t;
+    while (s >> t)
+    {
+        v.push_back(t);
+    }
 
-    line1 = line;
-    line.clear();
-
-    REP(i, line2.length())
-        if (isalpha(line2[i]) && islower(line2[i]))
-            line += line2[i];
-
-    line2 = line;*/
     return true;
 }
 
+
 void process()
 {
-
     //process input
-    string line = line1;
-    UN(line);
-    REP(i, line.length())
+    printf("%d", v[0]);
+    FOR(i, 1, v.size())
+        printf(" %d", v[i]);
+    cout << endl;
+    
+    int count = 0;
+    for (int j = 0; j < v.size(); ++j)
     {
-        counted[line[i]-'a'] = min(count_char(line1, line[i]), count_char(line2, line[i]));
-    }
-    REP(i, 26)
-    {
-        if (counted[i] != 0)
+        if (v[0] > v[1])
         {
-            REP(j, counted[i])
-            {
-                printf("%c", ('a'+i));
-            }
+            ++count;
+            reverse(v.begin(), v.end()-j);
+
+            printf("%d ", count);
         }
     }
-    
-    printf("\n");
+
+    printf("0\n");
 }
 
 int main()
 {
     while (getInput())
     {
-        CL(counted, 0);
+
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        v.clear();
+        
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
