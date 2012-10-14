@@ -37,7 +37,7 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 
 /*global variables*/
 int N;
-set<int> primes;
+bool primes[20];
 vector<int> ring;
 /*global variables*/
 
@@ -60,87 +60,67 @@ bool getInput()
     return true;
 }
 
-bool is_prime(int num)
+void find_rest(vector<int> v, int* arr, int idx, int val)
 {
-    if (primes.find(num) != primes.end())
-        return true;
-    return false;
-}
-/*
-void get_prime_pair(vector<int> r)
-{
-    if (r.size() == 0) return;
-    
-    int t = r[0];
-    FOR(i, 1, r.size()/2)
+    if (v.size() == 0)
     {
-        if (is_prime(t+r[i]))
+        if (primes[arr[0] + arr[N+1]])
         {
-            printf("%d %d ", t, r[i]);
-            vector<int> ri(r);
-            ri.erase(ri.begin()+i);
-            ri.erase(ri.begin());
-            get_prime_pair(ri);
-        }
-    }
-    printf("\n");
-}
-
-void process()
-{
-    //process input
-    get_prime_pair(ring);
-    printf("\n");
-}
-*/
-
-void process()
-{
-    vector<int> rn(ring.begin(), ring.end());
-    vector<int> ri(rn);
-    do
-    {
-        rn.insert(rn.begin(), ring.begin(), ring.end());
-        ri.insert(ri.begin(), rn.begin(), rn.end());
-        reverse(ri.begin(), ri.end());
-        rn.insert(rn.begin(), ri.begin(), ri.end()-1);
-        rn.insert(rn.end(), 1);
-        bool prime = true;
-        FOR(i, 1, rn.size()-1)
-        {
-            if (!is_prime(rn[i] + rn[i-1]) || !is_prime(rn[i] + rn[i+1]))
-                prime = false;
-        }
-
-        if (prime)
-        {
-            rn.erase(rn.end()-1);
-            rn.erase(rn.begin(), rn.begin()+rn.size()/2);
-            printf("%d", rn[0]);
-            FOR(i, 1, rn.size())
+            printf("%d", arr[0]);
+            FOR(i, 1, N)
             {
-                printf(" %d", rn[i]);
-                
+                printf(" %d", arr[i]);
             }
             printf("\n");
         }
-        ri.clear();
-        rn.clear();
 
-    } while (next_permutation(ring.begin()+1, ring.end()));
+    }
+    else
+    {
+        REP(i, v.size())
+        {
+            if (primes[v[i]+val])
+            {
+                debug(v[i], TAB);
+                debug(val, endl);
+                arr[idx+1] = v[i];
+                v.erase(v.begin()+i);
+                REP(j, v.size())
+                    dbg( cout << v[j] << TAB );
+                dbg ( cout << endl );
+                find_rest(v, arr, idx+1, arr[idx+1]);
+            }
+        }
+    }
+    REP(i, N)
+        debug(arr[i], TAB);
+    dbg(cout << endl);
+}
 
-    printf("\n");
+void process()
+{
+    int* n = new int[N];
+
+    n[0] = 1;
+    ring.erase(ring.begin());
+    find_rest(ring, n, 0, 1);
+
+
 }
 
 int main()
 {
-    primes.insert(3);
-    primes.insert(5);
-    primes.insert(7);
-    primes.insert(11);
-    primes.insert(13);
-    primes.insert(17);
-    primes.insert(19);
+
+    CL(primes, 0);
+    
+    primes[3] = true;
+    primes[5] = true;
+    primes[7] = true;
+    primes[11] = true;
+    primes[13] = true;
+    primes[17] = true;
+    primes[19] = true;
+    
     int count = 0;
     while (getInput())
     {
