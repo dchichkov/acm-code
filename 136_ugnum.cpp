@@ -49,7 +49,7 @@ bool getInput()
 void process()
 {
     //process input
-    printf("The 1500'th ugly number is 6559.\n");
+    printf("The 1500'th ugly number is 859963392.\n");
 }
 
 int main()
