@@ -44,8 +44,7 @@ void dump()
 bool getInput()
 {
     //get input
-    if (feof(stdin)) return false;
-    scanf("%u %u", &a, &b);
+    if (scanf("%u %u", &a, &b) == EOF) return false;
     return true;
 }
 
