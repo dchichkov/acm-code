@@ -8,6 +8,7 @@
 #include <vector>
 #include <algorithm>
 
+
 using namespace std;
 
 #define DEBUG
@@ -60,52 +61,34 @@ bool getInput()
     return true;
 }
 
-void find_rest(vector<int> v, int* arr, int idx, int val)
-{
-    if (v.size() == 0)
-    {
-        if (primes[arr[0] + arr[N+1]])
-        {
-            printf("%d", arr[0]);
-            FOR(i, 1, N)
-            {
-                printf(" %d", arr[i]);
-            }
-            printf("\n");
-        }
-
-    }
-    else
-    {
-        REP(i, v.size())
-        {
-            if (primes[v[i]+val])
-            {
-                debug(v[i], TAB);
-                debug(val, endl);
-                arr[idx+1] = v[i];
-                v.erase(v.begin()+i);
-                REP(j, v.size())
-                    dbg( cout << v[j] << TAB );
-                dbg ( cout << endl );
-                find_rest(v, arr, idx+1, arr[idx+1]);
-            }
-        }
-    }
-    REP(i, N)
-        debug(arr[i], TAB);
-    dbg(cout << endl);
-}
-
 void process()
 {
-    int* n = new int[N];
+    int a[1];
+    bool primal = true;
+    do
+    {
+        FOR(i, 1, N-1)
+        {
+            if (!primes[ring[i] + ring[i-1]] || !primes[ring[i] + ring[i+1]])
+            {
+                primal = false;
+                break;
+            }
+        }
 
-    n[0] = 1;
-    ring.erase(ring.begin());
-    find_rest(ring, n, 0, 1);
+        if (primal && primes[ring[0] + ring[N-1]])
+        {
+            printf("%d", ring[0]);
+            FOR(i, 1, N)
+                printf(" %d", ring[i]);
+            
+            printf("\n");
+        }
+        primal = true;
+    }
+    while (next_permutation(ring.begin()+1, ring.end()));
 
-
+    printf("\n");      
 }
 
 int main()
