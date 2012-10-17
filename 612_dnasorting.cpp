@@ -52,21 +52,16 @@ void dump()
 
 int num_bub(string s)
 {
-    int n_swaps = 0;
-    debug(s, endl);
-    
-    for (int i = s.length(); i > 1; --i)
+    int num_un = 0;
+    REP(i, s.length())
     {
-        for (int j = 0; j < i; ++j)
+        FOR(j, i, s.length())
         {
-            if (s[j] > s[j+1])
-            {
-                std::swap(s[j], s[j+1]);
-                n_swaps++;
-            }
+            if (s[j] < s[i]) num_un++;
         }
     }
-    return n_swaps;
+
+    return num_un;
 }
 
 bool getInput()
@@ -77,6 +72,7 @@ bool getInput()
     REP(i, y)
     {
         getline(cin, d.first);
+        d.first = d.first.substr(0, x);
         d.second = num_bub(d.first);
         dna.push_back(d);
     }
@@ -86,9 +82,7 @@ bool getInput()
 void process()
 {
     //process input
-    dbg(cout << "derp" << endl);
-    sort(dna.begin(), dna.end(), cmp());
-    dbg(cout << "derp" << endl);
+    stable_sort(dna.begin(), dna.end(), cmp());
     for (vector<pair<string, int> >::iterator it = dna.begin(); it != dna.end(); ++it)
         cout << it->first << endl;
 }
