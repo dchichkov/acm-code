@@ -83,6 +83,7 @@ void process()
 {
 
     //process input
+    line1[strlen(line1)-1] = 0;
     string line = line1;
     UN(line);
     REP(i, line.length())

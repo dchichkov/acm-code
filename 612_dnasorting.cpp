@@ -24,8 +24,6 @@ typedef pair<int, int> point;
 typedef long long int64; //for clarity
 typedef vector<int> vi; //?
 typedef vector<point> vp; //?
-template<class T> void chmin(T &t, T f) { if (t > f) t = f; } //change min
-template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 
 #define UN(v) SORT(v),v.erase(unique(v.begin(),v.end()),v.end())   
 #define SORT(c) sort((c).begin(),(c).end())   
@@ -39,7 +37,7 @@ struct cmp
 {
     bool operator()(const pair<string, int>& a, const pair<string, int>& b)
     {
-        return a.second <= b.second;
+        return a.second < b.second;
     }
 };
 
@@ -55,21 +53,19 @@ void dump()
 int num_bub(string s)
 {
     int n_swaps = 0;
-    debug(s, TAB);
-    for (int i = 1; i < s.length()-1; ++i)
+    debug(s, endl);
+    
+    for (int i = s.length(); i > 1; --i)
     {
-        for (int j = s.length()-1; j >= i; --j)
+        for (int j = 0; j < i; ++j)
         {
-            if (s[j] < s[j-1])
+            if (s[j] > s[j+1])
             {
-                std::swap(s[j], s[j-1]);
+                std::swap(s[j], s[j+1]);
                 n_swaps++;
             }
         }
     }
-    debug(s, TAB);
-    debug(n_swaps, endl);
-    dbg(cout << endl);
     return n_swaps;
 }
 
@@ -90,10 +86,11 @@ bool getInput()
 void process()
 {
     //process input
+    dbg(cout << "derp" << endl);
     sort(dna.begin(), dna.end(), cmp());
+    dbg(cout << "derp" << endl);
     for (vector<pair<string, int> >::iterator it = dna.begin(); it != dna.end(); ++it)
         cout << it->first << endl;
-    cout << endl;
 }
 
 int main()
@@ -108,6 +105,8 @@ int main()
         /*CLEAR GLOBAL VARIABLES!*/
         dna.clear();
         /*CLEAR GLOBAL VARIABLES!*/
+        if (nc != 0)
+            printf("\n");
     }
 
     return 0;

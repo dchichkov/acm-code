@@ -155,7 +155,8 @@ int main()
         
         show_bombs = false;
         /*output*/
+        cout << endl;
         if (num_cases != 0)
-            cout << endl << endl;
+            cout << endl;
     }
 }
