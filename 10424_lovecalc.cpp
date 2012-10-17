@@ -46,13 +46,14 @@ bool getInput()
 {
     if (cin.eof()) return false;
     getline(cin, line1);
+    if (cin.eof()) return false;
     getline(cin, line2);
 
     debug(line1, TAB); debug(line2, endl);
     skipwtf = false;
-    if (line1.length() == 0 && line2.length() == 0) skipwtf = true;
     zero = false;
-    if (line1.length() == 0 || line2.length() == 0) zero = true;
+    if (line1.length() == 0 && line2.length() == 0) skipwtf = true;
+    else if (line1.length() == 0 || line2.length() == 0) zero = true;
     int i = 0;
     while (line1[i] != 0)
     {
@@ -84,14 +85,21 @@ bool getInput()
 
 void process()
 {
+    int suml1 = 0, suml2 = 0;
     //process input
     if (zero)
-        cout << "0.00 %" << endl;
+    {
+        suml1 = 0;
+        suml2 = 1;
+    }
     else if (skipwtf)
+    {
         cout << endl;
+        return;
+    }
     else
     {
-        int suml1 = 0, suml2 = 0;
+       
         REP(i, line1.length())
             suml1 += line1[i]-0x60;
 
@@ -99,15 +107,15 @@ void process()
             suml2 += line2[i]-0x60;
 
         debug(suml1, TAB); debug(suml2, endl);
-        suml1 = (suml1%9) ? suml1%9 : 9;
-        suml2 = (suml2%9) ? suml2%9 : 9;
-        double a = (suml1 > suml2) ?
-            (suml2)*1.0/(suml1) :
-            (suml1)*1.0/(suml2);
-        debug((suml1), TAB); debug((suml2), endl);
-        debug(a, endl);
-        printf("%0.2lf %%\n", a*100);
+        suml1 = (suml1%9) ? (suml1%9) : 9 ;
+        suml2 = (suml2%9) ? (suml2%9) : 9 ;
+
     }
+    
+    double a = min(suml1, suml2)*1.0 / max(suml1, suml2);
+    debug((suml1), TAB); debug((suml2), endl);
+    debug(a, endl);
+    printf("%0.2lf %%\n", a*100);
 }
 
 int main()
