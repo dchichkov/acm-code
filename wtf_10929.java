@@ -1,4 +1,4 @@
-import java.math.BigInteger;
+import java.math.*;
 import java.util.*;
 
 public class wtf_10929
@@ -7,15 +7,17 @@ public class wtf_10929
     {
         BigInteger n = new BigInteger("1");
         BigInteger elv = new BigInteger("11");
+        String l;
         Scanner in = new Scanner(System.in);
-        while (n.intValue() != 0)
+        while (true)
         {
-            n = in.nextBigInteger();
-            if (n.intValue() == 0) break;
-            if (n.mod(elv).intValue() == 0)
-                System.out.println(n + " is a multiple of 11.");
+            l = in.nextLine();
+            if (l.compareTo("0") == 0) break;
+            n = new BigInteger(l);
+            if (n.mod(elv).toString().compareTo("0") == 0)
+                System.out.println(l + " is a multiple of 11.");
             else
-                System.out.println(n + " is not a multiple of 11.");
+                System.out.println(l + " is not a multiple of 11.");
         }
 
     }
