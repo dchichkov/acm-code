@@ -1,6 +1,12 @@
 import java.math.*;
 import java.util.*;
 
+/*So the input for this problem is messed up.
+ *Make sure the last line of input is a single 0 followed by a \n
+ *also echo out the string you read in as the number, not the number that is the BigInteger
+ *because leading zeroes apparently count... but it didn't say. fuck.
+ */ 
+
 public class wtf_10929
 {
     public static void main(String[] args)
