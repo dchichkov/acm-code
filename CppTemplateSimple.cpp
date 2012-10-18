@@ -7,8 +7,7 @@
 
 using namespace std;
 
-#define DEBUG
-//#undef DEBUG //uncomment this line to pull out print statements
+#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end

@@ -7,11 +7,11 @@
 #include <set>
 #include <map>
 #include <sstream>
+#include <algorithm>
 
 using namespace std;
 
-#define DEBUG
-//#undef DEBUG //uncomment this line to pull out print statements
+#define DEBUG //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -43,7 +43,7 @@ map<string, vi> word_found;
 void dump()
 {
     //dump data
-    for (set<string>::iterator it = words.begin(); it != words.end(); ++it)
+    for (vector<string>::iterator it = words.begin(); it != words.end(); ++it)
     {
         cout << *it << endl;
     }
@@ -53,10 +53,8 @@ void normalize(string& s)
 {
     REP(i, s.length())
         if (!isalpha(s[i]))
-        {
             s.replace(i, 1, " ");
-            --i;
-        }
+
 }
 
 bool getInput()
@@ -67,17 +65,20 @@ bool getInput()
     cin >> woyd;
     normalize(woyd);
     istringstream sst(woyd);
-    debug(woyd, endl);
-    while(word != "END")
+    while(woyd != "END")
     {
-        debug(word, TAB); debug(pos, endl);        
-        while (sst >> word)
+        if (pos == 11) break;
+        if (woyd.find_first_of("abcdefghijklmnopqrstuvwxyzEND") != string::npos)
         {
-            debug(word, TAB); debug(pos, endl);
-            words.insert(word);
-            word_found[word].push_back(pos++);
+            sst.clear(); //clear your flags
+            while (sst >> word)
+            {
+                debug(word, TAB); debug(pos, endl);
+                words.insert(word);
+                word_found[word].push_back(pos++);
+            }
         }
-        if (word == "END") break;
+
         cin >> woyd;
         normalize(woyd);
         sst.str(woyd);
@@ -89,9 +90,10 @@ bool getInput()
 void process()
 {
     //process input
-    dbg(dump());
     int x, y;
-    printf("%d %d\n", x, y);           
+    
+    
+    printf("%d %d\n", x, y);
 }
 
 int main()
