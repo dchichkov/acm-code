@@ -42,7 +42,6 @@ map<string, int> dist;
 vector<string> di;
 char line[200];
 char miw[200], wh[200];
-
 /*global variables*/
 
 void dump()
@@ -54,8 +53,13 @@ void normalize(char* s)
 {
     REP(i, strlen(s))
     {
+        if (s[i] == '\n')
+            s[i] = 0;
+        else
         if (!isalpha(s[i]))
             s[i] = ' ';
+ 
+
     }
 
 }
@@ -64,6 +68,7 @@ bool getInput()
 {
     //get input
     int pos = 0, n = 0;
+    
     char* lin;
     fgets(line, 200, stdin);
     normalize(line);    
@@ -71,9 +76,8 @@ bool getInput()
     {
         lin = line;
         n = 0;
-        pos = 0;
         debug(lin, endl);
-        while (sscanf(lin, "%s%n", wh, &n) != EOF)
+        while (sscanf(lin, "%s%n ", wh, &n) != EOF)
         {
             debug(wh, endl);
             pos++;
@@ -84,18 +88,24 @@ bool getInput()
                 dist[miw] = pos;
                 debug(miw, endl);
             }
-            if (di.size() > 1)
+            if (di.size())
             {
-            for (vector<string>::reverse_iterator it = di.rbegin(); (it != di.rend() && it->compare(wh) != 0);
-                 ++it)
-            {
-                debug(*it, endl);
-                dist[*it] = (min(abs(pos-dist[miw]), dist[*it]) == abs(pos-dist[miw])) ? pos-dist[miw] : dist[*it];
-                debug(dist[*it], TAB);
+                for ( vector<string>::reverse_iterator it = di.rbegin();
+                      it != di.rend(); ++it)
+                {
+                    if (it->compare(miw) == 0)
+                        continue;
+                    if (dist[miw] < pos)
+                        dist[*it] = max(dist[miw]-pos, dist[*it]);
+                    else
+                        dist[*it] = min(dist[miw]-pos, dist[*it]);
+                    debug(*it, TAB); debug(dist[*it], endl);
+                }
             }
-            }
+            debug(dist[wh],TAB); debug(pos,TAB); debug(wh, endl);
             di.push_back(wh);
             lin += n;
+
         }
         fgets(line, 200, stdin);
         normalize(line);
@@ -105,7 +115,7 @@ bool getInput()
 void process()
 {
     //process input
-    int x = INT_MAX, y;
+    int x = INT_MAX, y = 0;
 
     for (map<string, int>::iterator it = dist.begin(); it != dist.end(); ++it)
     {
