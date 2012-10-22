@@ -8,6 +8,7 @@
 #include <map>
 #include <sstream>
 #include <algorithm>
+#include <climits>
 
 using namespace std;
 
@@ -37,67 +38,87 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 
 /*global variables*/
 set<string> words;
-map<string, vi> word_found;
+map<string, int> dist;
+vector<string> di;
+char line[200];
+char miw[200], wh[200];
+
 /*global variables*/
 
 void dump()
 {
-    //dump data
-    for (vector<string>::iterator it = words.begin(); it != words.end(); ++it)
-    {
-        cout << *it << endl;
-    }
+
 }
 
-void normalize(string& s)
+void normalize(char* s)
 {
-    REP(i, s.length())
+    REP(i, strlen(s))
+    {
         if (!isalpha(s[i]))
-            s.replace(i, 1, " ");
+            s[i] = ' ';
+    }
 
 }
 
 bool getInput()
 {
     //get input
-    int pos = 0;
-    string woyd, word;
-    cin >> woyd;
-    normalize(woyd);
-    istringstream sst(woyd);
-    while(woyd != "END")
+    int pos = 0, n = 0;
+    char* lin;
+    fgets(line, 200, stdin);
+    normalize(line);    
+    while (strcmp(line, "END") != 0)
     {
-        if (pos == 11) break;
-        if (woyd.find_first_of("abcdefghijklmnopqrstuvwxyzEND") != string::npos)
+        lin = line;
+        n = 0;
+        pos = 0;
+        debug(lin, endl);
+        while (sscanf(lin, "%s%n", wh, &n) != EOF)
         {
-            sst.clear(); //clear your flags
-            while (sst >> word)
+            debug(wh, endl);
+            pos++;
+            if (words.find(wh) == words.end())
             {
-                debug(word, TAB); debug(pos, endl);
-                words.insert(word);
-                word_found[word].push_back(pos++);
+                words.insert(wh);
+                strcpy(miw, wh);
+                dist[miw] = pos;
+                debug(miw, endl);
             }
+            if (di.size() > 1)
+            {
+            for (vector<string>::reverse_iterator it = di.rbegin(); (it != di.rend() && it->compare(wh) != 0);
+                 ++it)
+            {
+                debug(*it, endl);
+                dist[*it] = (min(abs(pos-dist[miw]), dist[*it]) == abs(pos-dist[miw])) ? pos-dist[miw] : dist[*it];
+                debug(dist[*it], TAB);
+            }
+            }
+            di.push_back(wh);
+            lin += n;
         }
-
-        cin >> woyd;
-        normalize(woyd);
-        sst.str(woyd);
+        fgets(line, 200, stdin);
+        normalize(line);
     }
-
-    return true;
 }
 
 void process()
 {
     //process input
-    int x, y;
-    
+    int x = INT_MAX, y;
+
+    for (map<string, int>::iterator it = dist.begin(); it != dist.end(); ++it)
+    {
+        x = min(dist[miw]+it->second, x);
+        y = max(dist[miw]+it->second, y);
+    }
     
     printf("%d %d\n", x, y);
 }
 
 int main()
 {
+    ios_base::sync_with_stdio(false);
     int nc;
     int count = 0;
     scanf("%d\n", &nc);
@@ -108,8 +129,9 @@ int main()
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
+        dist.clear();
+        di.clear();
         words.clear();
-        word_found.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
