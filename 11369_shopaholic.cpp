@@ -4,11 +4,11 @@
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
-
+#include <algorithm>
+#include <functional>
 using namespace std;
 
-#define DEBUG
-//#undef DEBUG //uncomment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -33,9 +33,8 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int start, end;
-int smeet, emeet;
-int a,b;
+int prices[20020];
+int N;
 /*global variables*/
 
 void dump()
@@ -46,47 +45,37 @@ void dump()
 bool getInput()
 {
     //get input
-    scanf("%d:%d", &a, &b);
-    start = a*60+b;
-    scanf("%d:%d", &a, &b);
-    end = a*60+b;
-    scanf("%d:%d", &a, &b);
-    smeet = a*60+b;
-    scanf("%d:%d", &a, &b);
-    emeet = a*60+b;
+    scanf("%d", &N);
+    REP(i, N)
+        scanf("%d", &prices[i]);
+        
     return true;
 }
 
 void process()
 {
     //process input
-    if ( ((smeet <= end &&
-          smeet >= start) ||
-         (emeet <= end &&
-          emeet >= start)) || (
-         (end <= emeet &&
-          end >= smeet) ||
-         (start <= emeet &&
-          start >= smeet)))
-        printf("Mrs Meeting");
-    else
-        printf("Hits Meeting");
+    sort(prices, prices+N, std::greater<int>());
 
-    printf("\n");
+    REP(i, N)
+        debug(prices[i], endl);
+    
+    int td = 0;
+    for (int i = 2; i < N; i+=3)
+        td += prices[i];
+    debug(td, endl);;
+
+    printf("%d\n", td);
 }
 
 int main()
 {
-    int nc, count = 0;
+    int nc;
     scanf("%d", &nc);
     while (nc-- > 0)
     {
-        printf("Case %d: ", ++count);
         getInput();
         process();
-
-
-
 
         /*CLEAR GLOBAL VARIABLES!*/
 

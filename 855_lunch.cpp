@@ -4,11 +4,11 @@
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
+#include <algorithm>
 
 using namespace std;
 
-#define DEBUG
-//#undef DEBUG //uncomment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -33,9 +33,23 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int start, end;
-int smeet, emeet;
-int a,b;
+vp friends;
+vi a;
+vi s;
+
+struct cmp
+{
+	bool operator()(const point& a, const point& b)
+	{
+		if (a.first == b.first)
+			return a.second < b.second;
+		else
+			return a.first < b.first;
+	}
+
+};
+
+
 /*global variables*/
 
 void dump()
@@ -45,51 +59,49 @@ void dump()
 
 bool getInput()
 {
+    int c, b, d;
+	scanf("%d %d %d", &d, &b, &c);
+	REP(i, c)
+	{
+		scanf("%d %d", &d, &b);
+        a.push_back(d);
+        s.push_back(b);
+	}
+
     //get input
-    scanf("%d:%d", &a, &b);
-    start = a*60+b;
-    scanf("%d:%d", &a, &b);
-    end = a*60+b;
-    scanf("%d:%d", &a, &b);
-    smeet = a*60+b;
-    scanf("%d:%d", &a, &b);
-    emeet = a*60+b;
     return true;
 }
 
 void process()
 {
     //process input
-    if ( ((smeet <= end &&
-          smeet >= start) ||
-         (emeet <= end &&
-          emeet >= start)) || (
-         (end <= emeet &&
-          end >= smeet) ||
-         (start <= emeet &&
-          start >= smeet)))
-        printf("Mrs Meeting");
-    else
-        printf("Hits Meeting");
 
-    printf("\n");
+    SORT(a);
+    SORT(s);
+
+    int minp;
+    if (!(a.size()%2))
+        minp = a.size()/2-1;
+    else
+        minp = a.size()/2;
+    
+	printf("(Street: %d, Avenue: %d)\n", a[minp], s[minp]);
+	
 }
 
 int main()
 {
-    int nc, count = 0;
-    scanf("%d", &nc);
+	int nc;
+	scanf("%d", &nc);
     while (nc-- > 0)
     {
-        printf("Case %d: ", ++count);
-        getInput();
+		getInput();
         process();
 
-
-
-
         /*CLEAR GLOBAL VARIABLES!*/
-
+        a.clear();
+        s.clear();
+		friends.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
