@@ -7,7 +7,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -32,7 +32,7 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-double time_elapsed = 0;
+double time_elapsed = 0, time_delta = 0;
 int spd = 0;
 bool query = false, first_time = true;
 double total = 0;
@@ -52,12 +52,20 @@ bool getInput()
     scanf("%d:%d:%d", &hr, &minu, &s);
     debug(hr, TAB); debug(minu, TAB); debug(s, endl);
 
-    time_elapsed = (hr*3600 + minu*60 + s) - time_elapsed;
-
+    if (!first_time)
+        time_delta = (hr*3600 + minu*60 + s) - time_elapsed;
+    else
+    {
+        time_elapsed = (hr*3600 + minu*60 + s);
+        first_time = false;
+    }
+    total += time_delta * spd / 3600;
     debug(time_elapsed, TAB);
     if (cin.peek() == ' ')
     {
+        
         scanf("%d", &spd);
+        
         query = false;
     }
     else
@@ -69,10 +77,8 @@ bool getInput()
 void process()
 {
     //process input
-    if (!first_time)
-        total += time_elapsed * spd / 3600;
-    else
-        first_time = false;
+    time_elapsed += time_delta;
+    
     debug(total, endl);
     if (query)
     {
