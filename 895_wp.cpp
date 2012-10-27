@@ -58,7 +58,7 @@ void process()
 {
     //process input
     string line;
-    int num_m = 0;
+    int num_m = 0, total;
     bool possible = false;
     getline(cin, line);
     while (line != "#")
@@ -70,20 +70,6 @@ void process()
             possible = false;
             REP(i, line.length())
             {
-                debug(line[i], TAB);
-                debug(count(it->begin(), it->end(), line[i]), TAB);
-                debug(count(line.begin(), line.end(), line[i]), endl);
-                if (line[i] != ' ' &&
-                    count(it->begin(), it->end(), line[i]) ==
-                    count(line.begin(), line.end(), line[i]))
-                {
-                    if (i == line.length()-1)
-                        possible = true;
-                }
-                else if (line[i] == ' ')
-                    ;
-                else
-                    break;
             }
             if (possible)
                 num_m += 1;
