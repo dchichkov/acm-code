@@ -34,7 +34,7 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 /*global variables*/
 double time_elapsed = 0, time_delta = 0;
 int spd = 0;
-bool query = false, first_time = true;
+bool query = false;
 double total = 0;
 int hr, minu, s;
 /*global variables*/
@@ -47,39 +47,34 @@ void dump()
 bool getInput()
 {
     //get input
-    if (feof(stdin)) return false;
-
-    scanf("%d:%d:%d", &hr, &minu, &s);
+    if (scanf("%d:%d:%d", &hr, &minu, &s) == EOF) return false;
     debug(hr, TAB); debug(minu, TAB); debug(s, endl);
 
-    if (!first_time)
-        time_delta = (hr*3600 + minu*60 + s) - time_elapsed;
+    if (spd == 0)
+        time_elapsed = (hr*3600) + (minu*60) + s;
     else
     {
-        time_elapsed = (hr*3600 + minu*60 + s);
-        first_time = false;
+        time_delta = (hr*3600) + (minu*60) + s - time_elapsed;
+        total += (time_delta * spd) / 3600;
+        time_elapsed += time_delta;
     }
-    total += time_delta * spd / 3600;
-    debug(time_elapsed, TAB);
+    
     if (cin.peek() == ' ')
     {
-        
         scanf("%d", &spd);
-        
         query = false;
     }
     else
         query = true;
-    debug(spd, endl);
+    
+    
     return true;
 }
 
 void process()
 {
     //process input
-    time_elapsed += time_delta;
-    
-    debug(total, endl);
+
     if (query)
     {
         //query
