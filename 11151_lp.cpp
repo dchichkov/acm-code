@@ -45,9 +45,18 @@ void dump()
 bool getInput()
 {
     //get input
-    fgets(line, 1001, stdin);
-    i = strlen(line);
-    line[--i] = 0;
+    char c;
+    c = getc(stdin);
+    if (c == '\n')
+    {
+        line[0] = 0;
+    }
+    else
+    {
+        ungetc(c, stdin);
+        scanf("%1000s", line);
+        getc(stdin);
+    }
     return true;
 }
 
@@ -68,19 +77,14 @@ int len(int l, int r)
         return 2 + len(l+1, r-1); //add two to greatest of the middle
     }
     else
-        return max(len(l, r-1), len(l+1, r)); //move left and right, return max
+        return max(len(l+1, r), len(l, r-1)); //move left and right, return max
 }
 
 void process()
 {
-    string s(line);
-    string t(s);
-    UN(s); SORT(t);
-
+    i = strlen(line);
     if (i == 0)
         printf("0");
-    else if (s == t)
-        printf("1");
     else
         printf("%d", len(0, i));
 
