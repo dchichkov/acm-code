@@ -4,6 +4,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
+#include <vector>
 
 using namespace std;
 
@@ -52,6 +53,8 @@ bool getInput()
 void process()
 {
     //process input
+    vector<char> possible;
+    bool dir = 1;
     bool has_even = false;
     if (direction == "even") has_even = true;
     REP(i, 2)
