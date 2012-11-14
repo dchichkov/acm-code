@@ -79,6 +79,25 @@ bool getInput()
     return true;
 }
 
+int gsum(int k)
+{
+    char next;
+    scanf("("); //get first starting open brace
+
+    next = getchar(stdin);
+    if (next == ')')
+        return 0;
+    else
+        k += next-'0';
+
+    if (gsum(k) == I) //left tree
+        return I;
+    else if (gsum(k) == I) //right tree
+        return I;
+
+    return 0;
+}
+
 void process()
 {
     //process input
@@ -86,6 +105,7 @@ void process()
       printf("%s\n", (b_tree.has_sum(I)) ? "yes" : "no");*/
 
     int sum = 0;
+    printf("%s\n", (gsum(sum)) ? "yes" : "no");
 }
 
 int main()
