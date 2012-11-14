@@ -82,8 +82,10 @@ bool getInput()
 void process()
 {
     //process input
-    get_tree();
-    printf("%s\n", (b_tree.has_sum(I)) ? "yes" : "no");
+    /*get_tree();
+      printf("%s\n", (b_tree.has_sum(I)) ? "yes" : "no");*/
+
+    int sum = 0;
 }
 
 int main()
