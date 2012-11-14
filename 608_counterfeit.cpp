@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <vector>
+#include <map>
 
 using namespace std;
 
@@ -36,10 +37,17 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 string coins_left;
 string coins_right;
 string direction;
+
+map<char, char> coins;
 /*global variables*/
 
 void dump()
 {
+    for (map<char, char>::iterator it = coins.begin(); it != coins.end(); it++)
+    {
+        debug(it->first, TAB); debug(it->second, endl);
+    }
+    
     //dump data
 }
 
@@ -53,17 +61,62 @@ bool getInput()
 void process()
 {
     //process input
-    vector<char> possible;
-    bool dir = 1;
-    bool has_even = false;
-    if (direction == "even") has_even = true;
-    REP(i, 2)
-    { //repeat two more times
+    char a, b, dir;
+    int i = 0;
+
+    do
+    {
+        REP(j, coins_left.length())
+        {
+            dir = (direction[0] == 'u') ? 'd' : 'u';
+            dir = (direction[0] == 'e') ? 'e' : dir;
+            if (coins.find(coins_left[j]) == coins.end())
+            {
+                coins[coins_left[j]] = dir;
+            }
+            else
+            {
+                debug(dir, endl);
+                if (coins[coins_left[j]] != dir ||
+                    direction == "even")
+                    coins[coins_left[j]] = 'e';
+            }
+            debug(coins_left[j], TAB); debug(coins[coins_left[j]], endl);
+        }
+
+        REP(j, coins_right.length())
+        {
+            if (coins.find(coins_right[j]) == coins.end())
+            {
+                coins[coins_right[j]] = direction[0];
+            }
+            else
+            {
+                if (coins[coins_right[j]] != direction[0] ||
+                    direction == "even")
+                    coins[coins_right[j]] = 'e';
+            }
+            debug(coins_right[j], TAB); debug(coins[coins_right[j]], endl);
+        }
+
+
         getInput();
-        if (direction == "even") has_even = true;
+    } while (i++ != 2);
+
+    dbg(dump());
+    
+    for (map<char, char>::iterator it = coins.begin(); it != coins.end(); it++)
+    {
+        if (it->second != 'e')
+        {
+            a = it->first;
+            b = it->second;
+            break;
+        }
     }
-    if (!has_even) exit(-1);
-    printf("%c is the counterfeit coin and it is %s\n", 'a', "awesome");
+    
+    
+    printf("%c is the counterfeit coin and it is %s.\n", a, (b == 'u') ? "light" : "heavy");
 }
 
 int main()
