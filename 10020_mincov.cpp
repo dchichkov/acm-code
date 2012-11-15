@@ -18,7 +18,7 @@ using namespace std;
 #define dbg(end)
 #endif
 
-typedef pair<int, int> point;
+typedef pair<double, double> point;
 typedef long long int64; //for clarity
 typedef vector<int> vi; //?
 typedef vector<point> vp; //?
@@ -67,8 +67,8 @@ bool getInput()
 
     do
     {
-        scanf("%d %d", &a.first, &a.second);
-        if (a.second > 0) //useless segment, coverage is from 0 to M, therefore this says covers is <= 0
+        scanf("%lf %lf", &a.first, &a.second);
+        if (a.second > 0 && a.first < M) //useless segment, coverage is from 0 to M, therefore this says covers is <= 0
             segments.push_back(a);    
     }
     while (a.first != 0 || a.second != 0);
@@ -96,16 +96,12 @@ void process()
                 debug(it->first, TAB); debug(N, endl);
                 continue; //begins in a useless place
             }
-            if (it->second - it->first > max_cov)
+            if (it->second - it->first >= max_cov)
             {
                 max_cov = it->second - it->first;
                 max_it = it;
-            }
-            else if (it->second - it->first == max_cov && max_it != segments.end() && it->second > max_it->second)
-            {
-                max_cov = it->second - it->first;
-                max_it = it;
-            }
+                debug(max_cov, endl);
+            }   
         }
         if (max_it == segments.end()) //no more coverable segments
             break;
@@ -118,13 +114,13 @@ void process()
         }
     }
 
-    if (N != M)
+    if (N < M)
         ans.clear();
     
     printf("%d\n", (int)ans.size());
     REP(i, ans.size())
     {
-        printf("%d %d\n", ans[i].first, ans[i].second);
+        printf("%.*lf %.*lf\n", ans[i].first, ans[i].second);
     }
 }
 
