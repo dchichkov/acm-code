@@ -18,7 +18,7 @@ using namespace std;
 #define dbg(end)
 #endif
 
-typedef pair<double, double> point;
+typedef pair<int, int> point;
 typedef long long int64; //for clarity
 typedef vector<int> vi; //?
 typedef vector<point> vp; //?
@@ -67,7 +67,7 @@ bool getInput()
 
     do
     {
-        scanf("%lf %lf", &a.first, &a.second);
+        scanf("%d %d", &a.first, &a.second);
         if (a.second > 0 && a.first < M) //useless segment, coverage is from 0 to M, therefore this says covers is <= 0
             segments.push_back(a);    
     }
@@ -120,7 +120,7 @@ void process()
     printf("%d\n", (int)ans.size());
     REP(i, ans.size())
     {
-        printf("%.*lf %.*lf\n", ans[i].first, ans[i].second);
+        printf("%d %d\n", ans[i].first, ans[i].second);
     }
 }
 
@@ -133,8 +133,8 @@ int main()
         getInput();
         process();
 
-        if (nc != 0)
-            printf("\n");
+        //if (nc != 0)
+        printf("\n");
         
         /*CLEAR GLOBAL VARIABLES!*/
         segments.clear();
