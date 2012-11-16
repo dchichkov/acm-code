@@ -1,3 +1,9 @@
+/*
+  Thanks McKendon + Co-worker for guidance on the answer.
+
+
+ */
+
 #include <cstdio>
 #include <iostream>
 #include <vector>
@@ -9,7 +15,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -38,17 +44,23 @@ string coins_left;
 string coins_right;
 string direction;
 
-map<char, char> coins;
+struct coin
+{
+    bool real;
+    int value;
+};
+
+map<char, coin> coins;
 /*global variables*/
 
 void dump()
 {
-    for (map<char, char>::iterator it = coins.begin(); it != coins.end(); it++)
-    {
-        debug(it->first, TAB); debug(it->second, endl);
-    }
-    
     //dump data
+        
+    for (map<char, coin>::iterator it = coins.begin(); it != coins.end(); it++)
+    {
+        debug(it->first, TAB); debug(it->second.real, TAB); debug(it->second.value, endl);
+    }
 }
 
 bool getInput()
@@ -61,62 +73,81 @@ bool getInput()
 void process()
 {
     //process input
-    char a, b, dir;
-    int i = 0;
-
+    char a;
+    int i = 0, b = -100;
+    int amt_ta = 0;
     do
     {
+        getInput();
+        debug(coins_left, TAB); debug(coins_right, TAB);debug(direction, endl);
         REP(j, coins_left.length())
         {
-            dir = (direction[0] == 'u') ? 'd' : 'u';
-            dir = (direction[0] == 'e') ? 'e' : dir;
+            amt_ta = (direction[0] == 'u') ? 1 : -1;
             if (coins.find(coins_left[j]) == coins.end())
             {
-                coins[coins_left[j]] = dir;
+                if (direction[0] == 'e')
+                {
+                    coins[coins_left[j]];
+                    coins[coins_left[j]].real = true;
+                    coins[coins_left[j]].value = 0;
+                }                    
+                else
+                {
+                    coins[coins_left[j]];
+                    coins[coins_left[j]].real = false;
+                    coins[coins_left[j]].value = amt_ta;
+                }
             }
             else
             {
-                debug(dir, endl);
-                if (coins[coins_left[j]] != dir ||
-                    direction == "even")
-                    coins[coins_left[j]] = 'e';
+                if (direction[0] == 'e')
+                    coins[coins_left[j]].real = true;
+                else if (!coins[coins_left[j]].real)
+                    coins[coins_left[j]].value += amt_ta;
             }
-            debug(coins_left[j], TAB); debug(coins[coins_left[j]], endl);
         }
 
         REP(j, coins_right.length())
         {
+            amt_ta = (direction[0] == 'u') ? -1 : 1;
             if (coins.find(coins_right[j]) == coins.end())
             {
-                coins[coins_right[j]] = direction[0];
+                if (direction[0] == 'e')
+                {
+                    coins[coins_right[j]];
+                    coins[coins_right[j]].real = true;
+                    coins[coins_right[j]].value = 0;
+                }                    
+                else
+                {
+                    coins[coins_right[j]];
+                    coins[coins_right[j]].real = false;
+                    coins[coins_right[j]].value = amt_ta;
+                }
             }
             else
             {
-                if (coins[coins_right[j]] != direction[0] ||
-                    direction == "even")
-                    coins[coins_right[j]] = 'e';
+                if (direction[0] == 'e')
+                    coins[coins_right[j]].real = true;
+                else if (!coins[coins_right[j]].real)
+                    coins[coins_right[j]].value += amt_ta;
             }
-            debug(coins_right[j], TAB); debug(coins[coins_right[j]], endl);
         }
-
-
-        getInput();
-    } while (i++ != 2);
+    } while (i++ < 2);
 
     dbg(dump());
     
-    for (map<char, char>::iterator it = coins.begin(); it != coins.end(); it++)
+    for (map<char, coin>::iterator it = coins.begin(); it != coins.end(); it++)
     {
-        if (it->second != 'e')
+        if (!it->second.real && it->second.value > b)
         {
+            b = it->second.value;
             a = it->first;
-            b = it->second;
-            break;
         }
     }
+
     
-    
-    printf("%c is the counterfeit coin and it is %s.\n", a, (b == 'u') ? "light" : "heavy");
+    printf("%c is the counterfeit coin and it is %s.\n", a, (b < 0) ? "light" : "heavy");
 }
 
 int main()
@@ -125,11 +156,10 @@ int main()
     scanf("%d\n", &nc);
     while (nc-- > 0)
     {
-        getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        coins.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
