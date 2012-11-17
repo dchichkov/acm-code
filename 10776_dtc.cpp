@@ -33,8 +33,8 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-char line[1001];
-int i;
+string l;
+int r;
 /*global variables*/
 
 void dump()
@@ -45,67 +45,29 @@ void dump()
 bool getInput()
 {
     //get input
-    char c;
-    c = getc(stdin);
-    if (c == '\n')
-    {
-        line[0] = 0;
-    }
-    else
-    {
-        ungetc(c, stdin);
-        scanf("%1000s", line);
-        getc(stdin);
-    }
+    if (cin.eof()) return false;
+    cin >> l >> r;
     return true;
-}
-
-int len(int l, int r)
-{
-    if (l == r) //odd length
-        return 1;
-    else if (l+1 == r) //even length
-    {
-        if (line[l] == line[r])
-            return 2;
-        else
-            return 1;
-    }
-
-    else if (line[l] == line[r])
-    {
-        return 2 + len(l+1, r-1); //add two to greatest of the middle
-    }
-    else
-        return max(len(l+1, r), len(l, r-1)); //move left and right, return max
 }
 
 void process()
 {
-    i = strlen(line);
-    string s(line);
-    UN(s);
-    if (i == 0)
-        printf("0");
-    else if (s.length() == i)
-        printf("1");
-    else
-        printf("%d", len(0, i));
-
-    printf("\n");
+    //process input
+    do
+    {
+        cout << l.substr(0, r) << endl;
+    } while (next_permutation(l.begin(), l.end()));
 }
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    int nc;
-    scanf("%d\n", &nc);
-    while (nc-- > 0)
+    while (getInput())
     {
-        getInput();
+
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
+
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
