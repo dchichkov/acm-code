@@ -18,11 +18,8 @@ using namespace std;
 #endif
 
 typedef pair<int, int> point;
-typedef long long int64; //for clarity
 typedef vector<int> vi; //?
 typedef vector<point> vp; //?
-template<class T> void chmin(T &t, T f) { if (t > f) t = f; } //change min
-template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 
 #define UN(v) SORT(v),v.erase(unique(v.begin(),v.end()),v.end())   
 #define SORT(c) sort((c).begin(),(c).end())   
