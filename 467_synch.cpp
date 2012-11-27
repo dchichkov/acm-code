@@ -35,6 +35,7 @@ typedef vector<point> vp; //?
 /*global variables*/
 string line;
 int times[10];
+int times_[10];
 int tc = 0;
 
 vi primes;
@@ -82,32 +83,48 @@ void process()
     //process input
     //dbg(dump());
     int ttime = 0;
-    set<int> prf;
+    bool equal = false;
+    int mini = 3600, mink = 0;
+
     REP(i, tc)
     {
-        REP(j, primes.size())
-        {
-            if (times[i] % primes[j] == 0) prf.insert(primes[j]);
-        }
+        times_[i] = times[i];
     }
-    set<int> tt;
-    REP(i, tc)
-        tt.insert(times[i]);
 
-    ttime = 1;
-    for (set<int>::iterator it = prf.begin(); it != prf.end(); ++it)
-        ttime *= *it;
-    ttime += accumulate(tt.begin(), tt.end(), 0);
-    debug(ttime, endl);
-    dbg(
-        for (set<int>::iterator it = prf.begin(); it != prf.end(); ++it)
-            debug(*it, TAB);
-        cout << endl;
-        for (set<int>::iterator it = tt.begin(); it != tt.end(); ++it)
-            debug(*it, TAB);
-        cout << endl;
-        );
+    
+    while (!equal)
+    {
+        if (times_[0] > 3600) break;
         
+        REP(i, tc)
+        {
+            if (times_[i] < mini)
+            {
+                mini = times_[i];
+                mink = i;
+            }
+        }
+        dbg(
+            REP(i, tc)
+            debug(times_[i], TAB);
+            cout << endl;
+            );
+        times_[mink] += times[mink];
+        REP(i, tc-1)
+        {
+            if (times_[i] == times_[i+1])
+                equal = true;
+            else
+            {
+                equal = false;
+                break;
+            }
+        }
+        mini = 3600;
+    }
+    
+    ttime = times_[0];
+    
     if (ttime <= 3600)
         printf("synchs again at %d minute(s) and %d second(s) after all turning green.\n", ttime/60, ttime%60);
     else
@@ -117,7 +134,7 @@ void process()
 
 int main()
 {
-    sieve();
+
 
     int count = 0;
     while (getInput())
@@ -127,6 +144,7 @@ int main()
 
         /*CLEAR GLOBAL VARIABLES!*/
         CL(times, 0);
+        CL(times_, 0);
         tc = 0;
         /*CLEAR GLOBAL VARIABLES!*/
     }
