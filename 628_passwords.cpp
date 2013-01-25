@@ -66,6 +66,8 @@ bool getInput()
 void process()
 {
     string word;
+    char c[2];
+    c[1] = 0;
     //process input
     REP(i, rules.size())
     {
@@ -86,15 +88,16 @@ void process()
                 for (int l = 0; l < word.length(); ++l)
                 {
                     if (word[l] == '#')
-                        printf("%s", words[j].c_str());
+                        fputs(words[j].c_str(), stdout);
                     else
                     {
-                        printf("%d", (k/m%p));
+                        c[0] = '0'+(k/m%p);
+                        fputs(c, stdout);
                         m /= 10;
                         p /= 10;
                     }
                 }
-                printf("\n");
+                fputs("\n", stdout);
             }
         }
     }
@@ -105,7 +108,6 @@ int main()
     while (getInput())
     {
         printf("--\n");
-
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
