@@ -1,3 +1,8 @@
+/*
+  whitespace in input files? no problem.
+
+ */
+
 #include <cstdio>
 #include <iostream>
 #include <vector>
@@ -8,7 +13,7 @@
 
 using namespace std;
 
-//#define DEBUG  //comment this line to pull out print statements
+#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -32,6 +37,12 @@ typedef vector<point> vp; //?
 /*global variables*/
 vector<string> words;
 vector<string> rules;
+int num_words;
+int num_rules;
+string x;
+char zeroes[100000000][7];
+
+int max_fact;
 /*global variables*/
 
 void dump()
@@ -41,70 +52,77 @@ void dump()
 
 bool getInput()
 {
+    scanf(" ");
     if (feof(stdin)) return false;
     //get input
-    int num_words;
+    
     scanf("%d ", &num_words);
     REP(i, num_words)
     {
-        string x;
         getline(cin, x);
         words.push_back(x);
     }
-
-    int num_rules;
+    
     scanf("%d ", &num_rules);
     REP(i, num_rules)
     {
-        string x;
         getline(cin, x);
         rules.push_back(x);
     }
     return true;
 }
 
+void fill_upto(int fact)
+{
+    int j = (int)pow(10, max_fact);
+    int k = (int)pow(10, fact);
+    //pre-generate zeroes
+    FOR(i, max_fact, fact)
+    {
+        zeroes[i][0] = '0' + (i / 1000000);
+        zeroes[i][1] = '0' + (i / 100000) % 10;
+        zeroes[i][2] = '0' + (i / 10000) % 10;
+        zeroes[i][3] = '0' + (i / 1000) % 10;
+        zeroes[i][4] = '0' + (i / 100) % 10;
+        zeroes[i][5] = '0' + (i / 10) % 10;
+        zeroes[i][6] = '0' + (i % 10);
+    }
+    max_fact = fact;
+}
+
 void process()
 {
-    string word;
-    char c[2];
-    c[1] = 0;
-    //process input
-    REP(i, rules.size())
+    int z_cnt = 0;
+    
+    REP(i, num_rules)
     {
-        int cnt_0 = count(rules[i].begin(), rules[i].end(), '0');
-        debug(cnt_0, TAB);
-        //for each rule;
-        word = rules[i];
-        REP(j, words.size())
+
+        REP(j, num_words)
         {
-            //for each word
-            //go through the rule
-            long t = pow(10, cnt_0);
-            int p , m;
-            for (int k = 0; k < t; ++k)
+            z_cnt = count(rules[i].begin(), rules[i].end(), '0');
+            int iter = (int)pow(10, z_cnt);
+            if (iter > max_fact) fill_upto(iter);
+            for (int k = 0; k < iter; ++k)
             {
-                p = pow(10, cnt_0), m = pow(10, cnt_0-1);
-                debug(word, endl);
-                for (int l = 0; l < word.length(); ++l)
+                for (int m = 0, zc = 7-z_cnt; m < rules[i].length(); ++m)
                 {
-                    if (word[l] == '#')
-                        fputs(words[j].c_str(), stdout);
+                    if (rules[i][m] == '#')
+                        printf("%s", words[j].c_str());
                     else
                     {
-                        c[0] = '0'+(k/m%p);
-                        fputs(c, stdout);
-                        m /= 10;
-                        p /= 10;
+                        printf("%c", zeroes[k][zc++]);
                     }
                 }
-                fputs("\n", stdout);
+                printf("\n");
             }
         }
     }
+    
 }
 
 int main()
-{
+{   
+    
     while (getInput())
     {
         printf("--\n");
