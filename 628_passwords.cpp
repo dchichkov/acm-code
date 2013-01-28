@@ -40,8 +40,8 @@ vector<string> rules;
 int num_words;
 int num_rules;
 string x;
-char zeroes[100000000][7];
-
+char zeroes[10000000][7];
+int maxes[8];
 int max_fact;
 /*global variables*/
 
@@ -74,8 +74,6 @@ bool getInput()
 
 void fill_upto(int fact)
 {
-    int j = (int)pow(10, max_fact);
-    int k = (int)pow(10, fact);
     //pre-generate zeroes
     FOR(i, max_fact, fact)
     {
@@ -92,28 +90,31 @@ void fill_upto(int fact)
 
 void process()
 {
-    int z_cnt = 0;
-    
+    int z_cnt;
     REP(i, num_rules)
     {
-
+        z_cnt = 0;
+        REP(p, rules[i].length())
+        {
+            if (rules[i][p] == '0')
+                z_cnt++;
+        }
+        
         REP(j, num_words)
         {
-            z_cnt = count(rules[i].begin(), rules[i].end(), '0');
-            int iter = (int)pow(10, z_cnt);
-            if (iter > max_fact) fill_upto(iter);
-            for (int k = 0; k < iter; ++k)
+            if (maxes[z_cnt-1] > max_fact) fill_upto(maxes[z_cnt-1]);
+            for (int k = 0; k < maxes[z_cnt-1]; ++k)
             {
                 for (int m = 0, zc = 7-z_cnt; m < rules[i].length(); ++m)
                 {
                     if (rules[i][m] == '#')
-                        printf("%s", words[j].c_str());
+                        fputs(words[j].c_str(), stdout);
                     else
                     {
-                        printf("%c", zeroes[k][zc++]);
+                        putchar(zeroes[k][zc++]);
                     }
                 }
-                printf("\n");
+                fputs("\n", stdout);
             }
         }
     }
@@ -121,11 +122,18 @@ void process()
 }
 
 int main()
-{   
-    
+{
+    maxes[0] = 10;
+    maxes[1] = 100;
+    maxes[2] = 1000;
+    maxes[3] = 10000;
+    maxes[4] = 100000;
+    maxes[5] = 1000000;
+    maxes[6] = 10000000;
+    max_fact = 0;
     while (getInput())
     {
-        printf("--\n");
+        fputs("--\n", stdout);
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
