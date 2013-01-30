@@ -4,10 +4,11 @@
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
+#include <algorithm>
 
 using namespace std;
 
-//#define DEBUG  //comment this line to pull out print statements
+#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -29,7 +30,9 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-string line;
+char board[4][4];
+int max_rooks;
+int num;
 /*global variables*/
 
 void dump()
@@ -39,29 +42,57 @@ void dump()
 
 bool getInput()
 {
-    //get input
-    if (feof(stdin)) return false;
-    getline(cin, line);
+    scanf("%d ", &num);
+    if (num == 0) return false;
+    //get board
+    REP(i, num)
+    {
+        REP(j, num)
+        {
+            scanf("%c ", &board[i][j]);
+        }
+    }
+    
     return true;
+}
+
+int check_pos(char board[4][4])
+{
+    int rooks = 0;
+    REP(i, num)
+    {
+        REP(j, num)
+        {
+            if (board[i][j] == 'X' ||
+                board[i][j] == 'B' ||
+                board[i][j] == 'R')
+                continue;
+            else
+            {
+                board[i][j] = 'R';
+                int x, y;
+            }
+            rooks += check_pos(board);
+        }
+    }
+    return rooks;
 }
 
 void process()
 {
     //process input
-    debug(line, TAB); debug(line.length(), endl);
-    cout << line;
-    if (!feof(stdin)) printf("\n");
+    max_rooks = check_pos(board);
 }
 
 int main()
 {
     while (getInput())
     {
-
+        CL2d(board, 0, 4, 4);
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        max_rooks = 0;
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
