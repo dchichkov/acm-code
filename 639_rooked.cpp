@@ -30,7 +30,7 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-char board[4][4];
+char b[4][4];
 int max_rooks;
 int num;
 /*global variables*/
@@ -38,6 +38,28 @@ int num;
 void dump()
 {
     //dump data
+    REP(i, num)
+    {
+        REP(j, num)
+        {
+            printf("%c", b[i][j]);
+        }
+        printf("\n");
+    }     
+}
+
+void dump(char** board)
+{
+    //dump data
+    REP(i, num)
+    {
+        REP(j, num)
+        {
+            printf("%c", board[i][j]);
+        }
+        printf("\n");
+    }
+        
 }
 
 bool getInput()
@@ -49,51 +71,162 @@ bool getInput()
     {
         REP(j, num)
         {
-            scanf("%c ", &board[i][j]);
+            scanf("%c ", &b[i][j]);
         }
     }
-    
+
     return true;
 }
 
-int check_pos(char board[4][4])
+void fill_xy(char** board, int i, int j, char aff)
 {
-    int rooks = 0;
+    int x1 = i, x2 = i;
+    int y1 = j, y2 = j;
+    while (--x1 >= 0)
+    {
+        //left
+        if (board[x1][j] == 'X')
+            break;
+        if (board[x1][j] == '.')
+            board[x1][j] = aff;
+    }
+    while (++x2 < num)
+    {
+        //right
+        if (board[x2][j] == 'X')
+            break;
+        if (board[x2][j] == '.')
+            board[x2][j] = aff;
+    }
+    while (--y1 >= 0)
+    {
+        //up
+        if (board[i][y1] == 'X')
+            break;
+        if (board[i][y1] == '.')
+            board[i][y1] = aff;
+    }
+    while (++y2 < num)
+    {
+        //down
+        if (board[i][y2] == 'X')
+            break;
+        if (board[i][y2] == '.')
+            board[i][y2] = aff;
+    }
+}
+
+void clear_xy(char** board, int i, int j, char aff)
+{
+    int x1 = i, x2 = i;
+    int y1 = j, y2 = j;
+    while (--x1 >= 0)
+    {
+        //left
+        if (board[x1][j] == 'X')
+            break;
+        if (board[x1][j] == aff)
+            board[x1][j] = '.';
+    }
+    while (++x2 < num)
+    {
+        //right
+        if (board[x2][j] == 'X')
+            break;
+        if (board[x2][j] == aff)
+            board[x2][j] = '.';
+    }
+    while (--y1 >= 0)
+    {
+        //up
+        if (board[i][y1] == 'X')
+            break;
+        if (board[i][y1] == aff)
+            board[i][y1] = '.';
+    }
+    while (++y2 < num)
+    {
+        //down
+        if (board[i][y2] == 'X')
+            break;
+        if (board[i][y2] == aff)
+            board[i][y2] = '.';
+    }
+}
+
+void process(char** b1, int rc)
+{
+    char** board;
+    board = new char*[num];
+    REP(m, num)
+    {
+        board[m] = new char[num];
+    }
     REP(i, num)
     {
         REP(j, num)
         {
-            if (board[i][j] == 'X' ||
-                board[i][j] == 'B' ||
-                board[i][j] == 'R')
-                continue;
-            else
-            {
-                board[i][j] = 'R';
-                int x, y;
-            }
-            rooks += check_pos(board);
+            board[i][j] = b1[i][j];
         }
     }
-    return rooks;
-}
-
-void process()
-{
     //process input
-    max_rooks = check_pos(board);
+    REP(i, num)
+    {
+        REP(j, num)
+        {
+            if (board[i][j] == '.')
+            {
+                //valid spot
+                board[i][j] = 'R';
+                fill_xy(board, i, j, 'B'+rc);
+                rc++;
+                max_rooks = max(max_rooks, rc);
+                process(board, rc);
+                //undo rook mods for next iter;
+                board[i][j] = '.';
+                rc--;
+                clear_xy(board, i, j, 'B'+rc);
+            }
+        }
+    }
+
+    REP(m, num)
+    {
+        delete[] board[m];
+    }
+    delete[] board;
 }
 
 int main()
 {
+
     while (getInput())
     {
-        CL2d(board, 0, 4, 4);
-        process();
+        char** board;
+        board = new char*[num];
+        REP(m, num)
+        {
+            board[m] = new char[num];
+        }
+        REP(i, num)
+        {
+            REP(j, num)
+            {
+                board[i][j] = b[i][j];
+            }
+        }
 
+        process(board, 0);
+        printf("%d\n", max_rooks);
         /*CLEAR GLOBAL VARIABLES!*/
         max_rooks = 0;
+        
         /*CLEAR GLOBAL VARIABLES!*/
+        REP(m, num)
+        {
+            delete[] board[m];
+        }
+        delete[] board;
     }
 
     return 0;
