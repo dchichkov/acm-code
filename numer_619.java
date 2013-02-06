@@ -1,3 +1,12 @@
+/* Class:   CSC 2700 Programming Competitions
+ * Prof:    Isaac Traxler
+ * Name:    Matthew Gavin
+ * Problem: 619 - Numerically Speaking
+ *
+ * Note: Even though this code was AC, it's functionally wrong because 'a' starts at 0x61, not 0x60
+ *        which is a problem when going from a number to the word.
+ */ 
+
 import java.util.*;
 import java.math.*;
 import java.text.*;

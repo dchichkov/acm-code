@@ -1,10 +1,11 @@
 /* Class:   CSC 2700 Programming Competitions
  * Prof:    Isaac Traxler
  * Name:    Matthew Gavin
- * Problem: 641 - Do The Untwist
+ * Problem: 640 - Self Numbers
  *
- * Note: I spent so long thinking about this problem... and then Isaac went through the sample
- *       input in class and everything made sense to me then. But Isaac had no clue still :\
+ * Note: Finally. Output all numbers less than or equal to 1000000 that are self numbers.
+ *       Mitchell's single loop inspired me when I tried to do a sieve double loop and
+ *       it took way too long.
  */ 
 
 #include <cstdio>
@@ -16,7 +17,7 @@
 
 using namespace std;
 
-//#define DEBUG  //comment this line to pull out print statements
+#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -38,10 +39,7 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-char lv[] = {'_', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-             'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '.'};
-int key;
-string cipherText;
+bool numbers[1000001];
 /*global variables*/
 
 void dump()
@@ -49,39 +47,41 @@ void dump()
     //dump data
 }
 
+int d(int num)
+{
+    int r = num;
+    do r += (num%10); while ((num /= 10) != 0);
+    return r;
+}
+
 bool getInput()
 {
     //get input
-    scanf("%d ", &key);
-    if (key == 0) return false;
-    cin >> cipherText;
     return true;
 }
 
 void process()
 {
     //process input
-    string plainText(cipherText);
-    int val = 0;
+    //sieve
 
-    debug(cipherText, TAB); debug(plainText.length(), endl);
-    REP(i, cipherText.length())
+
+    for (int i = 1, j = d(i); i < 1000001; i++, j = d(i))
     {
-        if (cipherText[i] == '_')
-            val = 0;
-        else if (cipherText[i] == '.')
-            val = 27;
-        else val = cipherText[i] - 0x60;
-
-        plainText[(i*key)%cipherText.length()] = lv[(val+i)%28];
+        if (j < 1000001)
+            numbers[j] = 0;
     }
 
-    cout << plainText << endl;
+    FOR(i, 1, 1000001)
+    {
+        if (numbers[i]) cout << i << endl;
+    }
 }
 
 int main()
 {
-    while (getInput())
+    CL(numbers, 1); //set all to true
+    //while (getInput())
     {
 
         process();

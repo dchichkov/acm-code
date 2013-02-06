@@ -1,3 +1,14 @@
+/* Class:   CSC 2700 Programming Competitions
+ * Prof:    Isaac Traxler
+ * Name:    Matthew Gavin
+ * Problem: 639 - Don't Get Rooked
+ *
+ * Note: Saving partial states between boards was pretty interesting!, also floodfilling
+ *       The x and y was tedious because because I tried to use one character for it :\,
+ *       so undoing the fill was interesting. I just don't know why memcpy didn't work
+ *       in place of creating the new boards in memory :\... oh well.
+ */ 
+
 #include <cstdio>
 #include <iostream>
 #include <vector>

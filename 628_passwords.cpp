@@ -1,7 +1,10 @@
-/*
-  whitespace in input files? no problem.
-
- */
+/* Class:   CSC 2700 Programming Competitions
+ * Prof:    Isaac Traxler
+ * Name:    Matthew Gavin
+ * Problem: 628 - Passwords
+ *
+ * Note: You don't need a lot of nasty loops. Just a character array with all your numbers!
+ */ 
 
 #include <cstdio>
 #include <iostream>

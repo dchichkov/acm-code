@@ -1,3 +1,14 @@
+/* Class:   CSC 2700 Programming Competitions
+ * Prof:    Isaac Traxler
+ * Name:    Matthew Gavin
+ * Problem: 642 - Word Amalgamation
+ *
+ * Note: Not that difficult with the algorithm discussed in class :)
+ *       Although hashing would've been a good programming exercise
+ * 
+ */ 
+
+
 #include <cstdio>
 #include <iostream>
 #include <vector>

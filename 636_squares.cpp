@@ -1,12 +1,3 @@
-/* Class:   CSC 2700 Programming Competitions
- * Prof:    Isaac Traxler
- * Name:    Matthew Gavin
- * Problem: 641 - Do The Untwist
- *
- * Note: I spent so long thinking about this problem... and then Isaac went through the sample
- *       input in class and everything made sense to me then. But Isaac had no clue still :\
- */ 
-
 #include <cstdio>
 #include <iostream>
 #include <vector>
@@ -38,10 +29,8 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-char lv[] = {'_', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-             'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '.'};
-int key;
-string cipherText;
+char num[10];
+long long int numb;
 /*global variables*/
 
 void dump()
@@ -51,32 +40,37 @@ void dump()
 
 bool getInput()
 {
+    numb = 0;
     //get input
-    scanf("%d ", &key);
-    if (key == 0) return false;
-    cin >> cipherText;
+    fgets(num, 10, stdin);
+    num[strlen(num)-1] = 0;
+    sscanf(num, "%lld", &numb);
+    debug(numb, endl);
+    
+    if (numb == 0) return false;
     return true;
 }
 
 void process()
 {
     //process input
-    string plainText(cipherText);
-    int val = 0;
-
-    debug(cipherText, TAB); debug(plainText.length(), endl);
-    REP(i, cipherText.length())
+    double rt;
+    int highest = 0;
+    REP(i, strlen(num))
+        highest = max(highest, num[0]-0x30);
+    debug(highest, endl);
+    FOR(i, highest+1, 100)
     {
-        if (cipherText[i] == '_')
-            val = 0;
-        else if (cipherText[i] == '.')
-            val = 27;
-        else val = cipherText[i] - 0x60;
-
-        plainText[(i*key)%cipherText.length()] = lv[(val+i)%28];
+        numb = strtoll(num, NULL, i);
+        rt = sqrt(numb);
+        //debug(rt, endl);
+        if ((long long)ceil(rt) == (long long)floor(rt))
+        {
+            cout << i << endl;
+            break;
+        }
     }
-
-    cout << plainText << endl;
+    
 }
 
 int main()
