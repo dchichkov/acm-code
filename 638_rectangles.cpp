@@ -46,8 +46,8 @@ struct point {
 };
 
 int num_pt;
-vector<point> pts;
-vector<string> rects;
+point pts[26];
+char rects[500][5];
 /*global variables*/
 
 void dump()
@@ -61,12 +61,11 @@ bool getInput()
     scanf("%d ", &num_pt);
     if (num_pt == 0) return false;
     //debug(num_pt, endl);
-    point p;
+
     REP(i, num_pt)
     {
-        scanf("%c %d %d ", &p.ltr, &p.x, &p.y);
+        scanf("%c %d %d ", &pts[i].ltr, &pts[i].x, &pts[i].y);
         //debug(p.ltr, TAB); debug(p.x, TAB); debug(p.y, endl);
-        pts.push_back(p);
     }
     
     return true;
@@ -75,67 +74,64 @@ bool getInput()
 void process()
 {
     //process input
-    string r;
-    REP(i, pts.size())
+    int cnt = 0;
+    REP(i, num_pt)
     {
-        r += pts[i].ltr;
-        FOR(j, 0, pts.size())
+
+        FOR(j, 0, num_pt)
         {
-            //if (j == i) continue;
+            if (j == i) continue;
             //right
             if (pts[j].x > pts[i].x && pts[j].y == pts[i].y)
             {
                 //found right
-                r += pts[j].ltr;
                 debug(r, endl);
-                FOR(k, 0, pts.size())
+                FOR(k, 0, num_pt)
                 {
-                    //if (k == i || k == j) continue;
+                    if (k == i || k == j) continue;
                     //go down
                     if (pts[k].y < pts[j].y && pts[k].x == pts[j].x)
                     {
                         //found down
-                        r += pts[k].ltr;
                         debug(r, endl);
-                        FOR(l, 0, pts.size())
+                        FOR(l, 0, num_pt)
                         {
-                            //if (l == i || l == j || l == k) continue;
+                            if (l == i || l == j || l == k) continue;
                             //go left
                             if ((pts[l].x < pts[k].x && pts[l].y == pts[k].y) &&
                                 (pts[l].x == pts[i].x && pts[i].y > pts[l].y))
                             {
                                 debug(r, endl);
                                 //found left and compared with the starting point
-                                r += pts[l].ltr;
-                                rects.push_back(r);
-                                r.erase(3, 1); //take out the ltr for the next iter
+                                rects[cnt][0] = pts[i].ltr;
+                                rects[cnt][1] = pts[j].ltr;
+                                rects[cnt][2] = pts[k].ltr;
+                                rects[cnt][3] = pts[l].ltr;
+                                rects[cnt][4] = 0;
+                                cnt++;
                             }
                         }
-                        r.erase(2, 1); //take out the ltr for the next iter
                     }
                 }
-                r.erase(1, 1); //take out the ltr for the next iter
             }
         }
-        r.clear(); //clear the str for the next iter
     }
 
-    
-    
-    SORT(rects);
-    if (rects.size() == 0)
-        printf(" No rectangles");
+    //sort(rects, rects+cnt);
+    if (cnt == 0)
+        fputs(" No rectangles", stdout);
     else
     {
-        printf("\n");
-        REP(i, (int)rects.size())
+        puts("");
+        REP(i, cnt)
         {
             if (i % 10 == 0 && i != 0)
-                printf("\n");
-            cout << " " << rects[i];
+                puts("");
+            fputs(" ", stdout);
+            fputs(rects[i], stdout);
         }
     }
-    printf("\n");
+    puts("");
 }
 
 int main()
@@ -147,8 +143,8 @@ int main()
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        rects.clear();
-        pts.clear();
+        CL2d(rects, 0, 500, 5);
+        CL(pts, 0);
         /*CLEAR GLOBAL VARIABLES!*/
     }
 

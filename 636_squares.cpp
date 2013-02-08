@@ -58,8 +58,9 @@ void unbase(ull& n, ull numbe, int base)
     int exp = 0;
     while (numbe != 0)
     {
-        debug(numbe, TAB); debug(n, TAB); debug(exp, endl);
-        n += (int)pow(base, exp++) * (numbe%10);
+        //debug(numbe, TAB); debug(n, TAB); debug(exp, endl);
+        //debug((long long)(pow(base, exp)), TAB); debug(numbe%10, endl);
+        n += (long long)pow(base, exp++) * (numbe%10);
         numbe /= 10;
     }
 
@@ -78,12 +79,16 @@ void process()
     FOR(i, highest+1, 100)
     {
         unbase(n, numb, i); //numb = strtoll(num, NULL, i);
-        rt = sqrt(n);
+        rt = sqrt((long double)n);
         debug(i, TAB);
-        debug(n, TAB);
-        debug(numb, TAB);
+        debug((long double)n, TAB);
+        debug(numb, TAB);        
         debug(rt, endl);
-        if (rt*rt == n)
+        debug((long long)ceil(rt), TAB);
+        debug((long long)floor(rt), TAB);
+        debug(rt*rt, TAB);
+        debug(((long long)rt*rt == n), endl);
+        if ((long long)ceil(rt) == (long long)floor(rt))
         {
             cout << i << endl;
             break;
