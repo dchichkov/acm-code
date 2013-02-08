@@ -1,9 +1,20 @@
+/* Class:   CSC 2700 Programming Competitions
+ * Prof:    Isaac Traxler
+ * Name:    Matthew Gavin
+ * Problem: 636 - Squares (III)
+ *
+ * Note: Spent a lot of time debugging the wrong thing... once I found the error of getting the "highest"
+ *       I finally got it AC :\
+ */ 
+
+
 #include <cstdio>
 #include <iostream>
 #include <vector>
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
+#include <algorithm>
 
 using namespace std;
 
@@ -44,11 +55,9 @@ bool getInput()
 {
     //get input
     fgets(num, 15, stdin);
-    
     sscanf(num, "%llu", &numb);
     debug(numb, endl);
-    if (numb == 0) return false;
-    else
+    if (num[0] == '0' && (strlen(num) == 2 || strlen(num) == 1) ) return false;
     return true;
 }
 
@@ -72,8 +81,12 @@ void process()
     long double rt;
     ull n = 0;
     int highest = 0;
+    debug(num, TAB); debug(strlen(num), endl);
     REP(i, strlen(num))
-        highest = max(highest, num[0]-0x30);
+    {
+        highest = max(highest, num[i]-0x30);
+        debug(num[i]-0x30, endl);
+    }
     
     debug(highest, endl);
     FOR(i, highest+1, 100)
