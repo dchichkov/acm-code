@@ -76,7 +76,7 @@ void process()
     debug(highest, endl);
     FOR(i, highest+1, 100)
     {
-        unbase(n, numb, i);
+        unbase(n, numb, i); //numb = strtoll(num, NULL, i);
         rt = sqrt(n);
         debug(i, TAB);
         debug(n, TAB);
