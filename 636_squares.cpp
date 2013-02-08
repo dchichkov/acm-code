@@ -31,7 +31,7 @@ typedef vector<point> vp; //?
 /*global variables*/
 typedef unsigned long long ull;
 
-char num[10];
+char num[15];
 ull numb;
 /*global variables*/
 
@@ -43,21 +43,22 @@ void dump()
 bool getInput()
 {
     //get input
-    fgets(num, 10, stdin);
-    num[strlen(num)-1] = 0;
+    fgets(num, 15, stdin);
     
     sscanf(num, "%llu", &numb);
     debug(numb, endl);
     if (numb == 0) return false;
+    else
     return true;
 }
 
-void unbase(ull& n, int numbe, int base)
+void unbase(ull& n, ull numbe, int base)
 {
     n = 0;
     int exp = 0;
     while (numbe != 0)
     {
+        debug(numbe, TAB); debug(n, TAB); debug(exp, endl);
         n += (int)pow(base, exp++) * (numbe%10);
         numbe /= 10;
     }
@@ -68,7 +69,7 @@ void process()
 {
     //process input
     long double rt;
-    ull n;
+    ull n = 0;
     int highest = 0;
     REP(i, strlen(num))
         highest = max(highest, num[0]-0x30);
