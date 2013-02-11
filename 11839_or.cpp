@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -31,7 +31,7 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-map<int, char> vals;
+
 int num_in;
 /*global variables*/
 
@@ -43,7 +43,7 @@ void dump()
 bool getInput()
 {
     //get input
-    scanf("%d", &num_in);
+    scanf("%d ", &num_in);
     if (num_in == 0) return false;
     return true;
 }
@@ -52,59 +52,41 @@ void process()
 {
 
     int n[5];
-    int c = 0, low = 256, high = 0, d = 0, x = 0, y = 0;
+    int c, x;
     //process input
     REP(i, num_in)
     {
-        c = d = x = y = 0;
+        c = x = 0;
         REP(j, 5)
         {
-            scanf("%d", &n[j]);
+            scanf("%d ", &n[j]);
             if (n[j] <= 127)
+            {
+                x = j;
                 c++;
-            if (n[j] > 128)
-                d++;
-        }
-        if (c > 1 && d > 1)
-            printf("*");
-        else if (c == 1)
-        {
-            REP(j, 5)
-            {
-                if (n[j] < low)
-                {
-                    low = n[j];
-                    x = j;
-                }
             }
+        }
+        if (c == 1)
             printf("%c", 'A'+x);
-        }
-        else if (d == 1)
-        {
-            REP(j, 5)
-            {
-                if (n[j] > high)
-                {
-                    high = n[j];
-                    y = j;
-                }
-            }
-            printf("%c", 'A'+y);
-        }
+        else
+            printf("*");
+        
         debug(c, TAB); debug(d, TAB); debug(x, TAB); debug(y, endl);
+        
         printf("\n");
     }
 }
 
 int main()
 {
+    
     while (getInput())
     {
 
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        vals.clear();
+
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
