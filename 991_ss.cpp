@@ -7,7 +7,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -29,7 +29,7 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int ppl[11];
+int ppl[20];
 int num;
 /*global variables*/
 
@@ -54,16 +54,17 @@ long long fact(long long x)
 void process()
 {
     //process input
-    printf("%d", ppl[num]);
+    printf("%d", (int)ppl[num]);
 }
 
 int main()
 {
     CL(ppl, 0);
     ppl[0] = 1;
-    FOR(i, 1, 10)
+    FOR(i, 0, 19)
     {
-        ppl[i+1] = (((2*i+2)*(2*i+1)) / ((i+2)*(i+1))) * ppl[i];
+        ppl[i+1] = ((2*(2*(i)+1) * ppl[i]) / ((i)+2));
+        debug(ppl[i], endl);
     }
     
     while (getInput())
@@ -71,6 +72,7 @@ int main()
 
         process();
         /*CLEAR GLOBAL VARIABLES!*/
+        puts("");
         if (!feof(stdin)) puts("");
         /*CLEAR GLOBAL VARIABLES!*/
     }
