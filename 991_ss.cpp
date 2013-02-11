@@ -29,7 +29,7 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int ppl[22];
+int ppl[11];
 int num;
 /*global variables*/
 
@@ -42,32 +42,36 @@ bool getInput()
 {
     //get input
     if (feof(stdin)) return false;
-    scanf("%d", &num);
+    scanf("%d ", &num);
     return true;
+}
+
+long long fact(long long x)
+{
+    return x == 1 ? x : x * fact(x-1);
 }
 
 void process()
 {
     //process input
-    printf("%d", ppl[num*2+1]);
+    printf("%d", ppl[num]);
 }
 
 int main()
 {
     CL(ppl, 0);
     ppl[0] = 1;
-    ppl[1] = 1;
-    FOR(i, 2, 22)
+    FOR(i, 1, 11)
     {
-        ppl[i] = ((4*i-6) * ppl[i-1]) / i;
+        ppl[i] = fact(2*i) / (fact(i+1) * fact(i));
     }
+    
     while (getInput())
     {
 
         process();
-        if (!feof(stdin)) printf("\n");
         /*CLEAR GLOBAL VARIABLES!*/
-
+        if (!feof(stdin)) puts("");
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
