@@ -61,9 +61,9 @@ int main()
 {
     CL(ppl, 0);
     ppl[0] = 1;
-    FOR(i, 1, 11)
+    FOR(i, 1, 10)
     {
-        ppl[i] = fact(2*i) / (fact(i+1) * fact(i));
+        ppl[i+1] = (((2*i+2)*(2*i+1)) / ((i+2)*(i+1))) * ppl[i];
     }
     
     while (getInput())
