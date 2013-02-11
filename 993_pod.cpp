@@ -30,7 +30,8 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-
+int num;
+vector<int> factors;
 /*global variables*/
 
 void dump()
@@ -41,23 +42,51 @@ void dump()
 bool getInput()
 {
     //get input
+    scanf("%d ", &num);
     return true;
 }
 
 void process()
 {
     //process input
+
+    if (num < 10)
+    {
+        printf("%d\n", num);
+        return;
+    }
+    for (int i = 9; i >= 2; --i)
+    {
+        while (num%i == 0)
+        {
+            factors.push_back(i);
+            num /= i;
+        }
+    }
+    if (num == 1)
+    {
+        SORT(factors);
+        REP(i, factors.size())
+        {
+            printf("%d", factors[i]);
+        }
+    }
+    else printf("-1");
+
+    printf("\n");
 }
 
 int main()
 {
-    while (getInput())
+    int nc;
+    scanf("%d ", &nc);
+    while (nc-- > 0)
     {
-
+        getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        factors.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 

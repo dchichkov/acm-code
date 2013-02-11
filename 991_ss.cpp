@@ -4,7 +4,6 @@
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
-#include <algorithm>
 
 using namespace std;
 
@@ -30,7 +29,8 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-
+int ppl[22];
+int num;
 /*global variables*/
 
 void dump()
@@ -41,21 +41,31 @@ void dump()
 bool getInput()
 {
     //get input
+    if (feof(stdin)) return false;
+    scanf("%d", &num);
     return true;
 }
 
 void process()
 {
     //process input
+    printf("%d", ppl[num*2+1]);
 }
 
 int main()
 {
+    CL(ppl, 0);
+    ppl[0] = 1;
+    ppl[1] = 1;
+    FOR(i, 2, 22)
+    {
+        ppl[i] = ((4*i-6) * ppl[i-1]) / i;
+    }
     while (getInput())
     {
 
         process();
-
+        if (!feof(stdin)) printf("\n");
         /*CLEAR GLOBAL VARIABLES!*/
 
         /*CLEAR GLOBAL VARIABLES!*/
