@@ -38,6 +38,7 @@ void dump()
     //dump data
     REP(i, sides.size())
     {
+        debug(i, TAB);
         debug(sides[i], TAB);
     }
     dbg(cout << endl);
@@ -47,39 +48,30 @@ bool getInput()
 {
     //get input
     sides.resize(4);
-    scanf("%d %d %d %d", &sides[0], &sides[1], &sides[2], &sides[3]);
-    dbg(dump());
+    scanf("%d ", &sides[0]);
+    scanf("%d ", &sides[1]);
+    scanf("%d ", &sides[2]);
+    scanf("%d ", &sides[3]);
+
     return true;
 }
 
 void process()
 {
     //process input
-    int a = 0, b = 0, c = 0, d = 0;
+    
     SORT(sides);
-    a = count(sides.begin(), sides.end(), sides[0]);
-    b = count(sides.begin(), sides.end(), sides[1]);
-    c = count(sides.begin(), sides.end(), sides[2]);
-    d = count(sides.begin(), sides.end(), sides[3]);
-
-    
-    if (a % 2 == 0 && b % 2 == 0 && c %2 == 0 && d % 2 == 0 && d != 4)
-        d = 2;
-    
-    switch (d)
-    {
-    case 4:
+    dbg(dump());
+    if (sides[0] == sides[1] && sides[1] == sides[2] && sides[2] == sides[3])
         printf("square");
-        break;
-    case 2:
+    else if (count(sides.begin(), sides.end(), sides[0]) == 2 &&
+             count(sides.begin(), sides.end(), sides[2]) == 2)
         printf("rectangle");
-        break;
-    default:
-        if ((sides[0] + sides[1]) > sides[3])
-            printf("quadrangle");
-        else printf("banana");
-        break;
-    }
+    else if (sides[0] + sides[1] + sides[2] > sides[3])
+        printf("quadrangle");
+    else
+        printf("banana");
+    
     printf("\n");
 }
 
@@ -93,7 +85,7 @@ int main()
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        sides.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
