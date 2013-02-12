@@ -7,10 +7,11 @@
 #include <vector>
 #include <algorithm>
 #include <cctype>
+#include <set>
 
 using namespace std;
 
-#define DEBUG
+//#define DEBUG
 //#undef DEBUG //uncomment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
@@ -54,7 +55,14 @@ struct compare
     }
 };
 
-
+struct comp
+{
+    bool operator() (const char& a, const char& b)
+    {
+        debug(a, TAB); debug(b, TAB); debug((isupper(a) ? a < b : b > a), endl);
+        return (isupper(a) ? a < b : b > a);
+    }
+};
 string word;
 /*global variables*/
 
@@ -74,16 +82,30 @@ bool getInput()
 void process()
 {
     //process input
-    vector<string> words;
-    SORT(word);
+    set<string, compare> words;
+    //SORT(word);
     do
     {
-        words.push_back(word);
-    } while (next_permutation(word.begin(), word.end()));
+        words.insert(word);
+        debug(word, endl);
+    }
+    while (next_permutation(word.begin(), word.end(), comp()));
 
-    sort(words.begin(), words.end(), compare());
-    for (vector<string>::iterator it = words.begin(); it != words.end(); ++it)
+    //quick hack.
+    do
+    {
+        words.insert(word);
+        debug(word, endl);
+    }
+    while (next_permutation(word.begin(), word.end()));
+    
+
+    //sort(words.begin(), words.end(), compare());
+    //SORT(words);
+    for (set<string>::iterator it = words.begin(); it != words.end(); ++it)
         printf("%s\n", it->c_str());
+
+    debug(words.size(), endl);
 }
 
 int main()
