@@ -30,7 +30,7 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-const int sqmaxint = 46341;
+const int sqmaxint = 50000;
 unsigned int a, b;
 vector<unsigned int> primes;
 bool seive[sqmaxint];
@@ -69,22 +69,30 @@ void process()
     vector<unsigned int> du, dv;
     factor(a, du);
 
-    if (du.size() == 0) //prime
+    if (a == 0) test = false;
+    else if (((b == 0 || b == 1) && a == 1) || (a != 0 && b != 0 && a == b) || (a == 1) || (a < b)) test = true;
+    else if (du.size() == 0) //prime
         test = false;
-    else if (((b == 0 || b == 1) && a == 1) || a == b) test = true;
     else
     {
         for (int i = 2; (i <= b) && !test; ++i)
         {
             factor(i, dv);
-            if (dv.size() == 0) break;
-            REP(j, dv.size())
+            for (vector<unsigned int>::iterator jt = du.begin(); jt != du.end() && dv.size() != 0;)
             {
-                vector<unsigned int>::iterator it = find(du.begin(), du.end(), dv[j]);
-                if (it != du.end())
-                    du.erase(it);
+                vector<unsigned int>::iterator it = find(dv.begin(), dv.end(), *jt);
+                if (it == dv.end())
+                {
+                    jt++;
+                }
+                else
+                {
+                    dv.erase(it);
+                    du.erase(jt);
+                }
             }
-            if (du.size() == 0) test = true;
+            if (du.size() == 0)
+                test = true;
         }
     }
     if (test)
