@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <set>
 
 using namespace std;
 
@@ -31,7 +32,7 @@ typedef vector<point> vp; //?
 
 /*global variables*/
 string word;
-set<string> words;
+vector<vi> words;
 /*global variables*/
 
 void dump()
@@ -45,28 +46,49 @@ bool getInput()
     cin >> word;
     return true;
 }
-/*
-string permute(string s)
+void to_int(vector<int>& wordx)
 {
-    if (s.length() == 1)
-        return s;
-    else
+    REP(i, word.length())
     {
-
+        wordx.push_back((int)word[i]);
     }
+}
 
-}*/
+string to_str(const vector<int> wordx)
+{
+    string s;
+    REP(i, wordx.size())
+    {
+        s += (char)wordx[i];
+    }
+    return s;
+}
 
+    
 void process()
 {
     //process input
+    vector<int> sigh;
+    to_int(sigh);
+    do
+    {
+        words.push_back(sigh);
+    } while (next_permutation(sigh.begin(), sigh.end()));
+
+    REP(i, words.size())
+    {
+        cout << to_str(words[i]) << endl;
+    }
+    
 }
 
 int main()
 {
-    while (getInput())
+    int nc = 0;
+    scanf("%d ", &nc);
+    while (nc-- > 0)
     {
-
+        getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
