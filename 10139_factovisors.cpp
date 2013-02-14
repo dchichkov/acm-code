@@ -30,10 +30,13 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-const int sqmaxint = 50000;
+const unsigned int sqmaxint = 50000;
 unsigned int a, b;
 vector<unsigned int> primes;
 bool seive[sqmaxint];
+int du[sqmaxint];
+int dv[sqmaxint];
+int tot;
 /*global variables*/
 
 void dump()
@@ -49,50 +52,53 @@ bool getInput()
     return true;
 }
 
-void factor(unsigned int n, vector<unsigned int>& d)
+int factor(unsigned int n, int* arr, unsigned int* lp)
 {
-    d.clear();
-    for (int j = 0; (primes[j] <= n) && (j < primes.size()); ++j)
+    int i, j;
+    int tot2 = 0;
+    for (i = 0, j = 0; (primes[j] <= n) && (j < primes.size()); ++j)
     {
         while (n%primes[j] == 0)
         {
-            d.push_back(primes[j]);
+            arr[primes[j]]++;
             n /= primes[j];
+            i = j;
+            tot2++;
         }
     }
+    tot = max(tot, tot2);
+    if (lp != NULL) *lp = n;
+    return primes[i];
 }
 
 void process()
 {
     bool test = false;
-
-    vector<unsigned int> du, dv;
-    factor(a, du);
-
+    unsigned int lp = 0;
+    unsigned int mm = min(b, primes.back());
+    int maxm = factor(a, du, &lp), maxn;
     if (a == 0) test = false;
     else if (((b == 0 || b == 1) && a == 1) || (a != 0 && b != 0 && a == b) || (a == 1) || (a < b)) test = true;
-    else if (du.size() == 0) //prime
+    else if (find(primes.begin(), primes.end(), a) != primes.end()) //prime
         test = false;
+    else if (lp > b) test = false;
     else
     {
-        for (int i = 2; (i <= b) && !test; ++i)
+        //debug(maxm, endl);
+        for (int i = 2; (i < mm) && !test; ++i)
         {
-            factor(i, dv);
-            for (vector<unsigned int>::iterator jt = du.begin(); jt != du.end() && dv.size() != 0;)
+            test = true;
+            factor(i, dv, NULL);
+            //debug(maxm, endl);
+            FOR(k, 2, maxm+1)
             {
-                vector<unsigned int>::iterator it = find(dv.begin(), dv.end(), *jt);
-                if (it == dv.end())
-                {
-                    jt++;
-                }
-                else
-                {
-                    dv.erase(it);
-                    du.erase(jt);
-                }
+                if (du[k] == 0) continue;
+                du[k] -= dv[k];
+                //debug(maxm, TAB); debug(k, TAB); debug(du[k], TAB); debug(dv[k], endl);
+                dv[k] = 0;
+                if (du[k] > 0) { test = false; maxn = k+1; }
             }
-            if (du.size() == 0)
-                test = true;
+            maxm = maxn;
         }
     }
     if (test)
@@ -116,7 +122,7 @@ int main()
             }
         }
     }
-    
+    debug(primes.size(), endl);
     bool moreToDo;
     while (moreToDo = getInput())
     {
@@ -124,8 +130,10 @@ int main()
         process();
 
         /*output*/
-
-
+        //debug(tot, endl);
+        tot = 0;
+        CL(du, 0);
+        CL(dv, 0);
         /*output*/
     }
 }
