@@ -32,7 +32,8 @@ typedef vector<point> vp; //?
 
 /*global variables*/
 string word;
-vector<vi> words;
+
+vector<string> words;
 /*global variables*/
 
 void dump()
@@ -46,40 +47,19 @@ bool getInput()
     cin >> word;
     return true;
 }
-void to_int(vector<int>& wordx)
-{
-    REP(i, word.length())
-    {
-        wordx.push_back((int)word[i]);
-    }
-}
-
-string to_str(const vector<int> wordx)
-{
-    string s;
-    REP(i, wordx.size())
-    {
-        s += (char)wordx[i];
-    }
-    return s;
-}
-
     
 void process()
 {
     //process input
-    vector<int> sigh;
-    to_int(sigh);
+    SORT(word);
+
     do
     {
-        words.push_back(sigh);
-    } while (next_permutation(sigh.begin(), sigh.end()));
-
-    REP(i, words.size())
-    {
-        cout << to_str(words[i]) << endl;
-    }
+        words.push_back(word);
+    } while (next_permutation(word.begin(), word.end()));
     
+    for (vector<string>::iterator it = words.begin(); it != words.end(); ++it)
+        cout << *it << endl;
 }
 
 int main()
