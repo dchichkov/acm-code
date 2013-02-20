@@ -30,7 +30,7 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-double cards[10000];
+double cards[100000];
 int n;
 /*global variables*/
 
@@ -42,25 +42,24 @@ void dump()
 bool getInput()
 {
     //get input
-  if (foeof(stdin)) return false;
-  scanf("%d ", &n);
+    if (feof(stdin)) return false;
+    scanf("%d ", &n);
     return true;
 }
 
 void process()
 {
     //process input
-  printf("%5d%5c%0.3llf\n", n, ' ', cards[n]);
+    printf("%5d     %.3llf\n", n, cards[n]);
 }
 
 int main()
 {
-  printf("# Cards Overhang\n");
-  cards[0] = 0;
-  cards[1] = 0.5;
-  FOR(i, 2, 100000)
+    printf("# Cards Overhang\n");
+    cards[0] = 0;
+    FOR(i, 1, 100000)
     {
-      cards[i] = cards[i-1] + ((double)1/i*2);
+        cards[i] = cards[i-1] + (1.0/(i*2));
     }
 
     while (getInput())
