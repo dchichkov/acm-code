@@ -46,11 +46,6 @@ bool getInput()
     return true;
 }
 
-long long fact(long long x)
-{
-    return x == 1 ? x : x * fact(x-1);
-}
-
 void process()
 {
     //process input
