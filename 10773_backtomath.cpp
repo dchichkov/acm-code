@@ -48,14 +48,12 @@ bool getInput()
 void process()
 {
     double one = d/u;
-
-    if (v > u) printf("can't determine");
-    else
-    {
-        double two = (v*(one)/u*d);
-        debug(one, TAB); debug(two, endl);
+    double B = sqrt(u*u-v*v);
+    double two = d/B;
+    if (two >= 0.000)
         printf("%.3lf", fabs(one-two));
-    }
+    else
+        printf("can\'t determine");
     printf("\n");
     //process input
 }
