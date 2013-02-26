@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -30,8 +30,9 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-unsigned long long num;
-vector<unsigned long long> v;
+typedef unsigned long long ull;
+ull num;
+const ull n = 447213595;
 /*global variables*/
 
 void dump()
@@ -46,24 +47,31 @@ bool getInput()
     return true;
 }
 
-void fill_upto(unsigned long long n)
-{
-    while (v.back() <= n) { v.push_back((v.size()+1)*(v.size())/2); }
-}
-
 void process()
 {
     //process input
-    int i;
-    fill_upto(num);
-    debug(v.size(), TAB); debug(v.back(), endl);
-    for (i = 1; num > v[i]; i++);
-    printf("%d\n", i);        
+    //binary search the answer
+    ull low = 1;
+    ull m = n, mid = (low+m/2);
+    int x = 0;
+    ull t = (mid*(mid+1))/2;
+    debug(num, endl);
+    for (; low <= m && low != n && num != t;//num <= (mid*(mid-1))/2 || num > (mid*(mid+1))/2;
+         )
+    {
+        debug(x, TAB); debug(low, TAB); debug(m, TAB); debug(mid, TAB); debug((mid*(mid+1))/2, endl);
+        //if (num == (mid*(mid-1))/2) break;
+        (num >= t) ? low = mid+1 : m = mid-1;
+        mid = ((low+m)/2);
+        ++x;
+        t = (mid*(mid+1))/2;
+    }
+    debug(x, TAB); debug(low, TAB); debug(m, TAB); debug(mid, endl);
+    printf("%llu\n", mid);
 }
 
 int main()
 {
-    v.push_back(1);
     int nc = 0;
     scanf("%d ", &nc);
     while (nc-- > 0)
