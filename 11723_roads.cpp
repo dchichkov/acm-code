@@ -30,7 +30,7 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int r, n;
+
 /*global variables*/
 
 void dump()
@@ -41,35 +41,19 @@ void dump()
 bool getInput()
 {
     //get input
-    scanf("%d %d ", &r, &n);
-    if (r == 0 && n == 0) return false;
     return true;
 }
 
 void process()
 {
     //process input
-    r -= n;
-    int i;
-    for ((i = 1); (i <= n);)
-    {
-        r -= 26; if (r < 0) break;
-        ++i;
-    }
-
-    if (i < n)
-        printf("%d", i);
-    else
-        printf("impossible");
-    printf("\n");
 }
 
 int main()
 {
-    int count = 0;
     while (getInput())
     {
-        printf("Case %d: ", ++count);
+
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
