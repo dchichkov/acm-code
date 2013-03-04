@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -47,8 +47,7 @@ bool getInput()
     REP(i, c)
     {
         scanf("%d ", &d);
-        if (d != 0)
-            nums.push_back(d);
+        nums.push_back(d);
     }
     return true;
 }
@@ -56,25 +55,27 @@ bool getInput()
 void process()
 {
     //process input
-    SORT(nums);
-    int nm = 0;
-    int p = 1;
+
+    long long cur_max = 1;
+    long long sv_max = 0;
     REP(i, nums.size())
     {
-        if (nums[i] < 0) nm++;
-    }
-    if (nm % 2 == 0) REP(i, nums.size()) { p *= nums[i]; }
-    else
-    {
-        nums.erase(nums.begin()+nm-1);
-        //REP(i, nums.size()) { debug(nums[i], endl); }
-        REP(i, nums.size()) { p *= nums[i]; }
+        cur_max *= nums[i];
+        debug(nums[i], TAB);
+        sv_max = max(sv_max, cur_max);
+        FOR(j, i+1, nums.size())
+        {
+            cur_max *= nums[j];
+            debug(nums[j], TAB);
+            sv_max = max(sv_max, cur_max);
+        }
+        dbg(cout << endl);
+        debug(sv_max, TAB); debug(cur_max, endl);
+        sv_max = max(sv_max, cur_max);
+        cur_max = 1;
     }
 
-    if (nm % 2 != 0 && p == 1) printf("0");
-    else printf("%d", p);
-
-    printf(".\n\n");
+    printf("%lld.\n\n", sv_max);
 }
 
 int main()
