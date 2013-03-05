@@ -30,7 +30,8 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int r, n;
+string line1, line2;
+int memo[1050][1050];
 /*global variables*/
 
 void dump()
@@ -41,39 +42,35 @@ void dump()
 bool getInput()
 {
     //get input
-    scanf("%d %d ", &r, &n);
-    if (r == 0 && n == 0) return false;
+    getline(cin, line1);
+    if (cin.eof()) return false;
+    getline(cin, line2);
     return true;
 }
 
 void process()
 {
     //process input
-    if (r/n > 26)
-    {
-        printf("impossible");
-    }
-    else
-    {
-        int c = 0;
-        r -= n;
-        while (r > 0)
-        {
-            c++;
-            r -= n;
-        }
-        printf("%d", c);
-    }
+    CL2d(memo, 0, 1050, 1050);
 
-    printf("\n");
+    REP(i, line1.length())
+    {
+        REP(j, line2.length())
+        {
+            if (line1[i] == line2[j])
+                memo[i+1][j+1] = memo[i][j] + 1;
+            else
+                memo[i+1][j+1] = max(memo[i+1][j], memo[i][j+1]);
+        }
+    }
+    printf("%d\n", memo[line1.length()][line2.length()]);
 }
 
 int main()
 {
-    int count = 0;
     while (getInput())
     {
-        printf("Case %d: ", ++count);
+
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
