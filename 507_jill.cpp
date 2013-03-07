@@ -1,3 +1,14 @@
+/* Class:   CSC 2700 Programming Competitions
+ * Prof:    Isaac Traxler
+ * Name:    Matthew Gavin
+ * Problem: 507 - Jill Rides Again
+ *
+ * Note: Modified Kadane's algorithm for max subarray within 1D, in O(n) time
+ *       This is the dynamic programming solution... which takes some study
+ *       to adapt to.
+ *
+ */ 
+
 #include <cstdio>
 #include <iostream>
 #include <vector>
@@ -64,23 +75,49 @@ void process()
     {
         debug(v[i], endl);
         meh = meh + v[i];
-        if (meh >= msf)
+        if (meh > msf)
         {
             k = j;
             l = i;
             msf = meh;
-            
         }
         else if (meh < 0)
         {
             meh = 0;
             j = i+1;
         }
+        else if (meh == msf && j == k)
+        {
+            l = i;
+        }
+
         //msf = max(msf, meh);
         debug(meh, TAB); debug(msf, endl);
     }
-    debug(k, TAB); debug(l, endl);
 
+    /*while (v.back() < 0) { debug(v.back(), endl); v.pop_back(); if (v.empty()) break; }
+    int maxx = 0, ma = 0;
+    REP(i, v.size())
+    {
+        if (v[i] < 0) continue;
+        ma = v[i];
+        FOR(j, i, v.size())
+        {
+            ma += v[j];
+            if (ma == maxx)
+                l = j;
+            if (ma > maxx)
+            {
+                k = i;
+                l = j;
+                maxx = ma;
+            }
+        }
+
+        debug(maxx, TAB); debug(ma , endl);
+    }
+    debug(k, TAB); debug(l, endl);
+    */
     /*int w = 0;
     debug(k, TAB); debug(l, endl);
     FOR(i, k, l)

@@ -1,3 +1,12 @@
+/* Class:   CSC 2700 Programming Competitions
+ * Prof:    Isaac Traxler
+ * Name:    Matthew Gavin
+ * Problem: 514 - Rails
+ *
+ * Note: After trying to seduce tricks out of the properties of a stack...
+ *       I gave up and simulated it.
+ *
+ */ 
 #include <cstdio>
 #include <iostream>
 #include <vector>

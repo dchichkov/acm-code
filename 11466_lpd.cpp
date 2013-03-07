@@ -32,28 +32,12 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-vi primes;
 long long N;
 /*global variables*/
 
 void dump()
 {
     //dump data
-}
-
-void sieve()
-{
-    vector<bool> prime(10000000, true);
-
-    for (long long i = 2; i < 10000000; ++i)
-    {
-        if (prime[i])
-        {
-            for (long long j = i*i; j < 10000000; j += i)
-                prime[j] = false;
-            primes.push_back(i);
-        }
-    }
 }
 
 bool getInput()
@@ -67,28 +51,27 @@ bool getInput()
 void process()
 {
     //process input
-    long long maxi = 0;
-    for (int i = 0; i < primes.size() && primes[i] <= ((long long)sqrt(N)+1); ++i)
+    long long oldn = N;
+    for (long long i = 2; (i < 99999999999999) && (sqrt(oldn) > i); ++i)
     {
-        if (N % primes[i] == 0)
+        while (N % i == 0 && N != 1)
         {
-            if (N == primes[i])
-                break;
-            maxi = max(maxi, primes[i]);
+            N /= i;
+            debug(N, endl);
         }
+        oldn = N;
     }
 
-    if (!maxi)
+    if (N == 1)
         printf("-1");
     else
-        printf("%lld", maxi);
+        printf("%lld", oldn);
 
     printf("\n");
 }
 
 int main()
 {
-    sieve();
     while (getInput())
     {
 

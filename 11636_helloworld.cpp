@@ -41,13 +41,14 @@ bool getInput()
 {
     //get input
     scanf("%d", &num);
-    if (num == -1) return false;
+    if (num < 0) return false;
     return true;
 }
 
 void process()
 {
-  
+
+    printf("%d\n", (int)ceil(log2(num)));
 }
 
 int main()
