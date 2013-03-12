@@ -30,8 +30,8 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-vector<int> ns;
-vector<int> qs;
+int nums[100];
+int cnt;
 /*global variables*/
 
 void dump()
@@ -41,58 +41,59 @@ void dump()
 
 bool getInput()
 {
+    if (feof(stdin)) return false;
+    
     //get input
-    int n, q;
-    scanf("%d %d ", &n, &q);
-    int r;
-    REP(i, n)
+    int r, i = 0;
+    scanf("%d ", &r);
+    while (r != -999999)
     {
+        nums[i++] = r;
         scanf("%d ", &r);
-        ns.push_back(r);
     }
-    REP(i, q)
-    {
-        scanf("%d ", &r);
-        qs.push_back(r);
-    }
+    cnt = i;
     return true;
 }
 
 void process()
 {
     //process input
-    sort(ns.begin(), ns.end(), std::less<int>());
-    int maxz = 0;
+    long long msf = 1, mtt = 0;
+    int j = 0, k = 0, x = 0;
 
-    REP(i, qs.size())
+    REP(i, cnt)
     {
-        maxz = 0;
-        for (int j = ns.size()-1; j >= 0; --j)
-        {
-            if ((qs[i] & ns[j]) != 0)
-            {
-                maxz = (qs[i] & ns[j]);
-                break;
-            }
-        }
+        msf *= nums[i];
 
-        printf("%d\n", maxz);
+        if (msf > mtt)
+        {
+            j = x;
+            k = i;
+        }
+        else if (msf < 0)
+        {
+            x++;
+            msf = 1;
+        }
+        else if (msf == mtt && j == x)
+        {
+            k = i;
+        }
+        mtt = max(msf, mtt);
     }
 
-    
+    printf("%d\n", mtt);
 }
 
 int main()
 {
-    int nc;
-    scanf("%d ", &nc);
-    while (nc-- > 0)
+    while (getInput())
     {
-        getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        cnt = 0;
+        CL(nums, 0);
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
