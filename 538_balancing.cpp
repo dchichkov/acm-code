@@ -1,3 +1,13 @@
+/* Class:   CSC 2700 Programming Competitions
+ * Prof:    Isaac Traxler
+ * Name:    Matthew Gavin
+ * Problem: 538 - Balancing
+ *
+ * Note: Took the easy way out. Although, sorting a map<> is tedious. I just got lazy
+ *       and imported some code from elsewhere, instead of using two lists..
+ *
+ */
+
 #include <cstdio>
 #include <iostream>
 #include <vector>
@@ -35,6 +45,7 @@ int n, q;
 map<string, int> transactions;
 /*global variables*/
 
+//borrowed :)
 template<typename A, typename B>
 std::pair<B,A> flip_pair(const std::pair<A,B> &p)
 {
