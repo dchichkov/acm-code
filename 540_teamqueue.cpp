@@ -36,7 +36,7 @@ typedef vector<point> vp; //?
 /*global variables*/
 int num_teams;
 map<int, int> team_members;
-list<point> line;
+point line[1000001];
 /*global variables*/
 
 void dump()
@@ -69,37 +69,35 @@ void process()
     //process input
     string input("");
     int p_num;
-    list<point>::reverse_iterator pos;
+    int pos = 0, insofar = 0;
     while (input.compare("STOP") != 0)
     {
         cin >> input;
         if (input.compare("ENQUEUE") == 0)
         {
             cin >> p_num;
-            for (pos = line.rbegin(); pos != line.rend(); ++pos)
+            REP(i, insofar)
             {
-                if (pos->second == team_members[p_num])
+                if (team_members[line[i].first] == team_members[p_num])
+                {
+                    pos = max(pos, i);
+                }
+            }
+            REP(i, insofar)
+            {
+                if (line[i].second == pos)
+                {
+                    line[i].second += 1;
                     break;
+                }
             }
-            if (pos == line.rend())
-            {
-                point x;
-                x.first = p_num;
-                x.second = team_members[p_num];
-                line.push_back(x);
-            }
-            else
-            {
-                point x;
-                x.first = p_num;
-                x.second = team_members[p_num];
-                line.insert(pos.base(), x);
-            }
+            line[p_num].second = pos+1;
+            debug(line[p_num].first, TAB); debug(line[p_num].second, endl);
+            
         }
         else if (input.compare("DEQUEUE") == 0)
         {
-            cout << line.front().first << endl;
-            line.pop_front();
+
         }
     }
     puts("");
@@ -114,7 +112,7 @@ int main()
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        line.clear();
+
         team_members.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
