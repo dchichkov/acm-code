@@ -25,7 +25,7 @@ public class time_518
 
             int y, mo, da, h, mi, se;
             y = mo = da = h = mi = se = 0;
-
+            
             if (a.isLeapYear(a.get(Calendar.YEAR)) &&
                 b.get(Calendar.MONTH) > 2 && a.get(Calendar.MONTH) <= 2 &&
                 a.get(Calendar.DAY_OF_MONTH) < 28)
@@ -64,7 +64,11 @@ public class time_518
                 y++;
                 if (a.isLeapYear(a.get(Calendar.YEAR))) da++;
             }
-            
+            while (a.get(Calendar.DAY_OF_YEAR) != b.get(Calendar.DAY_OF_YEAR))
+            {
+                a.add(Calendar.DAY_OF_YEAR, 1);
+                da++;
+            }
             if (s.compareTo("second") == 0)
             {
                 ans = ((y*365*24*60*60) +
@@ -93,7 +97,7 @@ public class time_518
             }
             else if (s.compareTo("month") == 0)
             {
-                ans = ((mo*12) +
+                ans = ((y*12) +
                        mo);
             }
             else if (s.compareTo("year") == 0)
