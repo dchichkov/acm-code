@@ -103,7 +103,11 @@ void process()
     if (b != 0 && a != 0)
         printf("%d", (int)floor((double)b/a));
     else
-        printf("%s", (a == 0 ? (b == 0 ? "IDENTITY" : "IMPOSSIBLE") : "WTF"));
+        if (a == 0)
+            if (b)
+                printf("%s", "IMPOSSIBLE");
+            else
+                printf("%s", "IDENTITY");
 }
 
 int main()
