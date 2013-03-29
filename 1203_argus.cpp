@@ -1,3 +1,14 @@
+/* Class:   CSC 2700 Programming Competitions
+ * Prof:    Isaac Traxler
+ * Name:    Matthew Gavin
+ * Problem: 1203 - Argus
+ *
+ * Note: Used a priority queue like I said I would!
+ *       Although it's pretty inefficient to work with since modifying elements
+ *       seems off-limits... instead you gotta pop() then push() another one.
+ *
+ */
+
 #include <cstdio>
 #include <iostream>
 #include <vector>
