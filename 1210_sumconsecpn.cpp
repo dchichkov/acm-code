@@ -1,3 +1,16 @@
+/* Class:   CSC 2700 Programming Competitions
+ * Prof:    Isaac Traxler
+ * Name:    Matthew Gavin
+ * Problem: 1210 - Sum of Consecutive Prime Numbers
+ *
+ * Note: I only saw Son's initial comment I swear! Then I was determined
+ *       to try to get a linear solution... and even though I suck at
+ *       orders of magnitude.. I would think this is O(n * num of primes to n)??
+ *       which is better than O(n^2)? But that's just a guess and hopefully when I'm
+ *       30 I can prove it :P
+ *
+ */
+
 #include <cstdio>
 #include <iostream>
 #include <vector>
@@ -8,7 +21,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -34,6 +47,7 @@ typedef vector<point> vp; //?
 int num;
 int prime[10001];
 int precmp[10001];
+vi primes;
 /*global variables*/
 
 void dump()
@@ -48,44 +62,33 @@ bool getInput()
     if (num == 0) return false;
     return true;
 }
-/*
-
-I WANT A LINEAR TIME SOLUTION!
-
- */
 
 void sieve()
-{
-    for (int i = 2; i < 10001; ++i)
-    {
-        if (prime[i])
-        {
-            for (int j = i+i; j < 10001; j+=i, prime[j]=0);
-        }
-    }
-}
-
-void pre_comp()
 {
     int t = 0;
     for (int i = 2; i < 10001; ++i)
     {
-        t = 0;
-        for (int j = i, k = i; j >= 2; --j)
+        if (prime[i])
         {
-            if (prime[j])
+            for (int j = i+i; j < 10001; j+=i)
+                prime[j]=0;
+
+            primes.push_back(i);
+            t = 0;
+            for (vi::reverse_iterator rit = primes.rbegin(); rit != primes.rend(); ++rit)
             {
-                k -= j;
-                if (k < 0)
+                t += *rit;
+
+                if (t < 10001)
                 {
-                    k = i;
-                    continue;
+                    precmp[t]++;
                 }
-                if (k == 0) t++;
+                else break;
             }
         }
     }
 }
+
 
 void process()
 {
@@ -95,6 +98,8 @@ void process()
 int main()
 {
     memset(prime, 1, sizeof(prime));
+    memset(precmp, 0, sizeof(precmp));
+    sieve();
     while (getInput())
     {
 
