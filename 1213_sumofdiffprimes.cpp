@@ -63,14 +63,7 @@ void sieve()
     }
 }
 
-int pre_compute(int tot, int k_left, int pos)
-{
-    if (primes[pos] + tot == n)
-        return 1;
-    else if (primes[pos] + tot > n)
-        return 0;
-    return pre_compute(primes[pos+1]+tot, k_left-1, pos+1);
-}
+int pre_compute(int n, int k, int pos);
 
 void process()
 {
@@ -81,6 +74,14 @@ int main()
 {
     sieve();
 
+    for (int i = 1; i < 1121; ++i)
+    {
+        for (int j = 1; j < 15; ++j)
+        {
+            precmp[i][j] = pre_compute(i, j, 0);
+        }
+    }
+    
     while (getInput())
     {
 
