@@ -5,10 +5,11 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <numeric>
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -58,16 +59,60 @@ void sieve()
         {
             for (int j = i+i; j < 1121; j+=i)
                 p[j] = 0;
+            primes.push_back(i);
         }
-        primes.push_back(i);
     }
 }
 
-int pre_compute(int n, int k, int pos);
+//ugh!
+int pre_compute(int n, int k)
+{
+    int t = 0;
+    vector<vector<int> > possibilities;
+    bool placed;
+    for (int i = 0; primes[i] <= n; ++i)
+    {
+        placed = false;
+        REP(j, possibilities.size())
+        {
+            if (accumulate(possibilities[j].begin(), possibilities[j].end(), 0)+primes[i] <= n)
+            {
+                possibilities[j].push_back(primes[i]);
+                placed = true;
+            }
+        }
+        if (!placed)
+        {
+            vi new_set;
+            new_set.push_back(primes[i]);
+            possibilities.push_back(new_set);
+        }
+    }
+    debug(possibilities.size(), endl);
+    REP(i, possibilities.size())
+    {
+        debug(i, endl);
+        REP(j, possibilities[i].size())
+        {
+            debug(j, TAB);
+            debug(possibilities[i][j], TAB);
+        }
+    }
+    dbg(cout << endl);
+    REP(i, possibilities.size())
+    {
+        if (accumulate(possibilities[i].begin(), possibilities[i].end(), 0) == n
+            && possibilities[i].size() == k)
+            t++;
+    }
+    debug(t, endl);
+    return t;
+}
 
 void process()
 {
     //process input
+    printf("%d\n", precmp[n][k]);
 }
 
 int main()
@@ -78,7 +123,7 @@ int main()
     {
         for (int j = 1; j < 15; ++j)
         {
-            precmp[i][j] = pre_compute(i, j, 0);
+            precmp[i][j] = pre_compute(i, j);
         }
     }
     
