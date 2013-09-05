@@ -1,3 +1,12 @@
+/* Class:   CSC 2700 Programming Competitions
+ * Prof:    Isaac Traxler
+ * Name:    Matthew Gavin
+ * Problem: 10360 - Rat Attack
+ *
+ * The strategy here was to take all of the nests, and fill in a grid around them with their
+ * population which would symbolize how many rats would be kill if the bomb were placed there
+ * with the "radius" d. Then traverse that array getting the greatest population with the smallest X coord.
+ */ 
 #include <cstdio>
 #include <iostream>
 #include <vector>
