@@ -16,7 +16,7 @@
 
 using namespace std;
 
-//#define DEBUG  //comment this line to pull out print statements
+#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -37,7 +37,7 @@ typedef vector<point> vp; //?
 #define CL(a,b) memset(a,b,sizeof(a))
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
-const double PRECISION = 1e-4;
+const double PRECISION = 1e-5;
 
 /*global variables*/
 int p, q, r, s, t, u;
@@ -79,9 +79,9 @@ void process()
             t * x * x +
             u;
         debug(top, TAB); debug(bottom, TAB); debug(x, TAB); debug(result, endl);
-        if ( result < 0 )
+        if (abs(result) < PRECISION) break;
+        else if ( result < 0 )
         {
-            if (-1.0*result < PRECISION) break;
             top = x-PRECISION;
             x = (top+bottom) / 2;
             
@@ -89,14 +89,13 @@ void process()
         }
         else if (result > 0)
         {
-            if (result < PRECISION) break;
             bottom = x+PRECISION;
             x = (bottom+top) / 2;
 
             if (x > 1) break;
         }
     };
-
+    if (p == 0 && q == 0 && r == 0 && s == 0 && t == 0 && u == 0) x = 0;
     if (x < 0 || x > 1) printf("No solution");
     else printf("%0.4lf", x);
 
