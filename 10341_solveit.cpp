@@ -16,7 +16,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -37,6 +37,8 @@ typedef vector<point> vp; //?
 #define CL(a,b) memset(a,b,sizeof(a))
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
+const double PRECISION = 1e-4;
+
 /*global variables*/
 int p, q, r, s, t, u;
 
@@ -52,14 +54,21 @@ bool getInput()
     //get input
     if (feof(stdin)) return false;
     scanf("%d %d %d %d %d %d ", &p, &q, &r, &s, &t, &u);
+    debug(p, TAB);
+    debug(q, TAB);
+    debug(r, TAB);
+    debug(s, TAB);
+    debug(t, TAB);
+    debug(u, endl);
     return true;
 }
 
 void process()
 {
     //process input
-    double x = 1.0/2;
-    char s;
+    double top = 1.0, bottom = 0.0;
+    double x = (top+bottom)/2;
+
     double result;
     while (true)
     {
@@ -69,26 +78,31 @@ void process()
             s * tan(x) +
             t * x * x +
             u;
+        debug(top, TAB); debug(bottom, TAB); debug(x, TAB); debug(result, endl);
         if ( result < 0 )
         {
-            x = x-(1-x)*1.0/2;
-            debug(x, TAB); debug(result, endl);
+            if (-1.0*result < PRECISION) break;
+            top = x-PRECISION;
+            x = (top+bottom) / 2;
+            
             if (x < 0) break;
         }
         else if (result > 0)
         {
-            x = x+(1-x)*1.0/2;
-            debug(x, TAB); debug(result, endl);
+            if (result < PRECISION) break;
+            bottom = x+PRECISION;
+            x = (bottom+top) / 2;
+
             if (x > 1) break;
         }
-        else break;
-        cin >> s;
     };
 
     if (x < 0 || x > 1) printf("No solution");
     else printf("%0.4lf", x);
 
     printf("\n");
+
+    debug(top, TAB); debug(bottom, TAB); debug(x, TAB); debug(result, endl);
 }
 
 int main()
