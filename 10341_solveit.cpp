@@ -16,7 +16,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -37,7 +37,7 @@ typedef vector<point> vp; //?
 #define CL(a,b) memset(a,b,sizeof(a))
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
-const double PRECISION = 1e-5;
+const double PRECISION = 1e-9;
 
 /*global variables*/
 int p, q, r, s, t, u;
@@ -63,6 +63,16 @@ bool getInput()
     return true;
 }
 
+double f(double x)
+{
+    return p * exp(-x) +
+            q * sin(x) +
+            r * cos(x) +
+            s * tan(x) +
+            t * x * x +
+            u;
+}
+
 void process()
 {
     //process input
@@ -72,13 +82,8 @@ void process()
     double result;
     while (true)
     {
-        result = p * exp(-x) +
-            q * sin(x) +
-            r * cos(x) +
-            s * tan(x) +
-            t * x * x +
-            u;
-        debug(top, TAB); debug(bottom, TAB); debug(x, TAB); debug(result, endl);
+        result = f(x);
+        //debug(top, TAB); debug(bottom, TAB); debug(x, TAB); debug(result, endl);
         if (abs(result) < PRECISION) break;
         else if ( result < 0 )
         {
@@ -95,7 +100,9 @@ void process()
             if (x > 1) break;
         }
     };
-    if (p == 0 && q == 0 && r == 0 && s == 0 && t == 0 && u == 0) x = 0;
+    debug(f(0), TAB); debug(f(1), endl);
+    if (f(0) == 0) x = 0;
+    else if (f(1) == 0) x = 1;
     if (x < 0 || x > 1) printf("No solution");
     else printf("%0.4lf", x);
 
