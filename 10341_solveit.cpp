@@ -76,7 +76,7 @@ double f(double x)
 void process()
 {
     //process input
-    double top = 1.0, bottom = 0.0;
+ad    double top = 1.0, bottom = 0.0;
     double x = (top+bottom)/2;
 
     double result;
@@ -101,8 +101,8 @@ void process()
         }
     };
     debug(f(0), TAB); debug(f(1), endl);
-    if (f(0) == 0) x = 0;
-    else if (f(1) == 0) x = 1;
+    if (f(0) == 0) x = 0;        //thank you UVA forums
+    else if (f(1) == 0) x = 1;   //       ^
     if (x < 0 || x > 1) printf("No solution");
     else printf("%0.4lf", x);
 

@@ -8,7 +8,7 @@
 using namespace std;
 
 #define DEBUG
-//#undef DEBUG //uncomment this line to pull out print statements
+#undef DEBUG //uncomment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -34,7 +34,6 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 
 /*global variables*/
 int hr, minu;
-const double deg = (double)180 / 3600;
 /*global variables*/
 
 void dump()
@@ -53,12 +52,10 @@ bool getInput()
 void process()
 {
     //process input
-    int thr = abs(12-hr);
-    int tmin;
-    if (hr >= 6) tmin = 3600 - (thr*60) - minu;
-    else tmin = (thr*60) + minu;
 
-    printf("%0.3lf\n", tmin*deg);
+    debug(hr, TAB); debug(minu, endl);
+
+    printf("%0.3lf\n", 360.0-abs((0.5*(60.0*hr-11.0*minu))));
     
 }
 
