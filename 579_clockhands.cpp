@@ -54,8 +54,8 @@ void process()
     //process input
 
     debug(hr, TAB); debug(minu, endl);
-
-    printf("%0.3lf\n", 360.0-abs((0.5*(60.0*hr-11.0*minu))));
+    double ans = abs((0.5*(60.0*hr-11.0*minu)));
+    printf("%0.3lf\n", ans > 180 ? 360 - ans : ans);
     
 }
 
