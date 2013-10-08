@@ -9,7 +9,7 @@
 
 using namespace std;
 
-//#define DEBUG  //comment this line to pull out print statements
+#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -32,8 +32,8 @@ typedef vector<point> vp; //?
 
 /*global variables*/
 int nreqs, nprops;
-
-bool nfirst;  
+bool nfirst;
+char proplist[1000][100];
 /*global variables*/
 
 void dump()
@@ -50,46 +50,42 @@ bool getInput()
         return false;
     
     if (nfirst) printf("\n");
+    else nfirst = true;
     return true;
 }
 
 void process()
 {
     //process input
-    string tstr;
+    char taway[100];
     REP(i, nreqs)
     {
-        getline(cin, tstr);
+        fgets(taway, 100, stdin); 
     }
 
-    char name[100], tname[100];
     double cost, tcost;
     int nfulf = 0, tfulf;
-    dbg(cout << "wtf" << endl);
+    int index = 0;
     REP(i, nprops)
     {
-        scanf("%80s %lf %d ", tname, &tcost, &tfulf);
-        debug(tname, TAB); debug(tcost, TAB); debug(tfulf, endl);
-        REP(i, tfulf)
+        fgets(proplist[i], 81, stdin);
+        proplist[i][strlen(proplist[i])-1] = 0;
+        scanf("%lf %d ", &tcost, &tfulf);
+
+        REP(j, tfulf)
         {
-            getline(cin, tstr);
+            fgets(taway, 100, stdin); 
         }
 
-        if (tfulf > nfulf)
+        if (tfulf > nfulf || (tfulf == nfulf && tcost < cost))
         {
-            strcpy(name, tname);
-            cost = tcost;
+            index = i;
             nfulf = tfulf;
-        }
-        else if (tfulf == nfulf && tcost < cost)
-        {
-            strcpy(name, tname);
             cost = tcost;
-            nfulf = tfulf;
         }
     }
     
-    printf("%s\n", name);
+    printf("%s\n", proplist[index]);
     
 }
 
@@ -100,8 +96,8 @@ int main()
     {
         printf("RFP #%d\n", n++);
         process();
-        if (n != 0) nfirst = true;
         /*CLEAR GLOBAL VARIABLES!*/
+        CL2d(proplist, 0, 1000, 100);
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
