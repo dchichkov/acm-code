@@ -32,8 +32,27 @@ typedef vector<point> vp; //?
 
 /*global variables*/
 string word;
-
 vector<string> words;
+
+struct cmp
+{
+    bool operator()(const char& a, const char& b)
+    {
+        return ((int)a < (int)b);
+    }
+};
+struct cmp2
+{
+    bool operator()(const string& a, const string& b)
+    {
+        for (int i = 0, j = 0; i != a.length() || j != b.length(); ++i, ++j)
+        {
+            if (a[i] > b[i]) return true;
+        }
+
+        return false;
+    }
+};
 /*global variables*/
 
 void dump()
@@ -52,12 +71,11 @@ void process()
 {
     //process input
     SORT(word);
-
     do
     {
         words.push_back(word);
-    } while (next_permutation(word.begin(), word.end()));
-    
+    } while (next_permutation(word.begin(), word.end(), cmp()));
+    sort(words.begin(), words.end(), cmp2());
     for (vector<string>::iterator it = words.begin(); it != words.end(); ++it)
         cout << *it << endl;
 }
