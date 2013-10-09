@@ -8,7 +8,7 @@
 
 using namespace std;
 
-//#define DEBUG  //comment this line to pull out print statements
+#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -30,8 +30,14 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-vector<unsigned int> ns;
-unsigned int qs[231];
+struct tlight
+{
+    int r, g, y;
+    int cur;
+};
+
+vector<tlight> lights;
+const int MAX_TIME = 3600 * 5; //1 hr = 60min*60sec, times 5 for 5 hours
 /*global variables*/
 
 void dump()
@@ -42,54 +48,57 @@ void dump()
 bool getInput()
 {
     //get input
-    int n, q;
-    scanf("%d %d ", &n, &q);
-    unsigned int r;
-    REP(i, n)
+    int temp = -1, temp2 = -1;
+    tlight tl;
+
+    //at least two
+    scanf("%d %d ", &temp, &temp2);
+
+    if (temp == 0 && temp2 == 0)
+        return false;
+
+    tl.r = temp;
+    tl.g = temp-5;
+    tl.y = 5;
+    lights.push_back(tl);
+
+    tl.r = temp2;
+    tl.g = temp2-5;
+    tl.y = 5;
+    lights.push_back(tl);
+
+    while (true)
     {
-        scanf("%d ", &r);
-        ns.push_back(r);
+        scanf("%d ", &temp);
+        if (temp == 0) break;
+        tl.r = temp;
+        tl.g = temp-5;
+        tl.y = 5;
+        lights.push_back(tl);
     }
-    REP(i, q)
-    {
-        scanf("%d ", &r);
-        qs.push_back(r);
-    }
+    
     return true;
 }
 
 void process()
 {
     //process input
-    unsigned int maxz = 0;
-    REP(i, qs.size())
+    int seconds = 0;
+    for (vector<tlight>::iterator it = lights.begin(); it != lights.end(); ++it)
     {
-        debug(qs[i], TAB);
-        REP(j, ns.size())
-        {
-            debug(ns[j], TAB);
-            debug((ns[j]&qs[i]), endl);
-            maxz = max((ns[j]&qs[i]), maxz);
-        }
-        dbg(cout << endl);
-        printf("%d\n", maxz);
-        maxz = 0;
+        seconds = max(seconds, it->r);
     }
-    
 }
 
 int main()
 {
-    int nc;
-    scanf("%d ", &nc);
-    while (nc-- > 0)
+    while (getInput())
     {
-        getInput();
+
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        ns.clear();
-        CL(qs, 0);
+        lights.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
