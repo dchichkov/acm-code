@@ -30,19 +30,8 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-
-struct player
-{
-    player():pos(1){}
-    int pos;
-};
-vector<player> players;
-
-struct ladder
-{
-    int start, end;
-};
-vector<ladder> ladders;
+char players[1000000];
+char ladders[120];
 
 int num_players,
     num_rolls,
@@ -52,35 +41,31 @@ int num_players,
 void dump()
 {
     //dump data
+    REP(i, 10)
+    {
+        cout << players[i] << " ";
+    }
+    cout << endl;
+    REP(i, 10)
+    {
+        cout << ladders[i] << " ";
+    }
+    cout << endl;
 }
 
 bool getInput()
 {
     //get input
     scanf("%d %d %d ", &num_players, &num_snl, &num_rolls);
-    players.resize(num_players);
-
-    ladder l;
+    memset(players, 1, sizeof(char)*num_players);
+    int s, e;
     REP(i, num_snl)
     {
-        scanf("%d %d ", &l.start, &l.end);
-        ladders.push_back(l);
+        scanf("%d %d ", &s, &e);
+        ladders[s] = e;
     }
     
     return true;
-}
-
-void check_ladders(int& x)
-{
-    for (vector<ladder>::iterator it = ladders.begin(); it != ladders.end(); ++it)
-    {
-        if (x == it->start)
-        {
-            x = it->end;
-            check_ladders(x);
-            break;
-        }
-    }
 }
 
 void process()
@@ -92,31 +77,36 @@ void process()
     {
         scanf("%d ", &dice_num);
         c_player = i % num_players;
-        debug(dice_num, TAB); debug(c_player, endl);
-        players[c_player].pos = min((players[c_player].pos + dice_num), 100);
-        debug(players[c_player].pos, endl);
-        check_ladders(players[c_player].pos);
-        if (players[c_player].pos == 100)
+        debug(c_player, TAB); debug(dice_num, TAB); debug(players[c_player] + dice_num, endl);
+        players[c_player] = players[c_player] + dice_num;
+        debug(players[c_player], TAB);
+        while(ladders[players[c_player]] != -1)
         {
-            dbg(cout << "wtf?");
+            debug(ladders[players[c_player]], TAB);
+            players[c_player] = ladders[players[c_player]];
+        }
+        dbg(cout << endl);
+        
+        if (players[c_player] >= 100)
+        {
             FOR(j, i+1, num_rolls)
             {
                 scanf("%d ", &dice_num);
-                dbg(cout << "breaking loop " << dice_num << endl);
             }
             break;
         }
     }
 
-    int i = 1;
-    for (vector<player>::iterator it = players.begin(); it != players.end(); ++it, ++i)
+    for (int i = 0; i < num_players; ++i)
     {
-        printf("Position of player %d is %d.\n", i, it->pos);
+        printf("Position of player %d is %d.\n", i+1, players[i]);
     }
 }
 
 int main()
 {
+    CL(ladders, -1);
+    
     int nc;
     scanf("%d ", &nc);
     while (nc-- > 0)
@@ -125,8 +115,7 @@ int main()
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        players.clear();
-        ladders.clear();
+        CL(ladders, -1);
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
