@@ -4,11 +4,11 @@
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
+#include <algorithm>
 
 using namespace std;
 
-#define DEBUG
-//#undef DEBUG //uncomment this line to pull out print statements
+#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -19,11 +19,8 @@ using namespace std;
 #endif
 
 typedef pair<int, int> point;
-typedef long long int64; //for clarity
 typedef vector<int> vi; //?
 typedef vector<point> vp; //?
-template<class T> void chmin(T &t, T f) { if (t > f) t = f; } //change min
-template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 
 #define UN(v) SORT(v),v.erase(unique(v.begin(),v.end()),v.end())   
 #define SORT(c) sort((c).begin(),(c).end())   
@@ -33,8 +30,7 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int num_s;
-int n[55];
+long long num_in;
 /*global variables*/
 
 void dump()
@@ -45,36 +41,23 @@ void dump()
 bool getInput()
 {
     //get input
-    scanf("%d", &num_s);
-    if (num_s == 0) return false;
-    REP(i, num_s)
-    {
-        scanf("%d", &n[i]);
-    }
+    scanf("%lld ", &num_in);
+    if (num_in < 0) return false;
     return true;
 }
 
 void process()
 {
     //process input
-    int avg = 0;
-    REP(i, num_s)
-        avg += n[i];
-    avg /= num_s;
-
-    int tot = 0;
-    REP(i, num_s)
-        tot += max(0, avg-n[i]);
-
-    printf("The minimum number of moves is %d.\n\n", tot);
+    unsigned long long ans = 1 + (num_in * (num_in + 1) / 2);
+    printf("%lld\n", ans);
 }
 
 int main()
 {
-    int count = 0;
     while (getInput())
     {
-        printf("Set #%d\n", ++count);
+
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
