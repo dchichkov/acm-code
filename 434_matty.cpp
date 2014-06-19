@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -44,7 +44,7 @@ void dump()
     {
         REP(j, dims)
         {
-            cout << building[i][j] << TAB;
+            cout << building[i][j] << '\t';
         }
         cout << endl;
     }
@@ -79,6 +79,7 @@ void process()
 
     CL2d(building, 0, 8, 8);
     //finding max
+    dbg(cout << "max: " << endl; );
     REP(i, dims)
     {
         REP(j, dims)
@@ -87,7 +88,9 @@ void process()
         }
     }
 
+    dbg( 
     dump();
+    cout << endl; );
     REP(i, dims)
     {
         REP(j, dims)
@@ -105,14 +108,16 @@ void process()
     {
         building[i][dims-1] = right1[dims-i-1];
     }
+    dbg(
     dump();
-    dbg( cout << endl );
+    cout << endl; );
     //finding min
+    /*
     REP(i, dims)
     {
         REP(j, dims)
         {
-            if (front1[i] <= right1[j])
+            if (front1[i] == right1[j])
             {
                 debug(front1[i], TAB); debug(right1[j], endl);
                 building[dims-1][i] = 0;
@@ -127,7 +132,7 @@ void process()
     {
         REP(j, dims)
         {
-            if (right1[dims-i-1] <= front1[dims-j-1])
+            if (right1[dims-i-1] == front1[dims-j-1])
             {
                 building[i][dims-1] = 0;
                 building[i][dims-j-1] = right1[dims-i-1];
@@ -144,9 +149,27 @@ void process()
 
             mina += building[i][j];
         }
+    }*/
+    int c1[9], c2[9];
+    CL(c1, 0);
+    CL(c2, 0);
+    REP(i, dims)
+    {
+        c1[front1[i]]++;
+        c2[right1[i]]++;
     }
-
+    REP(i, 9)
+    {
+        if (c1[i] < c2[i])
+        {
+            mina += (c2[i] * i);
+        }
+        else
+            mina += (c1[i] * i);
+    }
+    
     debug(mina, TAB); debug(maxa-mina, endl);
+    printf("Matty needs at least %d blocks, and can add at most %d extra blocks.\n", mina, maxa-mina);
 }
 
 int main()
