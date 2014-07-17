@@ -5,10 +5,11 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <sstream>
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -58,23 +59,43 @@ void process()
 {
     //process input
     string line;
-    int num_m = 0, total;
-    bool possible = false;
+    stringstream st;
+    char c;
+    vector<char> chrs;
+    bool valid;
     getline(cin, line);
-    while (line != "#")
+    while (line.compare("#") != 0)
     {
-        num_m = 0;
-        for (vector<string>::iterator it = dict.begin(); it != dict.end();
-             ++it)
+        st.str(line);
+        while (st >> c)
         {
-            possible = false;
-            REP(i, line.length())
-            {
-            }
-            if (possible)
-                num_m += 1;
+            chrs.push_back(c);
         }
-        printf("%d\n", num_m);
+
+        int cnt = 0;
+        string word;
+        REP(i, (int)dict.size())
+        {
+            word = dict[i];
+            UN(word);
+            valid = true;
+            REP(j, word.length())
+            {
+                debug(dict[i], TAB); debug(word[j], TAB);
+                debug(count(dict[i].begin(), dict[i].end(), word[j]), TAB);
+                debug(count(chrs.begin(), chrs.end(), word[j]), endl);
+                if (count(dict[i].begin(), dict[i].end(), word[j]) >
+                    count(chrs.begin(), chrs.end(), word[j]))
+                {
+                    valid = false;
+                    break;
+                }
+            }
+            if (valid) cnt++;
+        }
+        printf("%d\n", cnt);
+        st.clear();
+        chrs.clear();
         getline(cin, line);
     }
 }
