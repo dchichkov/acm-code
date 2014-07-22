@@ -47,11 +47,14 @@ enum direction { WEST = 0, SOUTHWEST, SOUTH, SOUTHEAST, EAST, NORTHEAST, NORTH, 
 void dump()
 {
     //dump data
-    REP(i, (int)words.size())
+
+    dbg(
+    FOR(i, 1, len+1)
     {
-        printf("%s\n", words[i].c_str());
+        printf("%s\n", &matrix[i][1]);
     }
     puts("");
+        );
 }
 
 bool getInput()
@@ -89,7 +92,6 @@ bool check_match(int x, int y, direction pos, string word, int char_pos, int& l,
     {
         l = x;
         m = y;
-        
         return true;
     }
     else if (word[char_pos] != matrix[x][y]) return false;
@@ -97,8 +99,31 @@ bool check_match(int x, int y, direction pos, string word, int char_pos, int& l,
     return check_match(x+movx[pos], y+movy[pos], pos, word, char_pos+1, l, m);
 }
 
+void prune()
+{
+    string w;
+    vector<string>::iterator it;
+    REP(i, (int) words.size())
+    {
+        w = words[i];
+        reverse(w.begin(), w.end());
+        if ((it = find(words.begin()+i+1, words.end(), w)) != words.end())
+        {
+            *it = "0";
+        }
+
+    }
+
+    REP(i, (int)words.size())
+    {
+        cout << words[i] << endl;
+    }
+    puts("");
+}
+
 void process()
 {
+    
     //process input
     dbg(
     dump();
@@ -137,12 +162,14 @@ void process()
             if (is_match)
                 break;
         }
+        
         //output coords
         if (is_match)
-            printf("%d,%d %d,%d\n", j, k, l, m);
+            printf("%d,%d %d,%d", j, k, l, m);
         else
-            printf("Not Found\n");
+            printf("Not Found");
         
+        puts("");
         is_match = false;
     }
 }
