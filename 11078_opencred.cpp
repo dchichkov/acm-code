@@ -57,17 +57,23 @@ bool getInput()
 void process()
 {
     //process input
-    int mx, mx2;
+    int mx, pos;
     mx = numeric_limits<int>::min();
     REP(i, ns-1)
     {
-        FOR(j, i+1, ns)
+        if (mx < scores[i])
         {
-            mx = max(scores[i]-scores[j], mx);
+            pos = i;
+            mx = scores[i];
         }
     }
 
-    printf("%d\n", mx);
+    int mn = numeric_limits<int>::max();
+    FOR(i, pos+1, ns)
+    {
+        mn = min(mn, scores[i]);
+    }
+    printf("%d\n", mx-mn);
 }
 
 int main()

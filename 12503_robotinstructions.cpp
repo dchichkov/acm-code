@@ -37,18 +37,34 @@ vector<string> command;
 void dump()
 {
     //dump data
+    REP(i, (int)command.size())
+    {
+        printf("%s\n", command[i].c_str());
+    }
+    puts("");
 }
 
 bool getInput()
 {
     //get input
-    int numc;
+    stringstream ss;
+    string s;
+    int numc, nn;
     scanf("%d ", &numc);
     string in;
     REP(i, numc)
     {
         getline(cin, in);
-        command.push_back(in);
+        if (in[0] == 'S')
+        {
+            ss.str(in);
+            ss >> s >> s >> nn;
+            command.push_back(command[nn-1]);
+        }
+        else
+            command.push_back(in);
+
+        ss.clear();
     }
     return true;
 }
@@ -59,10 +75,9 @@ void process()
     int position = 0;
     int num_com;
     string s;
-    stringstream ss;
+
     REP(i, command.size())
     {
-        debug(command[i], TAB); debug(command[i][0], endl);
         switch(command[i][0])
         {
         case 'R':
@@ -71,16 +86,9 @@ void process()
         case 'L':
             position--;
             break;
-        case 'S':
-            ss.str(command[i]);
-            ss >> s >> s >> num_com;
-            debug(num_com, endl);
-            command.insert(command.begin()+i+1, command[num_com-1]);
         }
     }
-            
     printf("%d\n", position);
-    
 }
 
 int main()

@@ -42,7 +42,7 @@ vector<string> words;
 //directions aren't actually correct, since the directions are backwards, and x is y and y is x
 //but it works.
 enum direction { WEST = 0, SOUTHWEST, SOUTH, SOUTHEAST, EAST, NORTHEAST, NORTH, NORTHWEST };
-/*global variables*/
+/*/global variables*/
 
 void dump()
 {
@@ -106,24 +106,26 @@ void prune()
     REP(i, (int) words.size())
     {
         w = words[i];
-        reverse(w.begin(), w.end());
         if ((it = find(words.begin()+i+1, words.end(), w)) != words.end())
         {
-            *it = "0";
+            words.erase(it);
+            i--;
         }
 
     }
 
+    dbg(
     REP(i, (int)words.size())
     {
         cout << words[i] << endl;
     }
     puts("");
+        );
 }
 
 void process()
 {
-    
+    //prune();
     //process input
     dbg(
     dump();
@@ -167,7 +169,7 @@ void process()
         if (is_match)
             printf("%d,%d %d,%d", j, k, l, m);
         else
-            printf("Not Found");
+            printf("Not found");
         
         puts("");
         is_match = false;
@@ -176,14 +178,14 @@ void process()
 
 int main()
 {
-    CL2d(matrix, 0, mxlen+2, mxlen+2);
     //while ()
     {
+        CL2d(matrix, 0, mxlen+2, mxlen+2);
         getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        words.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
