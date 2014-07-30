@@ -31,7 +31,7 @@ typedef vector<point> vp; //?
 
 /*global variables*/
 int n;
-long long fib[60];
+unsigned long long fib[60];
 /*global variables*/
 
 void dump()
@@ -49,7 +49,7 @@ bool getInput()
 void process()
 {
     //process input
-    printf("%lld\n", fib[n]);
+    printf("%lld", fib[n]);
 }
 
 int main()
@@ -73,7 +73,8 @@ int main()
         /*CLEAR GLOBAL VARIABLES!*/
 
         /*CLEAR GLOBAL VARIABLES!*/
-        if (nc != 0) printf("\n");
+        //if (nc != 0)
+            printf("\n\n");
     }
 
     return 0;
