@@ -100,14 +100,17 @@ bool store_board(const board& bo, int a)
     }
     dbg( binary(n); cout << endl; );
     if (final_n == n)
+    {
+        return false;
         cout << "HIT ENDING" << endl;
+    }
     if (boards[n] || a > 30)
     {
-            boards[n] = min(boards[n], a);
-            dbg(cout << "HIT PREVIOUS" << endl);
-            return false;
+        //boards[n] = min(boards[n], a);
+        dbg(cout << "HIT PREVIOUS" << endl);
+        return false;
     }
-    boards[n] = min(boards[n], a);
+    boards[n] = a; //min(boards[n], a);
     
     return true;
 }
@@ -268,7 +271,7 @@ void process()
             countdown -= 2;
         }
     }
-    boards[n] = 31;
+
     final_n = n;
     board start;
     REP(i, 3)
@@ -278,7 +281,9 @@ void process()
             start.b[i][j] = 'W';
         }
     }
-    start.b[ex-1][ey-1] = 'E';
+    start.b[ey-1][ex-1] = 'E';
+    store_board(start, 0);
+    store_board(final_board, 31);
     bfs.push(start);
 
     iterate(0);

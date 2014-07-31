@@ -46,6 +46,9 @@ bool getInput()
         //{
         if (cin.eof()) return false;
         getline(cin, line);
+
+        if (cin.peek() == cin.eof()) return false;
+        
         //} while (line.length() == 0);
 
     return true;
@@ -62,7 +65,7 @@ void process()
         REP(i, line.length())
         {
             tmp2.clear();
-            if (i+2 <= line.length())
+            if (i+2 < line.length())
             {
                 debug(line[i], TAB); debug(line[i+1], TAB); debug(line[i+2], endl);
                 tmp2 += line[i+2];
