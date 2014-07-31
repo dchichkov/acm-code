@@ -6,7 +6,6 @@
 #include <cmath>
 #include <algorithm>
 #include <queue>
-#include <iomanip>
 
 using namespace std;
 
@@ -38,29 +37,30 @@ struct board
 } final_board;
 
 int ex, ey;
-bool boards[1<<18];
-
+int boards[1<<18];
+int final_n;
 queue<board> bfs;
+
 //--moves   (initial, e/w, n/s)
-char moves[3][3] = {{'W', 'B', 'R'},
-                    {'B', 'W', 'R'},
-                    {'R', 'W', 'B'}};
+char moves[0x60][0x60];
+enum {RIGHT = 0, LEFT, DOWN, UP};
 /*global variables*/
 
-void dump()
+void dump(const board& cb)
 {
     //dump data
     REP(i, 3)
     {
         REP(j, 3)
         {
-            printf("%c ", final_board.b[i][j]);
+            printf("%c ", cb.b[i][j]);
         }
         puts("");
     }
+    puts("----------");
 }
-int binary_x = 1;
-void binary(int number) {
+
+void binary(int number, int binary_x = 1) {
 	int remainder;
 	if(number <= 1) {
 		cout << number;
@@ -68,13 +68,12 @@ void binary(int number) {
 	}
 
 	remainder = number%2;
-	binary(number >> 1);    
+	binary(number >> 1, binary_x++);    
 	cout << remainder;
     if (binary_x%2) cout << "|";
-    binary_x++;
 }
 
-void store_board(const board& bo)
+bool store_board(const board& bo, int a)
 {
     int n = 0;
     int countdown = 16;
@@ -100,7 +99,17 @@ void store_board(const board& bo)
         }
     }
     dbg( binary(n); cout << endl; );
-    boards[n] = true;
+    if (final_n == n)
+        cout << "HIT ENDING" << endl;
+    if (boards[n] || a > 30)
+    {
+            boards[n] = min(boards[n], a);
+            dbg(cout << "HIT PREVIOUS" << endl);
+            return false;
+    }
+    boards[n] = min(boards[n], a);
+    
+    return true;
 }
 
 bool getInput()
@@ -121,15 +130,169 @@ bool getInput()
     return true;
 }
 
+void do_next_move(board boar, int x, int y, char dir, int mv, int from)
+{
+    debug(x, TAB); debug(y, endl);
+    switch(from)
+    {
+    case RIGHT: //go left
+        
+        boar.b[x][y-1] = moves[boar.b[x][y]][dir];
+        boar.b[x][y] = 'E';
+        break;
+        
+    case LEFT: //go right
+        boar.b[x][y+1] = moves[boar.b[x][y]][dir];
+        boar.b[x][y] = 'E';
+        break;
+        
+    case UP: //go down
+        boar.b[x+1][y] = moves[boar.b[x][y]][dir];
+        boar.b[x][y] = 'E';
+        break;
+        
+    case DOWN: //go up
+        boar.b[x-1][y] = moves[boar.b[x][y]][dir];
+        boar.b[x][y] = 'E';
+        break;
+        
+    }
+    dump(boar);
+    if (store_board(boar, mv))
+        bfs.push(boar);            
+}
+
+void iterate(int mov)
+{
+
+    while (!bfs.empty())
+    {
+        board& boar = bfs.front();
+        bfs.pop();
+        //find 'E'
+        int ex_, ey_;
+        REP(i, 3)
+        {
+            REP(j, 3)
+            {
+                if (boar.b[i][j] == 'E')
+                {
+                    ex_ = i;
+                    ey_ = j;
+                    goto out;
+                }
+            }
+        }
+    out:
+        debug(ex_, TAB); debug(ey_, endl);
+        dump(boar);
+        if (ex_ == 0 && ey_ == 0) //top-left
+        {
+            do_next_move(boar, ex_, ey_+1, 'E', mov, RIGHT); //right come left
+            do_next_move(boar, ex_+1, ey_, 'N', mov, DOWN); //down come up
+        }
+        else if (ex_ == 0 && ey_ == 1) //top-middle
+        {
+            do_next_move(boar, ex_, ey_+1, 'E', mov, RIGHT); //right come left
+            do_next_move(boar, ex_, ey_-1, 'E', mov, LEFT); //left come right
+            do_next_move(boar, ex_+1, ey_, 'N', mov, DOWN); //down come up
+        }
+        else if (ex_ == 0 && ey_ == 2) //top-right
+        {
+            do_next_move(boar, ex_, ey_-1, 'E', mov, LEFT); //left come right
+            do_next_move(boar, ex_+1, ey_, 'N', mov, DOWN); //down come up
+        }
+        else if (ex_ == 1 && ey_ == 0) //middle-left
+        {
+            do_next_move(boar, ex_-1, ey_, 'N', mov, UP); //top come south
+            do_next_move(boar, ex_, ey_+1, 'E', mov, RIGHT); //right come left
+            do_next_move(boar, ex_+1, ey_, 'N', mov, DOWN); //down come up
+        }
+        else if (ex_ == 1 && ey_ == 1) //middle
+        {
+            do_next_move(boar, ex_-1, ey_, 'N', mov, UP); //top come south
+            do_next_move(boar, ex_, ey_+1, 'E', mov, RIGHT); //right come left
+            do_next_move(boar, ex_, ey_-1, 'E', mov, LEFT); //left come right
+            do_next_move(boar, ex_+1, ey_, 'N', mov, DOWN); //down come up
+        }
+        else if (ex_ == 1 && ey_ == 2) //middle-right
+        {
+            do_next_move(boar, ex_-1, ey_, 'N', mov, UP); //top come south
+            do_next_move(boar, ex_, ey_-1, 'E', mov, LEFT); //left come right
+            do_next_move(boar, ex_+1, ey_, 'N', mov, DOWN); //down come up
+        }
+        else if (ex_ == 2 && ey_ == 0) //bottom-left
+        {
+            do_next_move(boar, ex_-1, ey_, 'N', mov, UP); //top come south
+            do_next_move(boar, ex_, ey_+1, 'E', mov, RIGHT); //right come left
+        }
+        else if (ex_ == 2 && ey_ == 1) //bottom-middle
+        {
+            do_next_move(boar, ex_-1, ey_, 'N', mov, UP); //top come south
+            do_next_move(boar, ex_, ey_+1, 'E', mov, RIGHT); //right come left
+            do_next_move(boar, ex_, ey_-1, 'E', mov, LEFT); //left come right
+        }
+        else if (ex_ == 2 && ey_ == 2) //bottom-right
+        {
+            do_next_move(boar, ex_-1, ey_, 'N', mov, UP); //top come south
+            do_next_move(boar, ex_, ey_+1, 'E', mov, RIGHT); //right come left
+        }
+        mov += 1;
+    }
+}
+
 void process()
 {
     //process input
-    dbg( dump(); );
-    store_board(final_board);
+    dbg( dump(final_board); );
+    int n = 0;
+    int countdown = 16;
+    REP(i, 3)
+    {
+        REP(j, 3)
+        {
+            switch (final_board.b[i][j])
+            {
+            case 'W': //1
+                n |= (1 << (countdown));
+                break;
+            case 'E': //0
+                break;
+            case 'R': //2
+                n |= (2 << (countdown));
+                break;
+            case 'B': //3 
+                n |= (3 << (countdown));
+                break;
+            }
+            countdown -= 2;
+        }
+    }
+    boards[n] = 31;
+    final_n = n;
+    board start;
+    REP(i, 3)
+    {
+        REP(j, 3)
+        {
+            start.b[i][j] = 'W';
+        }
+    }
+    start.b[ex-1][ey-1] = 'E';
+    bfs.push(start);
+
+    iterate(0);
+    debug(boards[n], endl);
 }
 
 int main()
 {
+    moves['W']['E'] = 'B';
+    moves['W']['N'] = 'R';
+    moves['R']['E'] = 'B';
+    moves['R']['N'] = 'W';
+    moves['B']['E'] = 'W';
+    moves['B']['N'] = 'R';
     while (getInput())
     {
         CL(boards, 0);
