@@ -118,7 +118,8 @@ int main()
     rev['D'] = ' ';
     rev['E'] = '3';
     rev['F'] = ' ';
-    rev['H'] = ' ';
+    rev['G'] = ' ';
+    rev['H'] = 'H';
     rev['I'] = 'I';
     rev['J'] = 'L';
     rev['K'] = ' ';
