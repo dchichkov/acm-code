@@ -30,7 +30,8 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-string line;
+int len;
+string last_bend;
 /*global variables*/
 
 void dump()
@@ -41,28 +42,25 @@ void dump()
 bool getInput()
 {
     //get input
-    char letter[30];
-    char ins;
-    while (!feof(stdin))
-    {
-        scanf("%*[_|\n]%[ o].", letter);
-        debug(letter, TAB); debug(strlen(letter), TAB);
-        cin >> ins;
-        debug(ins, endl);
-    }
+    scanf("%d ", &len);
+    if (len == 0) return false;
     return true;
 }
 
 void process()
 {
     //process input
+    REP(i, len-1)
+    {
+
+    }
 }
 
 int main()
 {
-    //while ()
+    while (getInput())
     {
-        getInput();
+
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
