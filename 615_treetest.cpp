@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <set>
 
 using namespace std;
 
@@ -30,7 +31,10 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int numc;
+
+bool hasacycle;
+set<int> children;
+set<int> parents;
 /*global variables*/
 
 void dump()
@@ -41,53 +45,40 @@ void dump()
 bool getInput()
 {
     //get input
-    scanf("%d ", &numc);
-    if (numc < 0) return false;
+    int a,b;
+    pair<set<int>::iterator, bool> rt;
+    while (scanf("%d %d ", &a, &b), (a != 0 && b != 0))
+    {
+        if (a == -1 && b == -1) return false;
+        rt = children.insert(b);
+        parents.insert(a);
+        debug(a, TAB); debug(b, TAB); debug(rt.second, endl);
+        if (rt.second == false)
+            hasacycle = true;
+    }
+           
     return true;
 }
 
 void process()
 {
     //process input
-    int maxp = 0;
-    int leftover;
-    for(int i = sqrt(numc)+1; i > 1; --i)
-    {
-        leftover = numc;
-        REP(j, i)
-        {
-            debug(leftover, TAB); debug(i, endl);
-            if (leftover % i != 1)
-                goto next;
-            
-            leftover -= ((leftover/i) + 1);
-        }
-        if (leftover%i == 0)
-        {
-            maxp = i;
-            break;
-        }
-    next:
-        ;
-    } 
-    printf("%d coconuts, ", numc);
-    if (maxp)
-        printf("%d people and 1 monkey", maxp);
-    else
-        printf("no solution");
-
-    puts("");
+    debug(hasacycle, TAB); debug(parents.size(), TAB); debug(children.size(), endl);
+    printf("is%s a tree.\n", (hasacycle) ? " not" : "");
 }
 
 int main()
 {
+    int cn = 0;
     while (getInput())
     {
-
+        printf("Case %d ", ++cn);
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        hasacycle = false;
+        children.clear();
+        parents.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 

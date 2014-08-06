@@ -8,7 +8,7 @@
 
 using namespace std;
 
-//#define DEBUG  //comment this line to pull out print statements
+#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -30,7 +30,7 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int numc;
+string line;
 /*global variables*/
 
 void dump()
@@ -41,42 +41,33 @@ void dump()
 bool getInput()
 {
     //get input
-    scanf("%d ", &numc);
-    if (numc < 0) return false;
+    int len;
+    scanf("%d ", &len);
+    if (len == 0) return false;
+
+    getline(cin, line);
+    
     return true;
 }
 
 void process()
 {
     //process input
-    int maxp = 0;
-    int leftover;
-    for(int i = sqrt(numc)+1; i > 1; --i)
-    {
-        leftover = numc;
-        REP(j, i)
-        {
-            debug(leftover, TAB); debug(i, endl);
-            if (leftover % i != 1)
-                goto next;
-            
-            leftover -= ((leftover/i) + 1);
-        }
-        if (leftover%i == 0)
-        {
-            maxp = i;
-            break;
-        }
-    next:
-        ;
-    } 
-    printf("%d coconuts, ", numc);
-    if (maxp)
-        printf("%d people and 1 monkey", maxp);
+    int dist=0x0FFFFFFF, x = 0, y = 0;
+    if (line.find_first_of("Z", 0) != string::npos)
+        dist = 0;
     else
-        printf("no solution");
-
-    puts("");
+    {
+        for(int i = 0; i < line.length(); ++i)
+        {
+            x = line.find_first_of("DR", i);
+            debug(i, TAB); debug(x, endl);
+            if (i) dist = min(dist, abs(x-y));
+            if (x == string::npos) break;
+            i = y = x;
+        }
+    }
+    printf("%d\n", dist);
 }
 
 int main()
@@ -87,7 +78,7 @@ int main()
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        line.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 

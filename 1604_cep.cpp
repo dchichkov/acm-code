@@ -282,12 +282,13 @@ void process()
         }
     }
     start.b[ey-1][ex-1] = 'E';
-    store_board(start, 0);
     store_board(final_board, 31);
+    store_board(start, 0);
     bfs.push(start);
 
     iterate(0);
     debug(boards[n], endl);
+    
 }
 
 int main()

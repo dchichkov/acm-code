@@ -8,7 +8,7 @@
 
 using namespace std;
 
-//#define DEBUG  //comment this line to pull out print statements
+#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -30,7 +30,7 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int numc;
+int good_land;
 /*global variables*/
 
 void dump()
@@ -41,49 +41,32 @@ void dump()
 bool getInput()
 {
     //get input
-    scanf("%d ", &numc);
-    if (numc < 0) return false;
+    int n;
+    scanf("%d ", &n);
+    good_land = 0;
+    char c;
+    REP(i, n)
+    {
+        scanf("%c", &c);
+        if (c == '.') good_land++;
+    }
     return true;
 }
 
 void process()
 {
     //process input
-    int maxp = 0;
-    int leftover;
-    for(int i = sqrt(numc)+1; i > 1; --i)
-    {
-        leftover = numc;
-        REP(j, i)
-        {
-            debug(leftover, TAB); debug(i, endl);
-            if (leftover % i != 1)
-                goto next;
-            
-            leftover -= ((leftover/i) + 1);
-        }
-        if (leftover%i == 0)
-        {
-            maxp = i;
-            break;
-        }
-    next:
-        ;
-    } 
-    printf("%d coconuts, ", numc);
-    if (maxp)
-        printf("%d people and 1 monkey", maxp);
-    else
-        printf("no solution");
-
-    puts("");
+    printf("%d\n", good_land/2);
 }
 
 int main()
 {
-    while (getInput())
+    int nc, count = 0;
+    scanf("%d ", &nc);
+    while (nc-- > 0)
     {
-
+        printf("Case %d: ", ++count);
+        getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
