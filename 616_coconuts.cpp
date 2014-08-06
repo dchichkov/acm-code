@@ -51,7 +51,7 @@ void process()
     //process input
     int maxp = 0;
     int leftover;
-    for(int i = sqrt(numc)+1; i > 1; --i)
+    for(int i = sqrt(numc); i > 1; --i)
     {
         leftover = numc;
         if (leftover % i != 1) continue;
@@ -59,14 +59,14 @@ void process()
         {
             debug(leftover, TAB); debug(i, endl);
             if (leftover % i != 1)
-            {
-                maxp = 0;
                 break;
-            }
-            else maxp = i;
             leftover -= ((leftover/i)+1);
         }
-        if (maxp != 0 && (leftover % maxp == 0)) break;
+        if (leftover % i == 0)
+        {
+            maxp = i;
+            break;
+        }
     } 
     printf("%d coconuts, ", numc);
     if (maxp != 0)
