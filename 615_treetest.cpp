@@ -47,13 +47,13 @@ bool getInput()
     //get input
     int a,b;
     pair<set<int>::iterator, bool> rt;
-    while (scanf("%d %d ", &a, &b), (a != 0 && b != 0))
+    while (scanf("%d %d ", &a, &b), (a != 0 || b != 0))
     {
         if (a == -1 && b == -1) return false;
         rt = children.insert(b);
         parents.insert(a);
         debug(a, TAB); debug(b, TAB); debug(rt.second, endl);
-        if (rt.second == false)
+        if (rt.second == false || a == b)
             hasacycle = true;
     }
            
@@ -63,8 +63,12 @@ bool getInput()
 void process()
 {
     //process input
+    int np = 0;
+    for (set<int>::iterator it = parents.begin(); it != parents.end(); ++it)
+        if (children.find(*it) == children.end()) np++;
+    debug(np, TAB);
     debug(hasacycle, TAB); debug(parents.size(), TAB); debug(children.size(), endl);
-    printf("is%s a tree.\n", (hasacycle) ? " not" : "");
+    printf("is%s a tree.\n", (hasacycle || np > 1) ? " not" : "");
 }
 
 int main()
