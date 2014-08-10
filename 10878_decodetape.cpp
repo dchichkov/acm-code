@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -41,14 +41,32 @@ void dump()
 bool getInput()
 {
     //get input
-    char letter[30];
-    char ins;
-    while (!feof(stdin))
+    char letter;
+    char ltr = 0;
+    int ctr = 0;
+    while ((letter = getchar()) != EOF)
     {
-        scanf("%*[_|\n]%[ o].", letter);
-        debug(letter, TAB); debug(strlen(letter), TAB);
-        cin >> ins;
-        debug(ins, endl);
+        switch (letter)
+        {
+        case ' ':
+            ++ctr;
+            ltr <<= 1;
+            debug((int)ltr, TAB);
+            break;
+        case 'o':
+            ++ctr;
+            ltr <<= 1;
+            ltr += 1;
+            debug((int)ltr, TAB);
+            break;
+        }
+        if (ctr == 8)
+        {
+            debug(ltr, endl);
+            line += ltr;
+            ltr = 0;
+            ctr = 0;
+        }
     }
     return true;
 }
@@ -56,6 +74,7 @@ bool getInput()
 void process()
 {
     //process input
+    printf("%s", line.c_str());
 }
 
 int main()
