@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
-#include <sstream>
 
 using namespace std;
 
@@ -31,8 +30,8 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-vi signals;
-stringstream lne;
+vi nums;
+bool ugh;
 /*global variables*/
 
 void dump()
@@ -40,44 +39,50 @@ void dump()
     //dump data
 }
 
-int gcd(int a, int b)
-{
-    return (b == 0) ? a : gcd(b, a%b);
-}
-
-int lcm(int a, int b)
-{
-    return (a * (b/gcd(a,b)));
-}
-
 bool getInput()
 {
     //get input
-    if (cin.eof()) return false;
-    string line;
-    getline(cin, line);
-    lne.str(line);
+    int k;
+    scanf("%d ", &k);
+    if (k != 0 && ugh)
+    {
+        puts("");
+    }
+    if (!ugh) ugh = !ugh;
+    if (k == 0) return false;
+    int a;
+    nums.reserve(k);
+    REP(i, k)
+    {
+        scanf("%d ", &a);
+        nums.push_back(a);
+    }
     return true;
 }
 
 void process()
 {
     //process input
-    int a;
-    while (!lne.eof())
+    FOR(a, 0, nums.size())
     {
-        lne >> a;
-        debug(a, TAB);
-        signals.push_back(a);
+        FOR(b, a+1, nums.size())
+        {
+            FOR(c, b+1, nums.size())
+            {
+                FOR(d, c+1, nums.size())
+                {
+                    FOR(e, d+1, nums.size())
+                    {
+                            FOR(f, e+1, nums.size())
+                            {
+                                printf("%d %d %d %d %d %d\n", nums[a], nums[b], nums[c],
+                                       nums[d], nums[e], nums[f]);
+                            }
+                    }
+                }
+            }
+        }
     }
-
-    int lm = signals[0];
-    FOR(i, 1, (int)signals.size())
-    {
-        lm = lcm(lm, signals[i]);
-    }
-
-    debug(lm, endl);
 }
 
 int main()
@@ -88,8 +93,7 @@ int main()
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        signals.clear();
-        lne.clear();
+        nums.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 

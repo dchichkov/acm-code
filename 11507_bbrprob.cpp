@@ -31,7 +31,6 @@ typedef vector<point> vp; //?
 
 /*global variables*/
 int len;
-string last_bend;
 /*global variables*/
 
 void dump()
@@ -49,9 +48,19 @@ bool getInput()
 
 void process()
 {
+    string ans;
     //process input
+    //x reverses z
+    //y reverses x
+    //z reverses y
+    string last_bend;
+    cin >> last_bend;
+    ans = last_bend;
+    int dir = 1; //1 for positive, 0 for neg
     REP(i, len-1)
     {
+        cin >> last_bend;
+        if (last_bend[1] == 'z') 
 
     }
 }

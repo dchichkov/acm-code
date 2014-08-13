@@ -68,7 +68,7 @@ void process()
         if (children.find(*it) == children.end()) np++;
     debug(np, TAB);
     debug(hasacycle, TAB); debug(parents.size(), TAB); debug(children.size(), endl);
-    printf("is%s a tree.\n", (hasacycle || np > 1) ? " not" : "");
+    printf("is%s a tree.\n", (hasacycle || np > 1 || children.size() == parents.size()) ? " not" : "");
 }
 
 int main()

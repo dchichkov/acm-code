@@ -43,8 +43,9 @@ void dump()
 
 void sieve()
 {
+    int k = sqrt(MAX_PRIME);
     CL(soe, 1);
-    for (int i = 41; i < MAX_PRIME/2; ++i)
+    for (int i = 41; i < k; )
     {
         if (soe[i])
         {
@@ -53,14 +54,15 @@ void sieve()
                 soe[j] = 0;
             }
         }
+        while(soe[++i] == 0);
     }
-
+    
     REP(i, 10002)
     {
-
+        
         eoe[i] = (i*i) + i + 41;
     }
-
+    
 }
 
 bool getInput()

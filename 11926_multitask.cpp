@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
-#include <sstream>
+#include <bitset>
 
 using namespace std;
 
@@ -31,8 +31,8 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-vi signals;
-stringstream lne;
+int n, m;
+bitset<1000000> times;
 /*global variables*/
 
 void dump()
@@ -40,44 +40,56 @@ void dump()
     //dump data
 }
 
-int gcd(int a, int b)
-{
-    return (b == 0) ? a : gcd(b, a%b);
-}
-
-int lcm(int a, int b)
-{
-    return (a * (b/gcd(a,b)));
-}
-
 bool getInput()
 {
     //get input
-    if (cin.eof()) return false;
-    string line;
-    getline(cin, line);
-    lne.str(line);
+    scanf("%d %d ", &n, &m);
+    if (!n && !m) return false;
     return true;
 }
 
 void process()
 {
     //process input
-    int a;
-    while (!lne.eof())
+    int a, b, c;
+    bool conflict = false;
+    REP(i, n)
     {
-        lne >> a;
-        debug(a, TAB);
-        signals.push_back(a);
+        scanf("%d %d ", &a, &b);
+        if (conflict) continue;
+        FOR(j, a, b)
+        {
+            if (times.test(j))
+            {
+                conflict = true;
+                break;
+            }
+            times.set(j);
+        }
+    }
+    
+    REP(i, m)
+    {
+        scanf("%d %d %d ", &a, &b, &c);
+        if (conflict) continue;
+        int j;
+        for (j = a; j <= 1000000; ++j)
+        {
+            if (times.test(j))
+            {
+                conflict = true;
+                break;
+            }
+            times.set(j);
+            if (j == b)
+            {
+                j -= (b-a);
+                j += c;
+            }
+        }
     }
 
-    int lm = signals[0];
-    FOR(i, 1, (int)signals.size())
-    {
-        lm = lcm(lm, signals[i]);
-    }
-
-    debug(lm, endl);
+    printf("%s\n", conflict ? "CONFLICT" : "NO CONFLICT");
 }
 
 int main()
@@ -88,8 +100,7 @@ int main()
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        signals.clear();
-        lne.clear();
+        times.reset();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
