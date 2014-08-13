@@ -74,38 +74,29 @@ void process()
 int main()
 {
     //pre-compute
-    char dig[9];
     int a, b;
     FOR(i, 0, 99)
     {
-        sprintf(dig, "%02d", i);
-        sscanf(&dig[0], "%1d", &a);
-        sscanf(&dig[1], "%d", &b);
-        debug(a, TAB); debug(b, endl);
+        a = i/10;
+        b = i%10;
         if ((a+b)*(a+b) == i) squares[2].push_back(i);
     }
     FOR(i, 0, 9999)
     {
-        sprintf(dig, "%04d", i);
-        sscanf(&dig[0], "%2d", &a);
-        sscanf(&dig[2], "%d", &b);
-        debug(a, TAB); debug(b, endl);
+        a = i/100;
+        b = i%100;
         if ((a+b)*(a+b) == i) squares[4].push_back(i);
     }
     FOR(i, 0, 999999)
     {
-        sprintf(dig, "%06d", i);
-        sscanf(&dig[0], "%3d", &a);
-        sscanf(&dig[3], "%d", &b);
-        debug(a, TAB); debug(b, endl);
+        a = i/1000;
+        b = i%1000;
         if ((a+b)*(a+b) == i) squares[6].push_back(i);
     }
     FOR(i, 0, 99999999)
     {
-        sprintf(dig, "%08d", i);
-        sscanf(&dig[0], "%4d", &a);
-        sscanf(&dig[4], "%d", &b);
-        debug(a, TAB); debug(b, endl);
+        a = i/10000;
+        b = i%10000;
         if ((a+b)*(a+b) == i) squares[8].push_back(i);
     }
     
