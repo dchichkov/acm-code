@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -30,7 +30,7 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int good_land;
+string line;
 /*global variables*/
 
 void dump()
@@ -43,20 +43,27 @@ bool getInput()
     //get input
     int n;
     scanf("%d ", &n);
-    good_land = 0;
-    char c;
-    REP(i, n)
-    {
-        scanf("%c", &c);
-        if (c == '.') good_land++;
-    }
+    getline(cin, line);
     return true;
 }
 
 void process()
 {
     //process input
-    printf("%d\n", good_land/2);
+    int scs = 0;
+    REP(i, line.length())
+    {
+        if (line[i] == '.')
+        {
+            REP(j, 3)
+            {
+                line[min(i-j+2, (int)(line.length()-1))] = 'X';
+            }
+            debug(line, endl);
+            scs++;
+        }
+    }
+    printf("%d\n", scs);
 }
 
 int main()
