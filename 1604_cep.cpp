@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -34,6 +34,7 @@ typedef vector<point> vp; //?
 struct board
 {
     char b[3][3];
+    bool orient[3][3];
 } final_board;
 
 int ex, ey;
@@ -63,14 +64,16 @@ void dump(const board& cb)
 void binary(int number, int binary_x = 1) {
 	int remainder;
 	if(number <= 1) {
+        if (binary_x != 18)
+            cout << 0;
 		cout << number;
 		return;
 	}
 
 	remainder = number%2;
-	binary(number >> 1, binary_x++);    
-	cout << remainder;
+	binary(number >> 1, ++binary_x);
     if (binary_x%2) cout << "|";
+	cout << remainder;
 }
 
 bool store_board(const board& bo, int a)
@@ -101,13 +104,15 @@ bool store_board(const board& bo, int a)
     dbg( binary(n); cout << endl; );
     if (final_n == n)
     {
+        debug(a, TAB); debug(final_n, TAB); debug(n, endl);
+        boards[n] = min(boards[n], a);
+        dbg(cout << "HIT ENDING" << endl;);
         return false;
-        cout << "HIT ENDING" << endl;
     }
-    if (boards[n] || a > 30)
+    if (boards[n])
     {
         //boards[n] = min(boards[n], a);
-        dbg(cout << "HIT PREVIOUS" << endl);
+        dbg(cout << "HIT PREVIOUS" << endl;);
         return false;
     }
     boards[n] = a; //min(boards[n], a);
@@ -160,15 +165,17 @@ void do_next_move(board boar, int x, int y, char dir, int mv, int from)
         break;
         
     }
-    dump(boar);
+    dbg( dump(boar); );
     if (store_board(boar, mv))
         bfs.push(boar);            
 }
 
 void iterate(int mov)
 {
-
-    while (!bfs.empty())
+    dbg (if (mov > 13) return;);
+    if (mov > 30 || bfs.empty()) return;
+    int sz = bfs.size();
+    REP(i, sz)
     {
         board& boar = bfs.front();
         bfs.pop();
@@ -187,8 +194,8 @@ void iterate(int mov)
             }
         }
     out:
-        debug(ex_, TAB); debug(ey_, endl);
-        dump(boar);
+        debug(mov, TAB); debug(ex_, TAB); debug(ey_, endl);
+        dbg( dump(boar); );
         if (ex_ == 0 && ey_ == 0) //top-left
         {
             do_next_move(boar, ex_, ey_+1, 'E', mov, RIGHT); //right come left
@@ -238,10 +245,10 @@ void iterate(int mov)
         else if (ex_ == 2 && ey_ == 2) //bottom-right
         {
             do_next_move(boar, ex_-1, ey_, 'N', mov, UP); //top come south
-            do_next_move(boar, ex_, ey_+1, 'E', mov, RIGHT); //right come left
+            do_next_move(boar, ex_, ey_-1, 'E', mov, LEFT); //left come right
         }
-        mov += 1;
     }
+    iterate(mov+1);
 }
 
 void process()
@@ -271,7 +278,7 @@ void process()
             countdown -= 2;
         }
     }
-
+    boards[n] = 31;
     final_n = n;
     board start;
     REP(i, 3)
@@ -282,13 +289,12 @@ void process()
         }
     }
     start.b[ey-1][ex-1] = 'E';
-    store_board(final_board, 31);
     store_board(start, 0);
     bfs.push(start);
 
-    iterate(0);
+    iterate(1);
     debug(boards[n], endl);
-    
+    printf("%d\n", boards[n] == 31 ? -1 : boards[n]);
 }
 
 int main()
