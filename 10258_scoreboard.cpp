@@ -36,6 +36,7 @@ struct team
 {
     int team_num;
     int probs[10];
+    int iprobs[10];
     int total_time;
 };
 
@@ -48,6 +49,8 @@ struct team_sort
     {
         int c = accumulate(a.probs, a.probs+10, 0);
         int d = accumulate(b.probs, b.probs+10, 0);
+        if (c == d && a.total_time == b.total_time)
+            return a.team_num < b.team_num;
         if (c == d)
             return a.total_time < b.total_time;
         else
@@ -80,15 +83,16 @@ bool getInput()
         {
         case 'I':
             if (teams[teamnum].probs[probnum] != 1)
-                teams[teamnum].total_time += 20;
+                teams[teamnum].iprobs[probnum]++;
             break;
         case 'C':
             if (teams[teamnum].probs[probnum] != 1)
             {
                 teams[teamnum].probs[probnum] = 1;
-                teams[teamnum].total_time += time;
+                teams[teamnum].total_time += teams[teamnum].iprobs[probnum] * 20 + time;
             }
             break;
+            
         }
         if (feof(stdin)) break;
     }
@@ -116,17 +120,18 @@ void process()
 
 int main()
 {
-    teams.reserve(101);
     int nc;
     scanf("%d ", &nc);
     while (nc-- > 0)
     {
+        teams.resize(101);
         getInput();
         process();
         if (nc > 0) puts("");
         /*CLEAR GLOBAL VARIABLES!*/
         teams.clear();
         ateams.clear();
+
         /*CLEAR GLOBAL VARIABLES!*/
     }
 

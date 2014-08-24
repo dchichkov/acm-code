@@ -43,7 +43,7 @@ int final_n;
 queue<board> bfs;
 
 //--moves   (initial, e/w, n/s)
-char moves[0x60][0x60];
+char moves[2][0x60][0x60];
 enum {RIGHT = 0, LEFT, DOWN, UP};
 /*global variables*/
 
