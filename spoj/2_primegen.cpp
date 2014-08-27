@@ -18,6 +18,7 @@ using namespace std;
 #define debug(a, end)
 #define dbg(end)
 #endif
+#define EPS 1e-9
 
 typedef pair<int, int> point;
 typedef vector<int> vi;
@@ -37,15 +38,17 @@ int x, y;
 /*global variables*/
 
 void sieve(int a, int b)
-{   
+{
+    nms.set();
+    nms[0] = nms[1] = 0;
     for (int i = a; i < b+1; ++i)
     {
-        if (nms.test(i) == 0)
+        if (nms[i])
         {
             primes.push_back(i);
             for (int j = i+i; j < b+1; j+=i)
             {
-                nms.set(j);
+                nms[j] = 0;
             }
         }
     }
@@ -69,13 +72,13 @@ void process()
     bool prime;
     FOR(i, x, y+1)
     {
-        prime = false;
+        if (i < 100000) { prime = nms[i]; if (prime) printf("%d\n", i); continue; }
+        prime = true;
         for (int j = 0; j < (int)primes.size() && primes[j] < y+1; ++j)
         {
-            debug(primes[j], TAB); debug(i / primes[j], endl);
-            if (i / primes[j] == 1 && i % primes[j] == 0)
+            if (i % primes[j] == 0)
             {
-                prime = true;
+                prime = false;
                 break;
             }   
         }
@@ -88,7 +91,6 @@ int main()
 {
     int nc;
     scanf("%d ", &nc);
-    primes.push_back(1);
     sieve(2, 100000);
     while (nc-- > 0)
     {

@@ -4,15 +4,12 @@
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
-#include <set>
-#include <vector>
 #include <algorithm>
-
+#include <set>
 
 using namespace std;
 
-#define DEBUG
-//#undef DEBUG //uncomment this line to pull out print statements
+//#define DEBUG
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -38,8 +35,8 @@ template<class T> void chmax(T &t, T f) { if (t < f) t = f; } //change max
 
 /*global variables*/
 int N;
-bool primes[20];
-vector<int> ring;
+bool primes[35];
+bool f;
 /*global variables*/
 
 void dump()
@@ -50,45 +47,53 @@ void dump()
 bool getInput()
 {
     //get input
-    if (feof(stdin) ||
-        scanf("%d", &N) == EOF) return false;
-
-    REP(i, N)
-    {
-        ring.push_back(i+1);
-    }
+    if (scanf("%d ", &N) == EOF) return false;
+    if (f) puts("");
+    else f = !f;
     
     return true;
 }
 
+void iterate(vi rng, int n)
+{
+    debug(rng.size(), TAB); debug(n, endl);
+    if (primes[rng.back() + n])
+    {
+        rng.push_back(n);
+    }
+    else return;
+    if (rng.size() == N && primes[rng.back() + rng.front()])
+    {
+        //output
+        printf("%d", rng[0]);
+        FOR(i, 1, rng.size())
+        {
+            printf(" %d", rng[i]);
+        }
+        puts("");
+        return;
+    }
+
+    FOR(i, 2, N+1)
+    {
+        if (find(rng.begin(), rng.end(), i) == rng.end())
+            iterate(rng, i);
+    }
+        
+}
+
 void process()
 {
-    int a[1];
-    bool primal = true;
-    do
+    if (N % 2 == 1) { return; }
+    vi ring;
+    set<int> lft;
+    ring.push_back(1);
+    //FOR(i, 2, N+1)
+    //    lft.insert(i);
+    FOR(i, 2, N+1)
     {
-        FOR(i, 1, N-1)
-        {
-            if (!primes[ring[i] + ring[i-1]] || !primes[ring[i] + ring[i+1]])
-            {
-                primal = false;
-                break;
-            }
-        }
-
-        if (primal && primes[ring[0] + ring[N-1]])
-        {
-            printf("%d", ring[0]);
-            FOR(i, 1, N)
-                printf(" %d", ring[i]);
-            
-            printf("\n");
-        }
-        primal = true;
+        iterate(ring, i);//, lft);
     }
-    while (next_permutation(ring.begin()+1, ring.end()));
-
-    printf("\n");      
 }
 
 int main()
@@ -103,15 +108,18 @@ int main()
     primes[13] = true;
     primes[17] = true;
     primes[19] = true;
+    primes[23] = true;
+    primes[29] = true;
+    primes[31] = true;
     
     int count = 0;
     while (getInput())
     {
         printf("Case %d:\n", ++count);
         process();
-
+        
         /*CLEAR GLOBAL VARIABLES!*/
-        ring.clear();
+
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
