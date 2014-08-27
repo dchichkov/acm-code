@@ -6,6 +6,7 @@
 #include <cmath>
 #include <algorithm>
 #include <bitset>
+#include <fstream>
 
 using namespace std;
 
@@ -18,7 +19,6 @@ using namespace std;
 #define debug(a, end)
 #define dbg(end)
 #endif
-#define EPS 1e-9
 
 typedef pair<int, int> point;
 typedef vector<int> vi;
@@ -32,13 +32,21 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-bitset<100020> nms;
+bitset<31630> nms;
 vi primes;
 int x, y;
+//fstream in("2_primegen.out");
 /*global variables*/
 
 void sieve(int a, int b)
 {
+    /*int c;
+    while (!in.eof())
+    {
+        in >> c;
+        primes2.push_back(c);
+        }*/
+    
     nms.set();
     nms[0] = nms[1] = 0;
     for (int i = a; i < b+1; ++i)
@@ -46,10 +54,8 @@ void sieve(int a, int b)
         if (nms[i])
         {
             primes.push_back(i);
-            for (int j = i+i; j < b+1; j+=i)
-            {
+            for (int j = i*i; j < b+1; j += i)
                 nms[j] = 0;
-            }
         }
     }
 }
@@ -69,21 +75,32 @@ bool getInput()
 void process()
 {
     //process input
-    bool prime;
+
+    double sqri;
+    dbg( int cnt = 0; );
     FOR(i, x, y+1)
     {
-        if (i < 100000) { prime = nms[i]; if (prime) printf("%d\n", i); continue; }
-        prime = true;
-        for (int j = 0; j < (int)primes.size() && primes[j] < y+1; ++j)
+        if (i < 31630)
+        {
+            if (nms[i])
+            {
+                printf("%d\n", i);
+                //cnt++; if (cnt % 10 == 0) puts("");
+            }
+            continue;
+        }
+        sqri = sqrt(i);
+        for (int j = 0; j < (int)primes.size() && primes[j] <= sqri; ++j)
         {
             if (i % primes[j] == 0)
-            {
-                prime = false;
-                break;
-            }   
+                goto next;
         }
-        debug(i, TAB); debug(prime, endl);
-        if (prime) printf("%d\n", i);
+        /*if (find(primes2.begin(), primes2.end(), i) == primes2.end())
+          debug(i, endl);*/
+        printf("%d\n", i);
+        //cnt++; if (cnt % 10 == 0) puts("");
+    next:
+        ;
     }
 }
 
@@ -91,7 +108,7 @@ int main()
 {
     int nc;
     scanf("%d ", &nc);
-    sieve(2, 100000);
+    sieve(2, 31630);
     while (nc-- > 0)
     {
         getInput();
