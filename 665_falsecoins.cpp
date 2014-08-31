@@ -73,16 +73,17 @@ void process()
         switch (sign)
         {
         case '<':
+        case '>':
             REP(i, left.size())
             {
-                debug(left[i]-1, TAB);
-                coins[left[i]-1] = 1;
-                debug(coins[left[i]-1], endl);
+                debug(coins[left[i]-1], TAB);
+                coins[left[i]-1] = max(coins[left[i]-1], 0);
             }
-            break;
-        case '>':
             REP(i, right.size())
-                coins[right[i]-1] = 1;
+            {
+                debug(coins[right[i]-1], endl);
+                coins[right[i]-1] = max(coins[right[i]-1], 0);
+            }
             break;
         case '=':
             REP(i, left.size())
@@ -95,11 +96,10 @@ void process()
         right.clear();
     }
 
-    debug((count(coins.begin(), coins.end(), 1)), endl);
     int d = count(coins.begin(), coins.end(), 0);
+    debug(d, endl);
     if (d != 1)
     {
-        dbg( cout << "wtf" << endl);
         printf("0");
     }
     else
