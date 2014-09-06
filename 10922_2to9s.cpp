@@ -30,7 +30,7 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-vi heights;
+string line;
 /*global variables*/
 
 void dump()
@@ -41,73 +41,44 @@ void dump()
 bool getInput()
 {
     //get input
-    int n, a;
-    scanf("%d ", &n);
-    REP(i, n)
-    {
-        scanf("%d ", &a);
-        heights.push_back(a);
-    }
+    getline(cin, line);
+    if (line.compare("0") == 0) return false;
     return true;
-}
-
-void bin_search(int n)
-{
-    int low = 0, high = heights.size(), low2 = 0, high2 = 0;
-    int mid;
-    while (high > low)
-    {
-        mid = (high+low)/2;
-        if (heights[mid] < n) low = mid+1;
-        else  high = mid;
-    }
-
-    for (int i = low-1; i >= 0; i--)
-        if (heights[i] < n)
-        {
-            low2 = i;
-            break;
-        }
-
-    for (int i = high; i < heights.size(); ++i)
-        if (heights[i] > n)
-        {
-            high2 = i;
-            break;
-        }
-
-    debug(low2, TAB); debug(high2, endl);
-    if (low != low2)
-        printf("%d ", heights[low2]);
-    else
-        printf("X ");
-
-    if (high2 < heights.size())
-        printf("%d", heights[high2]);
-    else
-        printf("X");
-
 }
 
 void process()
 {
     //process input
-    int q, a;
-    
-    scanf("%d ", &q);
-    REP(i, q)
+    int N = 0, j = 1;
+    REP(i, line.length())
     {
-        scanf("%d ", &a);
-        bin_search(a);
-        puts("");
+        N += line[i]-0x30;
     }
+    if (N%9 == 0)
+    {
+        char w[10];
+        while (N > 9)
+        {
+            sprintf(w, "%d", N);
+            N = 0;
+            REP(i, strlen(w))
+            {
+                N += w[i]-0x30;
+            }
+            j++;
+        }
+        printf("%s is a multiple of 9 and has 9-degree %d.", line.c_str(), j);
+    }
+    else
+        printf("%s is not a multiple of 9.", line.c_str());
+    puts("");
 }
 
 int main()
 {
-    //while ()
+    while (getInput())
     {
-        getInput();
+
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
