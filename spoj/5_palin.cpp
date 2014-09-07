@@ -117,7 +117,7 @@ void process()
     }
 
    
-    printf("%s\n", line.c_str());
+    printf("%s", line.c_str());
 }
 
 int main()
@@ -128,7 +128,7 @@ int main()
     {
         getInput();
         process();
-
+        if (nc != 0) puts("");
         /*CLEAR GLOBAL VARIABLES!*/
         
         /*CLEAR GLOBAL VARIABLES!*/
