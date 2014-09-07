@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -62,27 +62,21 @@ void bin_search(int n)
         else  high = mid;
     }
 
-    for (int i = low-1; i >= 0; i--)
-        if (heights[i] < n)
-        {
-            low2 = i;
+    for (low2 = min(low, (int)heights.size()-1);  low2 >= 0; low2--)
+        if (heights[low2] < n)
             break;
-        }
 
-    for (int i = high; i < heights.size(); ++i)
-        if (heights[i] > n)
-        {
-            high2 = i;
+    for (high2 = high; high2 < heights.size(); ++high2)
+        if (heights[high2] > n)
             break;
-        }
 
     debug(low2, TAB); debug(high2, endl);
-    if (low != low2)
+    if (low2 != -1)
         printf("%d ", heights[low2]);
     else
         printf("X ");
 
-    if (high2 < heights.size())
+    if (high2 != heights.size())
         printf("%d", heights[high2]);
     else
         printf("X");

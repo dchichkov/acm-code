@@ -51,14 +51,17 @@ void process()
     int mid = (line.length()-1)/2;
     if (line.length() % 2 == 1)
     {
-        line[mid]++;
+        if (line[mid] <= line[mid+1] || line.length() == 1)
+            line[mid]++;
+        
         //reflect
         debug(mid, endl);
         for (int i = mid, j = mid; i >= 0; i--, j++)
         {
             line[j] = line[i];
         }
-         //handle the 9s
+         //handle the 10s
+        debug(line, endl);
         for (int i = mid, j = mid; i >= 0; i--, j++)
         {
             debug((line[i] == 0x3A), TAB); debug((int)line[i] - 0x3A, endl);
@@ -90,7 +93,7 @@ void process()
         {
             line[j] = line[i];
         }
-         //handle the 9s
+         //handle the 10s
         for (int i = mid, j = mid+1; i >= 0; i--, j++)
         {
             debug((line[i] == 0x3A), TAB); debug((int)line[i] - 0x3A, endl);
