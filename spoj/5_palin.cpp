@@ -58,6 +58,27 @@ void process()
         {
             line[j] = line[i];
         }
+         //handle the 9s
+        for (int i = mid, j = mid; i >= 0; i--, j++)
+        {
+            debug((line[i] == 0x3A), TAB); debug((int)line[i] - 0x3A, endl);
+            if (line[i] == 0x3A)
+            {
+
+                debug(i, TAB); debug(j, TAB); debug(line[i-1], TAB);
+                debug(line[j+1], endl);
+                line[i] = 0x30;
+                line[j] = 0x30;
+                if (i == 0)
+                    line.insert(0, "1");
+                else
+                    line[i-1]++;
+                if (j != line.length()-1)
+                    line[j+1]++;
+                else
+                    line[j] = line[i-1];
+            }
+        }
     }
     else
     {
@@ -69,29 +90,30 @@ void process()
         {
             line[j] = line[i];
         }
-    }
-
-    //handle the 9s
-    for (int i = mid, j = mid+1; i >= 0; i--, j++)
-    {
-        debug((line[i] == 0x3A), TAB); debug((int)line[i] - 0x3A, endl);
-        if (line[i] == 0x3A)
+         //handle the 9s
+        for (int i = mid, j = mid+1; i >= 0; i--, j++)
         {
+            debug((line[i] == 0x3A), TAB); debug((int)line[i] - 0x3A, endl);
+            if (line[i] == 0x3A)
+            {
 
-            debug(i, TAB); debug(j, TAB); debug(line[i-1], TAB);
-            debug(line[j+1], endl);
-            line[i] = 0x30;
-            line[j] = 0x30;
-            if (i == 0)
-                line.insert(0, "1");
-            else
-                line[i-1]++;
-            if (j != line.length()-1)
-                line[j+1]++;
-            else
-                line[j] = line[i-1];
+                debug(i, TAB); debug(j, TAB); debug(line[i-1], TAB);
+                debug(line[j+1], endl);
+                line[i] = 0x30;
+                line[j] = 0x30;
+                if (i == 0)
+                    line.insert(0, "1");
+                else
+                    line[i-1]++;
+                if (j != line.length()-1)
+                    line[j+1]++;
+                else
+                    line[j] = line[i-1];
+            }
         }
     }
+
+   
     printf("%s\n", line.c_str());
 }
 
