@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <map>
+#include <limits>
 
 using namespace std;
 
@@ -30,8 +32,8 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int n;
-unsigned long long fibs[1010];
+map<int, int> fibs;
+vi fibnums;
 /*global variables*/
 
 void dump()
@@ -42,34 +44,49 @@ void dump()
 bool getInput()
 {
     //get input
-    if (feof(stdin)) return false;
+    int n, a;
     scanf("%d ", &n);
+    REP(i, n)
+    {
+        scanf("%d ", &a);
+        fibnums.push_back(a);
+    }
     return true;
 }
 
 void process()
 {
     //process input
-    printf("%llu\n", fibs[n]);
+    string line;
+    getline(cin, line);
+    debug(line, endl);
+    REP(i, fibnums.size())
+    {
+        printf("%c", line[fibnums[i]]);
+    }
+
+    puts("");
 }
 
 int main()
 {
-    fibs[0] = 1;
-    fibs[1] = 2;
+    fibs[0] = 0;
+    fibs[1] = 1;
 
-    FOR(i, 2, 1005)
+    for (int i = 2; fibs[fibs[i-2] + fibs[i-3]] < numeric_limits<int>::max(); ++i)
     {
-        fibs[i] = fibs[i-1] + fibs[i-2];
+        fibs[fibs[i-1] + fibs[i-2]] = i;
     }
     
-    while (getInput())
+    int tc;
+    scanf("%d ", &tc);
+    while (tc-- > 0)
     {
-
+        getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        fibnums.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
