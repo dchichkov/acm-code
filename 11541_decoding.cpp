@@ -5,12 +5,12 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
-#include <map>
-#include <limits>
+#include <sstream>
+#include <cctype>
 
 using namespace std;
 
-//#define DEBUG  //comment this line to pull out print statements
+#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -32,10 +32,7 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-map<int, int> fibss;
-vector<unsigned int> fibs;
-vi fibnums;
-int omg;
+string line;
 /*global variables*/
 
 void dump()
@@ -46,60 +43,41 @@ void dump()
 bool getInput()
 {
     //get input
-    int n, a;
-    scanf("%d ", &n);
-    REP(i, n)
-    {
-        scanf("%d ", &a);
-        fibnums.push_back(a);
-        debug(a, endl);
-        omg = max(omg, fibss[a]);
-    }
+    getline(cin, line);
     return true;
 }
 
 void process()
 {
     //process input
-    string line, l2;
-    getline(cin, line);
-    debug(omg, endl);
-    l2.resize(omg+1, ' ');
-    int i = 0;
-    REP(j, line.length())
+    char c;
+    long long num;
+    int e;
+    stringstream sstr(line);
+    while (sstr)
     {
-        if (isupper(line[j]))
-        {
-            l2[fibss[fibnums[i]]] = line[j];
-            ++i;
-        }
-        if (i == fibnums.size()) break;
+        sstr >> c;
+        sstr >> num;
+        REP(i, num)
+            printf("%c", toupper(c));
+        if (sstr.eof())
+            break;
     }
-    printf("%s", l2.c_str());
-    puts("");
+    cout << endl;
 }
 
 int main()
 {
-    fibs.push_back(1);
-    fibs.push_back(2);
-
-    for (int i = 2; fibs[i-1] < numeric_limits<int>::max(); ++i)
-        fibs.push_back(fibs[i-1] + fibs[i-2]);
-
-    REP(i, fibs.size())
-        fibss[fibs[i]] = i;
-
-    int tc;
+    int tc, cnt;
     scanf("%d ", &tc);
     while (tc-- > 0)
     {
-        omg = 0;
+        cout << "Case " << ++cnt << ": ";
         getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        fibnums.clear();
+
         /*CLEAR GLOBAL VARIABLES!*/
     }
 

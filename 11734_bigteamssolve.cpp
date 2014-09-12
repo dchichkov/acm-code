@@ -5,8 +5,6 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
-#include <map>
-#include <limits>
 
 using namespace std;
 
@@ -32,10 +30,7 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-map<int, int> fibss;
-vector<unsigned int> fibs;
-vi fibnums;
-int omg;
+string l1, l2;
 /*global variables*/
 
 void dump()
@@ -46,60 +41,70 @@ void dump()
 bool getInput()
 {
     //get input
-    int n, a;
-    scanf("%d ", &n);
-    REP(i, n)
-    {
-        scanf("%d ", &a);
-        fibnums.push_back(a);
-        debug(a, endl);
-        omg = max(omg, fibss[a]);
-    }
+    getline(cin, l1);
+    getline(cin, l2);
     return true;
 }
 
 void process()
 {
     //process input
-    string line, l2;
-    getline(cin, line);
-    debug(omg, endl);
-    l2.resize(omg+1, ' ');
-    int i = 0;
-    REP(j, line.length())
+    bool wa = false;
+    bool spcs = false;
+    if (l1.length() == l2.length())
     {
-        if (isupper(line[j]))
+        REP(i, l1.length())
         {
-            l2[fibss[fibnums[i]]] = line[j];
-            ++i;
+            if (l1[i] != l2[i])
+            {
+                wa = true;
+                break;
+            }
         }
-        if (i == fibnums.size()) break;
     }
-    printf("%s", l2.c_str());
+    else wa = true;
+
+    int m;
+    while ((m = l1.find(" ")) != string::npos) l1.erase(m, 1);
+    while ((m = l2.find(" ")) != string::npos) l2.erase(m, 1);
+    debug(l1, TAB); debug(l2, endl);
+    if (l1.length() == l2.length())
+    {
+        REP(i, l1.length())
+        {
+            if (l1[i] != l2[i])
+            {
+                spcs = true;
+                break;
+            }
+        }
+    } else spcs = true;
+    debug(wa, TAB); debug(spcs, endl);
+    if (wa && !spcs)
+    {
+        printf("Output Format Error");
+    }
+    else if (wa && spcs)
+    {
+        printf("Wrong Answer");
+    }
+    else printf("Yes");
+
     puts("");
 }
 
 int main()
 {
-    fibs.push_back(1);
-    fibs.push_back(2);
-
-    for (int i = 2; fibs[i-1] < numeric_limits<int>::max(); ++i)
-        fibs.push_back(fibs[i-1] + fibs[i-2]);
-
-    REP(i, fibs.size())
-        fibss[fibs[i]] = i;
-
-    int tc;
+    int tc, cnt = 0;
     scanf("%d ", &tc);
     while (tc-- > 0)
     {
-        omg = 0;
+        printf("Case %d: ", ++cnt);
         getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        fibnums.clear();
+
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
