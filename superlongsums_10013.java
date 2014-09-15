@@ -7,20 +7,24 @@ public class superlongsums_10013
     public static void main(String[] args)
     {
         int tc, nc;
-        BigInteger c = new BigInteger("0");
+        BigInteger c, d;
         Scanner in = new Scanner(System.in);
+        StringBuilder a = new StringBuilder();
+        StringBuilder b = new StringBuilder();
         tc = in.nextInt();
         while (tc-- > 0)
         {
-            c = BigInteger.ZERO;
             nc = in.nextInt();
             for (int i = 0; i < nc; ++i)
             {
-                c = c.add(new BigInteger(new Integer((int)(in.next().charAt(0)-0x30)*(int)Math.pow(10, nc-i-1)).toString()));
-                c = c.add(new BigInteger(new Integer((int)(in.next().charAt(0)-0x30)*(int)Math.pow(10, nc-i-1)).toString()));
+                a.append(in.next());
+                b.append(in.next());
             }
-
-            System.out.println(c);
+            c = new BigInteger(a.toString());
+            d = new BigInteger(b.toString());
+            a.delete(0, a.length());
+            b.delete(0, b.length());
+            System.out.println(c.add(d));
             if (tc != 0)
                 System.out.println();
         }
