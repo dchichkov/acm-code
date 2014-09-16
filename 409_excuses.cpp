@@ -34,7 +34,7 @@ typedef vector<point> vp;
 /*global variables*/
 set<string> excuses;
 int m;
-const char delim[] = {'\n', '"', '.', ',', '!', '?', ' '};
+const char delim[] = {"\n'\".,! ?*0123456789[]\\|+-_`~/:<>^()%$#@"};
 /*global variables*/
 
 void dump()
@@ -94,6 +94,7 @@ void process()
                 puts("");
         }
     puts("");
+    scanf(" ");
 }
 
 int main()
