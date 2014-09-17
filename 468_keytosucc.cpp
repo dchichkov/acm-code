@@ -32,7 +32,9 @@ typedef vector<point> vp;
 
 /*global variables*/
 map<char, int> frq, frq2;
-map<int, char> frq3;
+map<int, char, std::greater<int> > ans, ans2;
+map<char, char> sup;
+string enc;
 /*global variables*/
 
 void dump()
@@ -45,39 +47,43 @@ bool getInput()
     //get input
     string line;
     getline(cin, line);
-    if (line.compare("\n") == 0) getline(cin, line);
     REP(i, line.length())
     {
         frq[line[i]]++;
     }
+
     getline(cin, line);
+    enc = line;
     REP(i, line.length())
     {
         frq2[line[i]]++;
     }
+
+    scanf(" ");
     return true;
 }
 
 void process()
 {
     //process input
-    map<char, int>::iterator it, jt;
-    it = frq.begin();
-    jt = frq2.begin();
-    int mx = 0;
-    for (map<char, int>::iterator xt = frq.begin(); xt != frq.end(); ++xt)
-        frq3[xt->second] = xt->first;
-    while (it != frq.end())
-    {
-        debug(it->first, TAB); debug(it->second, TAB);
-        debug(jt->first, TAB); debug(jt->second, TAB);
-        debug(frq[it->second], endl);
-        REP(i, jt->second)
-            printf("%c", frq3[it->second]);
+    for (map<char, int>::iterator it = frq.begin(); it != frq.end(); ++it)
+        ans[it->second] = it->first;
 
-        it++;
-        jt++;
+    for (map<char, int>::iterator it = frq2.begin(); it != frq2.end(); ++it)
+        ans2[it->second] = it->first;
+
+    for (map<int, char>::iterator it = ans.begin(), jt = ans2.begin();
+         it != ans.end(); ++it, ++jt)
+    {
+        debug(it->first, TAB); debug(it->second, endl);
+        sup[jt->second] = it->second;
+        dbg( cout << endl; );
     }
+
+    REP(i, enc.length())
+        printf("%c", sup[enc[i]]);
+
+    
     puts("");
         
 }
@@ -92,9 +98,10 @@ int main()
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        frq.clear();
-        frq2.clear();
-        frq3.clear();
+        frq.clear(); frq2.clear();
+        ans.clear(); ans2.clear();
+        sup.clear();
+        enc.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
