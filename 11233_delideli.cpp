@@ -82,10 +82,11 @@ void process()
                     lines[i][lines[i].length()-2] != 'u')
                 {
                     debug(lines[i], endl);
-                    lines[i][lines[i].length()-2] = 'i';
-                    lines[i][lines[i].length()-1] = 'e';
+                    lines[i][lines[i].length()-1] = 'i';
+                    lines[i].append("es");
                 }
-                lines[i].append("s");
+                else
+                    lines[i].append("s");
             }
             else if (lines[i][lines[i].length()-1] == 'o' ||
                      lines[i][lines[i].length()-1] == 's' ||

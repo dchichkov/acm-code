@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -32,9 +32,24 @@ typedef vector<point> vp;
 
 /*global variables*/
 map<char, int> frq, frq2;
-map<int, char, std::greater<int> > ans, ans2;
 map<char, char> sup;
 string enc;
+string l1, l2;
+struct sorter
+{
+    bool operator() (const char& a, const char& b)
+    {
+        return frq[a] > frq[b];
+    }
+};
+
+struct sorter2
+{
+    bool operator() (const char& a, const char& b)
+    {
+        return frq2[a] > frq2[b];
+    }
+};
 /*global variables*/
 
 void dump()
@@ -45,19 +60,14 @@ void dump()
 bool getInput()
 {
     //get input
-    string line;
-    getline(cin, line);
-    REP(i, line.length())
-    {
-        frq[line[i]]++;
-    }
+    getline(cin, l1);
+    getline(cin, l2);
+    enc = l2;
 
-    getline(cin, line);
-    enc = line;
-    REP(i, line.length())
-    {
-        frq2[line[i]]++;
-    }
+    REP(i, l1.length())
+        frq[l1[i]]++;
+    REP(i, l2.length())
+        frq2[l2[i]]++;
 
     scanf(" ");
     return true;
@@ -66,23 +76,18 @@ bool getInput()
 void process()
 {
     //process input
-    for (map<char, int>::iterator it = frq.begin(); it != frq.end(); ++it)
-        ans[it->second] = it->first;
+    sort(l1.begin(), l1.end(), sorter());
+    sort(l2.begin(), l2.end(), sorter2());
+    debug(l1, TAB); debug(l2, endl);
+    l1.erase(unique(l1.begin(), l1.end()), l1.end());
+    l2.erase(unique(l2.begin(), l2.end()), l2.end());
+    debug(l1, TAB); debug(l2, endl);
+    REP(i, l1.length())
+        sup[l2[i]] = l1[i];
 
-    for (map<char, int>::iterator it = frq2.begin(); it != frq2.end(); ++it)
-        ans2[it->second] = it->first;
-
-    for (map<int, char>::iterator it = ans.begin(), jt = ans2.begin();
-         it != ans.end(); ++it, ++jt)
-    {
-        debug(it->first, TAB); debug(it->second, endl);
-        sup[jt->second] = it->second;
-        dbg( cout << endl; );
-    }
-
+    debug(enc, endl);
     REP(i, enc.length())
         printf("%c", sup[enc[i]]);
-
     
     puts("");
         
@@ -96,12 +101,9 @@ int main()
     {
         getInput();
         process();
-
+        if (tc != 0) puts("");
         /*CLEAR GLOBAL VARIABLES!*/
-        frq.clear(); frq2.clear();
-        ans.clear(); ans2.clear();
-        sup.clear();
-        enc.clear();
+        frq.clear(); frq2.clear(); sup.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
