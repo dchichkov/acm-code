@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <map>
 
 using namespace std;
 
@@ -30,7 +31,9 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-vector<string> nums;
+vector<string> lines;
+char l1[100], l2[100], l3[100];
+map<char, char> mapping;
 /*global variables*/
 
 void dump()
@@ -41,50 +44,55 @@ void dump()
 bool getInput()
 {
     //get input
-    string line;
-    int a;
-    scanf("%d ", &a);
-    REP(i, a)
+    
+    fgets(l1, 100, stdin);
+    fgets(l2, 100, stdin);
+    l1[strlen(l1)-1] = 0;
+    l2[strlen(l2)-1] = 0;
+    REP(i, strlen(l1))
+        mapping[l1[i]] = l2[i];
+    
+    while (fgets(l3, 100, stdin), !feof(stdin) && strcmp(l3, "\n") != 0)
     {
-        getline(cin, line);
-        nums.push_back(line);
+        //read next line and add it to list
+        l3[strlen(l3)-1] = 0;
+        lines.push_back(l3);
     }
+    scanf(" ");
     return true;
 }
 
 void process()
 {
     //process input
-    SORT(nums);
-    bool match = false;
-    REP(i, nums.size())
+    printf("%s\n", l2);
+    printf("%s\n", l1);
+    REP(i, lines.size())
     {
-        match = false;
-        REP(j, nums.size())
+        REP(j, lines[i].length())
         {
-            if (i == j) continue;
-            if (nums[j].find(nums[i]) != string::npos)
-            {
-                match = true;
-                break;
-            }
+            if (mapping.find(lines[i][j]) == mapping.end())
+                printf("%c", lines[i][j]);
+            else
+                printf("%c", mapping[lines[i][j]]);
         }
-        if (match) break;
+        puts("");
     }
-    printf("%s\n", match ? "NO" : "YES");
 }
 
 int main()
 {
-    int tc;
+    int tc, cnt = 0;
     scanf("%d ", &tc);
     while (tc-- > 0)
     {
         getInput();
         process();
-
+        if (tc != 0) puts("");
         /*CLEAR GLOBAL VARIABLES!*/
-        nums.clear();
+        lines.clear();
+        mapping.clear();
+        CL(l3, 0);
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
