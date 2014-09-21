@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -30,7 +30,7 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-char n1[1000010], n2[10000010];
+char n1[1000010], n2[1000010];
 int nd;
 /*global variables*/
 
@@ -42,13 +42,13 @@ void dump()
 bool getInput()
 {
     //get input
-    int a, b;
+    char a, b;
     scanf("%d ", &nd);
     REP(i, nd)
     {
-        scanf("%d %d ", &a, &b);
-        n1[nd-i-1] = a;
-        n2[nd-i-1] = b;
+        scanf("%c %c ", &a, &b);
+        n1[i] = a;
+        n2[i] = b;
     }
     return true;
 }
@@ -56,18 +56,27 @@ bool getInput()
 void process()
 {
     //process input
-    for (int i = strlen(n1); i >= 0; --i)
-        n1[i] = n1[i-1] + n2[i-1];
+    debug(n1, endl);
+    debug(n2, endl);
+    for (int i = nd-1; i >= 0; --i)
+        n1[i] = n1[i] + (n2[i] - 0x30);
+    debug(n1, endl);
 
-    n1[0] = '0';
-    for (int i = strlen(n1); i >= 0; --i)
-        if (n1[i] > 0x3A)
+    n1[nd] = 0;
+    for (int i = nd-1; i > 0; --i)
+    {
+        if (n1[i] > 0x39)
         {
-            n1[i] = n1[i]-0x3A;
+            n1[i] = (n1[i]-0x3A)+0x30;
             n1[i-1] += 1;
         }
-
-    printf("%s\n", n1);
+    }
+    debug(n1[0]-0x3A, endl);
+    if (n1[0] > 0x39)
+        printf("1%d", n1[0] - 0x3A);
+    else
+        printf("%c", n1[0]);
+    printf("%s\n", n1+1);
 }
 
 int main()
