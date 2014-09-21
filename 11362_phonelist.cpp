@@ -5,10 +5,11 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <csetjmp>
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -31,11 +32,32 @@ typedef vector<point> vp;
 
 /*global variables*/
 vector<string> nums;
+bool match = false;
+std::jmp_buf jump_buffer;
+int cnt;
+struct sorter
+{
+    bool operator()(const string& a, const string& b)
+    {
+        int c = min(a.length(), b.length());
+        int d = a.substr(0,c).compare(b.substr(0, c));
+        debug(d, TAB); debug(a.substr(0, c), TAB); debug(b.substr(0, c), endl);
+        if (d == 0)
+        {
+            match = true;
+            longjmp(jump_buffer, cnt++);
+        }
+        else return d < 1;
+    }
+    
+};
 /*global variables*/
 
 void dump()
 {
     //dump data
+    REP(i, nums.size())
+        printf("%s\n", nums[i].c_str());
 }
 
 bool getInput()
@@ -55,22 +77,11 @@ bool getInput()
 void process()
 {
     //process input
-    SORT(nums);
-    bool match = false;
-    REP(i, nums.size())
-    {
-        match = false;
-        REP(j, nums.size())
-        {
-            if (i == j) continue;
-            if (nums[j].find(nums[i]) != string::npos)
-            {
-                match = true;
-                break;
-            }
-        }
-        if (match) break;
-    }
+    cnt = setjmp(jump_buffer);
+    if (!cnt)
+        sort(nums.begin(), nums.end(), sorter());
+
+    dbg( dump() );
     printf("%s\n", match ? "NO" : "YES");
 }
 
@@ -80,11 +91,13 @@ int main()
     scanf("%d ", &tc);
     while (tc-- > 0)
     {
+        cnt = 0;
         getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
         nums.clear();
+        match = false;
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
