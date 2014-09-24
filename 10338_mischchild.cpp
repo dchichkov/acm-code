@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <map>
 
 using namespace std;
 
@@ -19,8 +20,8 @@ using namespace std;
 #endif
 
 typedef pair<int, int> point;
-typedef vector<int> vi; //?
-typedef vector<point> vp; //?
+typedef vector<int> vi;
+typedef vector<point> vp;
 
 #define UN(v) SORT(v),v.erase(unique(v.begin(),v.end()),v.end())   
 #define SORT(c) sort((c).begin(),(c).end())   
@@ -30,7 +31,10 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
+typedef unsigned long long ull;
+ull facts[30];
 string line;
+map<char, int> cont;
 /*global variables*/
 
 void dump()
@@ -42,63 +46,40 @@ bool getInput()
 {
     //get input
     getline(cin, line);
+    REP(i, line.length())
+        cont[line[i]]++;
     return true;
 }
 
 void process()
 {
     //process input
-    bool valid = true, l = true, m = false;
-    int a = 0, b = 0, c = 0;
-    debug(line, TAB);
-    REP(i, line.length())
-    {
-        if (line[i] != '?' && line[i] != 'M' && line[i] != 'E')
-        {
-            valid = false;
-            break;
-        }
-
-        if (line[i] == 'M')
-        {
-            if (m)
-            {
-                valid = false;
-                break;
-            }
-            m = true;
-        }
-        else if (line[i] == 'E')
-        {
-            if (!l)
-            {
-                valid = false;
-                break;
-            }
-            
-            l = false;
-        }
-        else if (line[i] == '?')
-            l ? (m ? c++ : a++) : b++;
-    }
-    //debug(a, TAB); debug(c, TAB); debug(b, endl);
-    if (a < 1 || c < 1 || b < 1)
-        valid = false;
+    ull a = 1, b = facts[line.length()];
+    for(map<char, int>::iterator it = cont.begin(); it != cont.end(); ++it)
+        b /= facts[it->second];
     
-    printf("%s\n", (valid) ? "theorem" : "no-theorem");
+    printf("%llu\n", b);
 }
 
 int main()
 {
-    int nc;
-    scanf("%d ", &nc);
-    while (nc-- > 0)
+    FOR(i, 1, 21)
+        facts[i] = i;
+        
+    FOR(i, 2, 21)
+        facts[i] *= facts[i-1];
+    
+    debug(facts[20], endl);
+    int tc, cnt = 0;
+    scanf("%d " , &tc);
+    while (tc-- > 0)
     {
+        printf("Data set %d: ", ++cnt);
         getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        cont.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 

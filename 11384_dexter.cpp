@@ -5,8 +5,6 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
-#include <set>
-#include <numeric>
 
 using namespace std;
 
@@ -21,8 +19,8 @@ using namespace std;
 #endif
 
 typedef pair<int, int> point;
-typedef vector<int> vi; //?
-typedef vector<point> vp; //?
+typedef vector<int> vi;
+typedef vector<point> vp;
 
 #define UN(v) SORT(v),v.erase(unique(v.begin(),v.end()),v.end())   
 #define SORT(c) sort((c).begin(),(c).end())   
@@ -30,32 +28,10 @@ typedef vector<point> vp; //?
 #define REP(i,n) FOR(i,0,n)    
 #define CL(a,b) memset(a,b,sizeof(a))
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
+#define eps 1E-9
 
 /*global variables*/
-string word;
-vector<string> words;
-struct cmp
-{
-    bool operator()(const string& a, const string& b)
-    {
-        REP(i, (int)min(a.length(), b.length()))
-        {
-            if (toupper(a[i]) == toupper(b[i]))
-                return a[i] < b[i];
-            else
-                return toupper(a[i]) < toupper(b[i]);
-        }
-    }
-};
-
-struct cmp2
-{
-    bool operator()(const char& a, const char& b)
-    {
-        return a < b;
-    }
-};
-
+int N;
 /*global variables*/
 
 void dump()
@@ -66,34 +42,26 @@ void dump()
 bool getInput()
 {
     //get input
-    cin >> word;
+    if (feof(stdin)) return false;
+    scanf("%d ", &N);
     return true;
 }
-    
+
 void process()
 {
     //process input
-    SORT(word);
-    do
-    {
-        words.push_back(word);
-    } while (next_permutation(word.begin(), word.end(), cmp2()));
-    sort(words.begin(), words.end(), cmp());
-    for (vector<string>::iterator it = words.begin(); it != words.end(); ++it)
-        cout << *it << endl;
+    printf("%d\n", (int)ceil(eps + log2(N)));
 }
 
 int main()
 {
-    int nc = 0;
-    scanf("%d ", &nc);
-    while (nc-- > 0)
+    while (getInput())
     {
-        getInput();
+
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        words.clear();
+
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
