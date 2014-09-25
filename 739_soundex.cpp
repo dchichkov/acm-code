@@ -52,35 +52,26 @@ bool getInput()
 void process()
 {
     //process input
-    printf("%10s%s%21s%s\n", " ", "NAME", " ", "SOUNDEX CODE");
-    int val = 0;
+    printf("%9s%s%21s%s\n", " ", "NAME", " ", "SOUNDEX CODE");
     string code;
     REP(i, names.size())
     {
         code.clear();
-        val = values[names[i][0]];
-        printf("%10s%s", " ", names[i].c_str());
+        printf("%9s%s", " ", names[i].c_str());
         FOR(j, 1, names[i].length())
         {
-            if (j == names[i].length()-1)
-            {
-                if (code.length() == 0 && val != 0) code += val + 0x30;
-            }
-            if (values[names[i][j]] == val ||
+            if (values[names[i][j-1]] == values[names[i][j]] ||
                 values[names[i][j]] == 0)
                 continue;
             else
-            {
-                val = values[names[i][j]];
-                code += val + 0x30;
-            }
+                code += values[names[i][j]] + 0x30;
         }
         if (code.length() < 3)
             code.append(3-code.length(), '0');
         code.erase(code.begin()+3, code.end());
         printf("%*s%c%3s\n", 35-((int)names[i].length()+10), " ", names[i].at(0), code.c_str());
     }
-    printf("%20s%s\n", " ", "END OF OUTPUT");
+    printf("%19s%s\n", " ", "END OF OUTPUT");
 }
 
 int main()

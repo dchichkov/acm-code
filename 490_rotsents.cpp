@@ -44,31 +44,34 @@ bool getInput()
     //get input
     if (feof(stdin)) return false;
     i = i2 = 0;
-    while(!feof(stdin))
+    while(fgets(sentences[i], 100, stdin), !feof(stdin))
     {
-        sentences[i][i2] = fgetc(stdin);
-        if (sentences[i][i2] == '\n')
-        {
-            sentences[i][i2] = 0;
-            i += 1;
-            i2 = 0;
-            continue;
-        }
-        i2++;
-    }
-
-    REP(j, 2)
-    {
-        printf("%s\n", sentences[j]);
+        i2 = max((int)strlen(sentences[i]), i2);
+        i++;
     }
     
+    debug(i, endl);
     return true;
 }
 
 void process()
 {
     //process input
-    
+    char sentence[105][105];
+    CL2d(sentence, 0, 105, 105);
+    REP(k, i)
+    {
+        REP(j, i2)
+        {
+            sentence[j][i-k-1] = sentences[k][j];
+            debug(j, TAB); debug(i-k-1, TAB); debug(sentence[j][i-k-1], endl);
+        }
+    }
+
+    REP(k, i2)
+    {
+        printf("%s\n", sentence[k]);
+    }
 }
 
 int main()
