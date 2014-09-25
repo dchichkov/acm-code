@@ -30,7 +30,7 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-
+vector<vi> nums;
 /*global variables*/
 
 void dump()
@@ -41,12 +41,33 @@ void dump()
 bool getInput()
 {
     //get input
+    if (feof(stdin)) return false;
+    int a, b, c;
+    scanf("%d %d ", &a, &b);
+    vi player;
+    REP(i, a)
+    {
+        REP(j, b)
+        {
+            scanf("%d ", &c);
+            player.push_back(c);
+        }
+        nums.push_back(player);
+        player.clear();
+    }
     return true;
 }
 
 void process()
 {
-    //process input
+    //proces input
+    int cnt = 0;
+    REP(i, nums.size())
+    {
+        if (find(nums[i].begin(), nums[i].end(), 0) == nums[i].end())
+            cnt++;
+    }
+    printf("%d\n", cnt);
 }
 
 int main()
@@ -57,7 +78,7 @@ int main()
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        nums.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
