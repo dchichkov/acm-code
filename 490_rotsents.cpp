@@ -46,7 +46,8 @@ bool getInput()
     i = i2 = 0;
     while(fgets(sentences[i], 100, stdin), !feof(stdin))
     {
-        i2 = max((int)strlen(sentences[i]), i2);
+        i2 = max((int)strlen(sentences[i])-1, i2);
+        sentences[i][strlen(sentences[i])-1] = 0;
         i++;
     }
     
@@ -63,7 +64,11 @@ void process()
     {
         REP(j, i2)
         {
-            sentence[j][i-k-1] = sentences[k][j];
+            if (sentences[k][j] == '\n' ||
+                sentences[k][j] == 0)
+                sentence[j][i-k-1] = ' ';
+            else
+                sentence[j][i-k-1] = sentences[k][j];
             debug(j, TAB); debug(i-k-1, TAB); debug(sentence[j][i-k-1], endl);
         }
     }
