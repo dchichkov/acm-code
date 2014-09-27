@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <limits>
 
 using namespace std;
 
@@ -30,13 +31,28 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-vp elephants;
-
-struct srt_by_second
+struct triple
 {
-    bool operator() (const point& a, const point& b)
+    int first;
+    int second;
+    int third;
+};
+typedef vector<triple> vt;
+vt elephants;
+
+struct srt
+{
+    bool operator() (const triple& a, const triple& b)
     {
         return a.second > b.second;
+    }
+};
+
+struct srt2
+{
+    bool operator() (const triple& a, const triple& b)
+    {
+        return a.first > b.first;
     }
 };
 /*global variables*/
@@ -46,7 +62,9 @@ void dump()
     //dump data
     REP(i, (int)elephants.size())
     {
-        debug(elephants[i].first, TAB); debug(elephants[i].second, endl);
+        debug(elephants[i].first, TAB);
+        debug(elephants[i].second, TAB);
+        debug(elephants[i].third, endl);
     }
 }
 
@@ -54,14 +72,16 @@ bool getInput()
 {
     //get input
 
-    point elephant;
+    triple elephant;
     int weight, iq;
+    int i = 1;
     while (scanf("%d %d ", &weight, &iq) != EOF)
     {
         elephant.first = weight;
-        elephant.second = iq;
-        debug(weight, TAB); debug(iq, endl);
+        elephant.second = (iq);
+        elephant.third = i;
         elephants.push_back(elephant);
+        ++i;
     }
     return true;
 }
@@ -70,41 +90,50 @@ bool getInput()
 void process()
 {
     //process input
-    sort(elephants.begin(), elephants.end(), srt_by_second());
+    sort(elephants.begin(), elephants.end(), srt());
     dbg( dump(); );
 
     vi LIS;
     LIS.push_back(1);
-    int j = 0, mx = 1;
+    int j = 0, mx, dif = 0;
+    vi BACK;
     FOR(i, 1, (int)elephants.size())
     {
-        for (;j < i; ++j)
+        mx = 1;
+        for (j = i-1; j >= 0; --j)
         {
             if (elephants[j].first < elephants[i].first)
             {
-                mx = max(j+1, mx);
+                mx = max(LIS[j]+1, mx);
             }
         }
         LIS.push_back(mx);
+        if (dif < LIS[i])
+        {
+            BACK.push_back(elephants[i].third);
+            dif = LIS[i];
+        }
     }
 
-    int cntr = LIS[LIS.size()-1];
-    dbg(
-        REP(i, LIS.size())
-        {
-            printf("%d ", LIS[i]);
-        }
-        puts("");
-        );
-    printf("%d\n", cntr);
-    for (int i = LIS.size()-1; i >= 0; --i)
+    dbg (
+    REP(i, LIS.size())
+        printf("%d ", LIS[i]);
+    puts("");
+
+    debug(BACK.size(), endl);
+    REP(i, BACK.size())
     {
-        if (LIS[i] == cntr)
-        {
-            printf("%d\n", i+1);
-            --cntr;
-        }
+        printf("%d %d %d\n", elephants[BACK[i]].first,
+               elephants[BACK[i]].second,
+               BACK[i]);
     }
+    puts("");
+        );
+
+    printf("%d\n", (int)BACK.size());
+    REP(i, BACK.size())
+        printf("%d\n", BACK[i]);
+
 }
 
 int main()
