@@ -19,8 +19,8 @@ using namespace std;
 #endif
 
 typedef pair<int, int> point;
-typedef vector<int> vi; //?
-typedef vector<point> vp; //?
+typedef vector<int> vi;
+typedef vector<point> vp;
 
 #define UN(v) SORT(v),v.erase(unique(v.begin(),v.end()),v.end())   
 #define SORT(c) sort((c).begin(),(c).end())   
@@ -30,8 +30,7 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int a;
-vi rq, create;
+unsigned int a, b;
 /*global variables*/
 
 void dump()
@@ -42,46 +41,27 @@ void dump()
 bool getInput()
 {
     //get input
-    scanf("%d ", &a);
-    if (a < 0) return false;
-    int d;
-    REP(i, 12)
-    {
-        scanf("%d ", &d);
-        create.push_back(d);
-    }
-
-    REP(i, 12)
-    {
-        scanf("%d ", &d);
-        rq.push_back(d);
-    }
+    scanf("%d %d ", &a, &b);
+    if (!a && !b) return false;
     return true;
 }
 
 void process()
 {
     //process input
-    REP(i, 12)
-    {
-        printf("No problem%s\n", a>=rq[i] ? "! :D" : ". :(");
-        if (a >= rq[i])
-            a -= rq[i];
-        a += create[i];
-    }
+    unsigned int c = a / b;
+    printf("%u %u / %u\n", c, a % b, b);
 }
 
 int main()
 {
-    int count = 1;
     while (getInput())
     {
-        printf("Case %d:\n", count++);
+
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        rq.clear();
-        create.clear();
+
         /*CLEAR GLOBAL VARIABLES!*/
     }
 

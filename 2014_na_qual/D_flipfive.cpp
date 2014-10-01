@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <bitset>
+#include <queue>
 
 using namespace std;
 
@@ -19,8 +21,8 @@ using namespace std;
 #endif
 
 typedef pair<int, int> point;
-typedef vector<int> vi; //?
-typedef vector<point> vp; //?
+typedef vector<int> vi;
+typedef vector<point> vp;
 
 #define UN(v) SORT(v),v.erase(unique(v.begin(),v.end()),v.end())   
 #define SORT(c) sort((c).begin(),(c).end())   
@@ -30,8 +32,12 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int a;
-vi rq, create;
+bitset< 1<<9 > states;
+struct cells
+{
+    char cell[5][5];
+};
+queue<cells> ntt;
 /*global variables*/
 
 void dump()
@@ -42,46 +48,60 @@ void dump()
 bool getInput()
 {
     //get input
-    scanf("%d ", &a);
-    if (a < 0) return false;
-    int d;
-    REP(i, 12)
+    char line[10];
+    FOR(i, 1, 4)
     {
-        scanf("%d ", &d);
-        create.push_back(d);
+        fgets(line, 10, stdin);
+        if (line[strlen(line)-1] == '\n') line[strlen(line)-1] = 0;
+        FOR(j, 1, 4)
+        {
+            cells.cell[i][j] = line[j];
+        }
     }
-
-    REP(i, 12)
-    {
-        scanf("%d ", &d);
-        rq.push_back(d);
-    }
+    
     return true;
+}
+
+int convert(cell board[5][5])
+{
+    int mask = 0;
+    FOR(i, 1, 4)
+    {
+        FOR(j, 1, 4)
+        {
+            if (board[i][j].color == '*')
+            {
+                mask |= (1 << (i*j)+j);
+            }
+        }
+    }
+    return mask;
+}
+
+void store(int mask)
+{
+    states.set(mask, 1);
 }
 
 void process()
 {
     //process input
-    REP(i, 12)
-    {
-        printf("No problem%s\n", a>=rq[i] ? "! :D" : ". :(");
-        if (a >= rq[i])
-            a -= rq[i];
-        a += create[i];
-    }
+    
+    int nm = 0;
 }
 
 int main()
 {
-    int count = 1;
-    while (getInput())
+    int tc;
+    scanf("%d ", &tc);
+    while (tc-- > 0)
     {
-        printf("Case %d:\n", count++);
+        getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        rq.clear();
-        create.clear();
+        states.reset();
+        CL2d(cells, 0, 5, 5);
         /*CLEAR GLOBAL VARIABLES!*/
     }
 

@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -60,17 +60,23 @@ void process()
     int total = 0;
     samples.insert(samples.begin(), samples.back());
     samples.push_back(samples[1]);
-    int mx = samples[0];
-    for (int i = 0; i < samples.size(); ++i)
+
+    dbg(
+        REP(i, samples.size())
+        printf("%d ", samples[i]);
+        puts("");
+        );
+    
+    REP(i, samples.size()-2)
     {
-        if (mx < samples[i])
-            mx = samples[i];
-        else if (mx > samples[i])
-        {
-            mx = samples[i];
-            total++;
-        }
-        debug(mx, endl);
+        debug(samples[i], TAB);
+        debug(samples[i+1], TAB);
+        debug(samples[i+2], endl);
+        debug((samples[i] < samples[i+1] > samples[i+2]), TAB);
+        debug((samples[i] > samples[i+1] < samples[i+2]), endl);
+        if (((samples[i] < samples[i+1]) && (samples[i+1] > samples[i+2])) ||
+            ((samples[i] > samples[i+1]) && (samples[i+1] < samples[i+2])))
+            ++total;
     }
     printf("%d\n", total);
 }
