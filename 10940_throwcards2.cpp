@@ -32,7 +32,7 @@ typedef vector<point> vp;
 
 /*global variables*/
 int nc;
-queue<int> deck;
+vi ans;
 /*global variables*/
 
 void dump()
@@ -46,10 +46,6 @@ bool getInput()
     scanf("%d ", &nc);
     if (nc == 0) return false;
 
-    REP(i, nc)
-    {
-        deck.push(i+1);
-    }
     return true;
 }
 
@@ -57,18 +53,30 @@ void process()
 {
     //process input
 
-    int cd;
-    while (deck.size() != 1)
-    {
-        cd = deck.front(); deck.pop();
-        deck.push(deck.front()); deck.pop();
-    }
-    printf("%d\n", deck.front()); deck.pop();
+    printf("%d\n", ans[nc]);
     
 }
 
 int main()
 {
+    //precompute
+    ans.push_back(0);
+    ans.push_back(1);
+    ans.push_back(2);
+    int cu = 2;
+    while (true)
+    {
+        for (int i = 1; i <= cu; ++i)
+        {
+            ans.push_back(i*2);
+            if (ans.size() > 500000) goto next;
+        }
+            cu <<= 1;
+    }
+        
+
+next:        
+    
     while (getInput())
     {
 
