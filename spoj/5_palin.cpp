@@ -51,8 +51,19 @@ void process()
     int mid = (line.length()-1)/2;
     if (line.length() % 2 == 1)
     {
-        if (line[mid] <= line[mid+1] || line.length() == 1)
+        if (line.length() == 1)
             line[mid]++;
+        else
+        {
+            FOR(i, mid+1, line.length())
+            {
+                if (line[mid] <= line[i])
+                {
+                    line[mid]++;
+                    break;
+                }
+            }
+        }
         
         //reflect
         debug(mid, endl);
@@ -85,8 +96,14 @@ void process()
     }
     else
     {
-        if (line[mid] <= line[mid+1])
-            line[mid]++;
+        FOR(i, mid+1, line.length())
+        {
+            if (line[mid] <= line[i])
+            {
+                line[mid]++;
+                break;
+            }
+        }
         //reflect
         debug(mid, endl);
         for (int i = mid, j = mid+1; i >= 0; i--, j++)
@@ -117,7 +134,7 @@ void process()
     }
 
    
-    printf("%s", line.c_str());
+    printf("%s\n", line.c_str());
 }
 
 int main()
@@ -128,7 +145,6 @@ int main()
     {
         getInput();
         process();
-        if (nc != 0) puts("");
         /*CLEAR GLOBAL VARIABLES!*/
         
         /*CLEAR GLOBAL VARIABLES!*/
