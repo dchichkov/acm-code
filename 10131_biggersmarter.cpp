@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -38,7 +38,7 @@ struct triple
     int third;
 };
 typedef vector<triple> vt;
-vt elephants;
+vt elephants, e2;
 
 struct srt
 {
@@ -90,13 +90,17 @@ bool getInput()
 void process()
 {
     //process input
+    e2 = elephants;
     sort(elephants.begin(), elephants.end(), srt());
     dbg( dump(); );
 
     vi LIS;
     LIS.push_back(1);
-    int j = 0, mx, dif = 0;
+    LIS.push_back(1);
+    int j = 0, mx, dif = 1;
     vi BACK;
+    BACK.push_back(elephants[0].third);
+    dbg( puts(""); );
     FOR(i, 1, (int)elephants.size())
     {
         mx = 1;
@@ -108,10 +112,13 @@ void process()
             }
         }
         LIS.push_back(mx);
-        if (dif < LIS[i])
+        if (dif < LIS.back())
         {
+            debug(elephants[i].first, TAB);
+            debug(elephants[i].second, TAB);
+            debug(elephants[i].third, endl);
             BACK.push_back(elephants[i].third);
-            dif = LIS[i];
+            dif = LIS.back();
         }
     }
 
@@ -123,8 +130,8 @@ void process()
     debug(BACK.size(), endl);
     REP(i, BACK.size())
     {
-        printf("%d %d %d\n", elephants[BACK[i]].first,
-               elephants[BACK[i]].second,
+        printf("%d %d %d\n", e2[BACK[i]-1].first,
+               e2[BACK[i]-1].second,
                BACK[i]);
     }
     puts("");

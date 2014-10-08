@@ -5,10 +5,11 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <map>
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -30,7 +31,8 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-
+string line, lline;
+map<int,int> ans;
 /*global variables*/
 
 void dump()
@@ -42,11 +44,14 @@ bool getInput()
 {
     //get input
     if (feof(stdin)) return false;
-
-    while (strcmp(word, "#") != 0)
+    getline(cin, line);
+    while (line.compare("#") != 0)
     {
-        printf("%s %s %s\n", word, extra, word2);
-
+        if (line[line.length()-1] == '-' || line[line.length()-1] == '\'')
+            lline += line;
+        else
+            lline += line + " ";
+        getline(cin, line);
     }
     return true;
 }
@@ -54,6 +59,34 @@ bool getInput()
 void process()
 {
     //process input
+    debug(lline, endl);
+    REP(i, lline.length())
+    {
+        switch(lline[i])
+        {
+        case ' ':
+        case '?':
+        case '!':
+        case ',':
+        case '.':
+            lline[i] = ' ';
+            break;
+        default:
+            break;
+        }
+        if (lline[i] == '-' || lline[i] == '\'')
+            lline.erase(lline.begin()+i);
+    }
+    char *zoinks = strtok(const_cast<char*>(lline.c_str()), " ");
+    while (zoinks != NULL)
+    {
+        ans[strlen(zoinks)] += 1;
+        zoinks = strtok(NULL, " ");
+    }
+
+    for (map<int,int>::iterator it = ans.begin(); it != ans.end(); ++it)
+        printf("%d %d\n", it->first, it->second);
+    puts("");
 }
 
 int main()
@@ -64,7 +97,8 @@ int main()
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        ans.clear();
+        lline.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 

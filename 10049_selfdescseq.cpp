@@ -8,7 +8,7 @@
 
 using namespace std;
 
-//#define DEBUG  //comment this line to pull out print statements
+#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -28,10 +28,10 @@ typedef vector<point> vp;
 #define REP(i,n) FOR(i,0,n)    
 #define CL(a,b) memset(a,b,sizeof(a))
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
-#define BILLION 1000000000
 
 /*global variables*/
-long long n, m;
+vi ans;
+int n;
 /*global variables*/
 
 void dump()
@@ -42,30 +42,35 @@ void dump()
 bool getInput()
 {
     //get input
-    if (feof(stdin)) return false;
-    scanf("%lld %lld ", &n, &m);
+    scanf("%d ", &n);
+    if (n == 0) return false;
     return true;
 }
 
 void process()
 {
     //process input
-    long long x = 1;
-    for (long long i = n; i > (n-m); --i)
-    {
-        x *= i;
-        debug(x, TAB);
-        while (!(x%10)) x /= 10;
-        debug(x, TAB);
-        x %= BILLION;
-        debug(x, endl);
-    }
-
-    printf("%lld\n", x%10);
+    printf("%d\n", ans[n]);
 }
 
 int main()
 {
+    ans.push_back(0);
+    ans.push_back(1);
+    ans.push_back(2);
+    int i = 2;
+    printf("%d", 2000000001);
+    /*while (ans.size() < 2000000001)
+    {
+        REP(j, ans[i])
+        {
+            ans.push_back(i);
+            if (ans.size() >= 2000000001) break;
+        }
+        ++i;
+        }*/
+
+    
     while (getInput())
     {
 
