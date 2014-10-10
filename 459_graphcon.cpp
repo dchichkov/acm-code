@@ -58,10 +58,11 @@ bool getInput()
     //get input
     char a, b;
     char line[50];
-    scanf("%c ", &a);
+    scanf("%c%c", &a, &b);
+    debug(a, TAB);
     FOR(i, 'A', a+1)
         AdjMat[i][i] = 1;
-    while (fgets(line, 50, stdin), strlen(line)-1 > 0 &&
+    while (fgets(line, 50, stdin), (line[0] != ' ' && line[0] != '\n') &&
            !feof(stdin))
     {
         debug(line, TAB);
@@ -102,7 +103,7 @@ void process()
             }
         }
     }
-    printf("%d\n\n", cnt);
+    printf("%d\n", cnt);
 }
 
 int main()
@@ -114,7 +115,7 @@ int main()
         getInput();
         process();
 
-        //if (tc != 0) puts("");
+        if (tc != 0) puts("");
         /*CLEAR GLOBAL VARIABLES!*/
         CL2d(AdjMat, 0, 128, 128);
         /*CLEAR GLOBAL VARIABLES!*/

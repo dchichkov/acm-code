@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -28,6 +28,7 @@ typedef vector<point> vp;
 #define REP(i,n) FOR(i,0,n)    
 #define CL(a,b) memset(a,b,sizeof(a))
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
+#define EPS 1e-9
 
 /*global variables*/
 int n;
@@ -48,13 +49,16 @@ bool getInput()
 void process()
 {
     //process input
-    int cnt = 0;
+    double cnt = 0;
     FOR(i, 1, n+1)
     {
-        cnt += (int)floor(1 + log10((double)i));
+        cnt += log10(1.*i);
     }
-
-    printf("%d\n", cnt);
+    //debug(cnt, endl);
+    if (cnt - 0.0 < EPS)
+        printf("1\n");
+    else
+        printf("%d\n", (int)ceil(cnt));
 }
 
 int main()

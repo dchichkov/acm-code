@@ -5,10 +5,8 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
-#include <set>
-#include <queue>
-#include <map>
 #include <list>
+#include <map>
 
 using namespace std;
 
@@ -35,8 +33,10 @@ typedef vector<point> vp; //?
 
 /*global variables*/
 int num_teams;
-map<int, int> team_members;
-point line[1000001];
+vector<vi> teams;
+vector<vi> teamsiq;
+map<int, int> p_team;
+list<int> queue;
 /*global variables*/
 
 void dump()
@@ -50,14 +50,18 @@ bool getInput()
     int num_ppl;
     scanf("%d ", &num_teams);
     if (num_teams == 0) return false;
+    teamsiq.resize(num_teams);
+    //this is annoying
     int p_num;
+    vi team;
     REP(i, num_teams)
     {
         scanf("%d ", &num_ppl);
+        teamsiq[i].resize(num_ppl);
         REP(j, num_ppl)
         {
             scanf("%d ", &p_num);
-            team_members[p_num] = i;
+            p_team[i] = p_num;
         }
     }
     
