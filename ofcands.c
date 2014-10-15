@@ -11,7 +11,7 @@
 struct shape {
     int px, py;
     int length;
-    char type[7];
+    char type[2];
     int r, g, b;
     int ox, oy;
 };
@@ -104,12 +104,13 @@ int main()
                 fgets(line, 50, stdin);
                 debug(line, NEWLINE);
                 shapes[i].type[0] = line[0];
-                shapes[i].type[1] = line[1];
+                shapes[i].type[1] = 0;
+                /*shapes[i].type[1] = line[1];
                 shapes[i].type[2] = line[2];
                 shapes[i].type[3] = line[3];
                 shapes[i].type[4] = line[4];
                 shapes[i].type[5] = line[5];
-                shapes[i].type[6] = 0;
+                shapes[i].type[6] = 0; */
                 shapes[i].px = strtol(line+7, &next, 10);
                 shapes[i].py = strtol(next, &next, 10);
                 shapes[i].length = strtol(next, &next, 10);
