@@ -55,33 +55,33 @@ void dump()
 }
 
 ushort myItoA(ushort num, char *buff)
- { /* FUNCTION myItoA */
-   ushort lngth;
+{ /* FUNCTION myItoA */
+    ushort lngth;
 
-   if (10 > num)
+    if (10 > num)
     { /* 0-9 */
-       buff[0]= num + 0x30;
-       buff[1]= 0;
-       lngth= 1;
+        buff[0]= num + 0x30;
+        buff[1]= 0;
+        lngth= 1;
     } /* 0-9 */
-   else
-       if (100 > num)
-       { /* 10 to 99 */
-           buff[0]= num / 10 + 0x30;
-           buff[1]= num % 10 + 0x30;
-           buff[2]= 0;
-           lngth=2;
-       } /* 10 to 99 */
-       else
-       { /* 100 to 255 */
-           buff[0]= num / 100 + 0x30;
-           buff[1]= num / 10  % 10 + 0x30;
-           buff[2]= num % 10 + 0x30;
-           buff[3]= 0;
-           lngth=3;
-       } /* 100 to 255 */
-   return lngth;
- } /* FUNCTION myItoA */
+    else
+        if (100 > num)
+        { /* 10 to 99 */
+            buff[0]= num / 10 + 0x30;
+            buff[1]= num % 10 + 0x30;
+            buff[2]= 0;
+            lngth=2;
+        } /* 10 to 99 */
+        else
+        { /* 100 to 255 */
+            buff[0]= num / 100 + 0x30;
+            buff[1]= num / 10  % 10 + 0x30;
+            buff[2]= num % 10 + 0x30;
+            buff[3]= 0;
+            lngth=3;
+        } /* 100 to 255 */
+    return lngth;
+} /* FUNCTION myItoA */
 
 int main()
 {
