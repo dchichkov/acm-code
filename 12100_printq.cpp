@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
-#include <bitset>
+#include <queue>
 
 using namespace std;
 
@@ -31,9 +31,9 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-unsigned int a, b;
-vi primes;
-bitset<100000> bs;
+queue<int> printq;
+vi priorities;
+int myp;
 /*global variables*/
 
 void dump()
@@ -44,54 +44,35 @@ void dump()
 bool getInput()
 {
     //get input
-    if (feof(stdin)) return false;
-    scanf("%u %u ", &a, &b);
+    int nj, a;
+    scanf("%d %d ", &nj, &myp);
+    REP(i, nj)
+    {
+        scanf("%d ", &a);
+        priorities.push_back(a);
+    }
+    myp = priorities[myp];
+    for (vector<int>::reverse_iterator it = priorities.rbegin(); it != rend(); ++it)
+        printq.push(*it);
     return true;
 }
 
 void process()
 {
     //process input
-    vi f1, f2;
-    debug(a, endl);
-    FOR(i, 2, a+1)
-    {
-        
-        for (int j = 0; primes[j] < a+1; ++j)
-        {
-            while (i % primes[j] == 0)
-            {
-                f1.push_back(primes[j]);
-                i /= primes[j];
-            }
-        }
-        debug(f1.size(), TAB);
-        debug(f1.back(), endl);
-    }
 }
 
 int main()
 {
-    bs.set();
-    bs[0] = 0;
-    bs[1] = 0;
-    for (int i = 2; i <= 46341; ++i)
+    int tc;
+    scanf("%d ", &tc);
+    while (tc-- > 0)
     {
-        if (bs[i])
-        {
-            primes.push_back(i);
-            for (int j = i*i; j <= 46341; j += i)
-                bs.set(j, 0);
-        }
-    }
-    debug(primes.size(), endl);
-    while (getInput())
-    {
-
+        getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        mx = 0;
         /*CLEAR GLOBAL VARIABLES!*/
     }
 

@@ -5,11 +5,10 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
-#include <bitset>
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -29,11 +28,10 @@ typedef vector<point> vp;
 #define REP(i,n) FOR(i,0,n)    
 #define CL(a,b) memset(a,b,sizeof(a))
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
+#define BEPS 1000000000
 
 /*global variables*/
-unsigned int a, b;
-vi primes;
-bitset<100000> bs;
+int n, m;
 /*global variables*/
 
 void dump()
@@ -44,50 +42,36 @@ void dump()
 bool getInput()
 {
     //get input
-    if (feof(stdin)) return false;
-    scanf("%u %u ", &a, &b);
+    scanf("%d %d ", &n, &m);
     return true;
 }
 
 void process()
 {
     //process input
-    vi f1, f2;
+    double a = 0.0;
+    long long b = 1;
+
+    REP(i, m)
+        a += log10(n);
     debug(a, endl);
-    FOR(i, 2, a+1)
+    REP(i, m)
     {
-        
-        for (int j = 0; primes[j] < a+1; ++j)
-        {
-            while (i % primes[j] == 0)
-            {
-                f1.push_back(primes[j]);
-                i /= primes[j];
-            }
-        }
-        debug(f1.size(), TAB);
-        debug(f1.back(), endl);
+        b *= n;
+        b %= BEPS;
     }
+
+    printf("%d...%d\n", (int)(pow(10, fmod(a, 1))*100), (int)(b%1000));
+    
 }
 
 int main()
 {
-    bs.set();
-    bs[0] = 0;
-    bs[1] = 0;
-    for (int i = 2; i <= 46341; ++i)
+    int tc;
+    scanf("%d ", &tc);
+    while (tc-- > 0)
     {
-        if (bs[i])
-        {
-            primes.push_back(i);
-            for (int j = i*i; j <= 46341; j += i)
-                bs.set(j, 0);
-        }
-    }
-    debug(primes.size(), endl);
-    while (getInput())
-    {
-
+        getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
