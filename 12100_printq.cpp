@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -33,33 +33,68 @@ typedef vector<point> vp;
 /*global variables*/
 queue<int> printq;
 vi priorities;
-int myp;
+int mypri, mypos;
 /*global variables*/
 
 void dump()
 {
     //dump data
+    queue<int> uh;
+    while (!printq.empty())
+    {
+        uh.push(printq.front());
+        debug(printq.front(), endl);
+        printq.pop();
+    }
+
+    while (!uh.empty())
+    {
+        printq.push(uh.front());
+        uh.pop();
+    }
 }
 
 bool getInput()
 {
     //get input
     int nj, a;
-    scanf("%d %d ", &nj, &myp);
+    scanf("%d %d ", &nj, &mypos);
     REP(i, nj)
     {
         scanf("%d ", &a);
         priorities.push_back(a);
     }
-    myp = priorities[myp];
-    for (vector<int>::reverse_iterator it = priorities.rbegin(); it != rend(); ++it)
+    mypri = priorities[mypos];
+    for (vector<int>::iterator it = priorities.begin();
+         it != priorities.end(); ++it)
         printq.push(*it);
+    SORT(priorities);
     return true;
 }
 
 void process()
 {
     //process input
+    dbg( dump(); );
+    int t, cnt = 1;
+    while (mypos != 0 || mypri < priorities.back())
+    {
+        t = printq.front();
+        printq.pop();
+        debug(mypos, TAB); debug(mypri, TAB); debug(t, TAB); debug(priorities.back(), endl);
+        if (t < priorities.back())
+            printq.push(t);
+        else
+        {
+            cnt++;
+            priorities.pop_back();
+        }
+        mypos--;
+        if (mypos < 0)
+            mypos = printq.size()-1;
+
+    }
+    printf("%d\n", cnt);
 }
 
 int main()
@@ -72,7 +107,8 @@ int main()
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        mx = 0;
+        priorities.clear();
+        while (!printq.empty()) printq.pop();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 

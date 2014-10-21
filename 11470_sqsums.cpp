@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -44,9 +44,9 @@ bool getInput()
     //get input
     scanf("%d ", &n);
     if (n == 0) return false;
-    FOR(i, 1, n+1)
+    FOR(i, 0, n)
     {
-        FOR(j, 1, n+1)
+        FOR(j, 0, n)
         {
             scanf("%d ", &nums[i][j]);
         }
@@ -58,43 +58,43 @@ void process()
 {
     //process input
     //add up all sides
-    int rc, fin = (ceil(n*1.0/2))+1;
-    rc = 1;
+    int i = 0;
+    int k = n-1;
     int ttl;
-    while (rc != fin)
+    while (i < k)
     {
         ttl = 0;
-        FOR(i, 1, n-rc+2)
+        FOR(j, i, k+1)
         {
-            ttl += nums[n-rc+1][i];
-            debug(n-rc+1, TAB); debug(i, TAB);
-            debug(nums[n-rc+1][i], endl);
+            debug(nums[i][j], TAB);
+            ttl += nums[i][j];
         }
-        dbg(puts(""););
-        FOR(i, 1, n-rc+2)
+        dbg (cout << endl; );
+        FOR(j, i, k+1)
         {
-            ttl += nums[i][n-rc+1];
-            debug(i, TAB); debug(n-rc+1, TAB);
-            debug(nums[i][n-rc+1], endl);
+            debug(nums[j][k], TAB);
+            ttl += nums[j][k];
         }
-        dbg(puts(""););
-        FOR(i, 1, n-rc+2)
+        dbg (cout << endl; );
+        FOR(j, i, k+1)
         {
-            ttl += nums[rc][i];
-            debug(rc, TAB); debug(i, TAB);
-            debug(nums[rc][i], endl);
+            debug(nums[k][j], TAB);
+            ttl += nums[k][j];
         }
-        dbg(puts(""););
-        FOR(i, 1, n-rc+2)
+        dbg (cout << endl; );
+        FOR(j, i, k+1)
         {
-            ttl += nums[i][rc];
-            debug(i, TAB); debug(rc, TAB);
-            debug(nums[i][rc], endl);
+            debug(nums[j][i], TAB);
+            ttl += nums[j][i];
         }
-        dbg(puts(""););
+        dbg (cout << endl; );
+        ttl -= (nums[i][i] + nums[i][k] + nums[k][i] + nums[k][k]);
         printf(" %d", ttl);
-        rc++;
+        ++i;
+        --k;
     }
+    if (i == k)
+        printf(" %d", nums[i][i]);
     puts("");
 }
 

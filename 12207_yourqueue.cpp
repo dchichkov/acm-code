@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
-#include <bitset>
+#include <queue>
 
 using namespace std;
 
@@ -31,9 +31,9 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-unsigned int a, b;
-vi primes;
-bitset<100000> bs;
+deque<int>* q;
+queue<int>* qone;
+int nc;
 /*global variables*/
 
 void dump()
@@ -44,55 +44,67 @@ void dump()
 bool getInput()
 {
     //get input
-    if (feof(stdin)) return false;
-    scanf("%u %u ", &a, &b);
+    int np;
+    scanf("%d %d ", &np, &nc);
+    if (!np && !nc) return false;
+    FOR(i, 1, np+1)
+        q->push_back(i);
     return true;
 }
 
 void process()
 {
     //process input
-    vi f1, f2;
-    debug(a, endl);
-    FOR(i, 2, a+1)
+    char command;
+    int x, t;
+    
+    REP(i, nc)
     {
-        
-        for (int j = 0; primes[j] < a+1 && i != 1; ++j)
+        if (!qone->empty())
         {
-            while (i % primes[j] == 0)
+            while (!qone->empty())
             {
-                f1.push_back(primes[j]);
-                i /= primes[j];
-                debug(i, TAB);
+                printf("%d\n", qone->front());
+                qone->pop();
             }
         }
-        debug(f1.size(), TAB);
-        debug(f1.back(), endl);
+        else
+        {        
+            debug(q->front(), endl);
+            scanf("%c ", &command);
+            if (command == 'E')
+            {
+                scanf("%d ", &x);
+                qone->push(x);
+            }
+            else
+            {
+                t = q->front();
+                q->pop_front();
+                printf("%d\n", t);
+                q->push_back(t);
+            }
+        }
     }
 }
 
 int main()
 {
-    bs.set();
-    bs[0] = 0;
-    bs[1] = 0;
-    for (int i = 2; i <= 46341; ++i)
-    {
-        if (bs[i])
-        {
-            primes.push_back(i);
-            for (int j = i*i; j <= 46341; j += i)
-                bs.set(j, 0);
-        }
-    }
-    debug(primes.size(), endl);
+    int cnt = 0;
+    deque<int> q1;
+    queue<int> qone1;
+    q = &q1;
+    qone = &qone1;
     while (getInput())
     {
-
+        printf("Case %d:\n", ++cnt);
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        deque<int> q1;
+        queue<int> qone1;
+        q = &q1;
+        qone = &qone1;   
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
