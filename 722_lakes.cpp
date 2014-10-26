@@ -30,46 +30,52 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int cnt;
+int cnt = 1;
 char grid[120][120];
-int lx, ly;
-int mvx[] = {1, 1, 0, -1, -1, -1, 0, 1};
-int mvy[] = {0, 1, 1, 1, 0, -1, -1, -1};
+int lx, ly, strl, nl;
+int mvx[] = {1, 0, -1, 0};
+int mvy[] = {0, 1, 0, -1};
 /*global variables*/
 
 void dump()
 {
+    FOR(i, 0, nl+2)
+    {
+        FOR(j, 0, strl+2)
+        {
+            printf("%d", grid[i][j]);
+        }
+        puts("");
+    }
 }
 
 bool getInput()
 {
     //get input
-    scanf("%d %d", &lx, &ly);
+    scanf("%d %d ", &lx, &ly);
     char line[200];
     int i = 1;
-    while (!feof(stdin))
+    while (fgets(line, 200, stdin), !feof(stdin))
     {
-        scanf(" ");
-        fgets(line, 200, stdin);
-        if (strlen(line) == 1 && line[0] == '\n') break;
+        line[strlen(line)-1] = 0;
+        if (strlen(line) == 0) break;
         else
         {
-            FOR(j, 1, strlen(line))
+            strl = max(strl, (int)strlen(line));
+            FOR(j, 1, strlen(line)+1)
             {
                 grid[i][j] = !(line[j-1]-0x30);
-                dbg( printf("%d", grid[i][j]); );
             }
         }
-        dbg( puts(""); );
+        nl = i;
         ++i;
     }
-        
     return true;
 }
 
 void floodfill(int x, int y)
 {
-    REP(i, 8)
+    REP(i, 4)
     {
         if (grid[x+mvx[i]][y+mvy[i]] == 1)
         {
@@ -83,6 +89,8 @@ void floodfill(int x, int y)
 void process()
 {
     //process input
+    dbg( dump(); );
+    grid[lx][ly] = 0;
     floodfill(lx, ly);
     printf("%d\n", cnt);
 }
@@ -91,7 +99,7 @@ int main()
 {
     int tc;
     scanf("%d ", &tc);
-    CL2d(grid, 0, 120, 120);
+ 
     while (tc-- > 0)
     {
         getInput();
@@ -99,7 +107,7 @@ int main()
         if (tc != 0) puts("");
         /*CLEAR GLOBAL VARIABLES!*/
         CL2d(grid, 0, 120, 120);
-        cnt = 0;
+        cnt = 1;
         /*CLEAR GLOBAL VARIABLES!*/
         
     }
