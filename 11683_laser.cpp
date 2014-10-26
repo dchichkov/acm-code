@@ -19,8 +19,8 @@ using namespace std;
 #endif
 
 typedef pair<int, int> point;
-typedef vector<int> vi; //?
-typedef vector<point> vp; //?
+typedef vector<int> vi;
+typedef vector<point> vp;
 
 #define UN(v) SORT(v),v.erase(unique(v.begin(),v.end()),v.end())   
 #define SORT(c) sort((c).begin(),(c).end())   
@@ -30,7 +30,8 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-string line;
+int h, len;
+bool states[10000][2];
 /*global variables*/
 
 void dump()
@@ -41,42 +42,37 @@ void dump()
 bool getInput()
 {
     //get input
-    int len;
-    scanf("%d ", &len);
-    if (len == 0) return false;
-
-    getline(cin, line);
-    
+    scanf("%d %d ", &h, &len);
+    if (h == 0) return false; // && len == 0) return false;
     return true;
 }
 
 void process()
 {
     //process input
-    int dist=0x0FFFFFFF, x, y = 0;
-    if (line.find_first_of("Z", 0) != string::npos)
-        dist = 0;
-    else
+    int cnt = 0;
+    int a;
+    
+    int m = h;
+    FOR(i, 0, len)
     {
-        while (y != string::npos)
-        {
-            x = line.find_first_of("DR", y);
-            y = line.find_first_of("DR", x+1);
-            if (line[x] != line[y]) dist = min(dist, abs(x-y));
-        }
+        scanf("%d ", &a);
+        if (a < m)
+            cnt += m-a;
+        m = a;
     }
-    printf("%d\n", dist);
+    printf("%d\n", cnt);
 }
 
 int main()
 {
     while (getInput())
     {
-
+        
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        line.clear();
+        CL2d(states, 0, 10000, 2);
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
