@@ -89,7 +89,7 @@ void process()
             valid = false;
         else
             omg = true;
-        if (!omg && (a < 1 || c < 2 || b < 2))
+        if (!omg && (a < 1 || c < 2 || b < 2) || (a+c > b))
             valid = false;
     }
     else valid = false;
