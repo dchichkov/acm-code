@@ -79,17 +79,17 @@ void process()
             l = false;
         }
         else if (line[i] == '?')
-            l ? (m ? c++ : a++) : b++;
+            l ? (m ? b++ : a++) : c++;
     }
-    debug(a, TAB); debug(c, TAB); debug(b, endl);
+    debug(a, TAB); debug(b, TAB); debug(c, endl);
     bool omg = false;
     if (a && b && c)
     {
-        if (c == 1 && (a+1 != b))
+        if (b == 1 && (a+1 != c))
             valid = false;
         else
             omg = true;
-        if (!omg && (a < 1 || c < 2 || b < 2) || (a+c > b))
+        if (!omg && (a < 1 || b < 2 || c < 2) || (a+b != c))
             valid = false;
     }
     else valid = false;
