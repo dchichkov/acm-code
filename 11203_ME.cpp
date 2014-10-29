@@ -81,9 +81,18 @@ void process()
         else if (line[i] == '?')
             l ? (m ? c++ : a++) : b++;
     }
-    //debug(a, TAB); debug(c, TAB); debug(b, endl);
-    if (a < 1 || c < 1 || b < 1)
-        valid = false;
+    debug(a, TAB); debug(c, TAB); debug(b, endl);
+    bool omg = false;
+    if (a && b && c)
+    {
+        if (c == 1 && (a+1 != b))
+            valid = false;
+        else
+            omg = true;
+        if (!omg && (a < 1 || c < 2 || b < 2))
+            valid = false;
+    }
+    else valid = false;
     
     printf("%s\n", (valid) ? "theorem" : "no-theorem");
 }
