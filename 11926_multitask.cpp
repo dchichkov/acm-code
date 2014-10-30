@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -72,19 +72,19 @@ void process()
     {
         scanf("%d %d %d ", &a, &b, &c);
         if (conflict) continue;
-        int j;
-        for (j = a; j <= 1000000; ++j)
+        int j, k;
+        for (j = a, k = b; j <= 1000000 && !conflict; j += c, k += c)
         {
-            if (times.test(j))
+            debug(j, TAB); debug(k, endl);
+            k = min(k, 1000000);
+            FOR(l, j, k)
             {
-                conflict = true;
-                break;
-            }
-            times.set(j);
-            if (j == b)
-            {
-                j -= (b-a);
-                j += c;
+                if (times.test(l))
+                {
+                    conflict = true;
+                    break;
+                }
+                times.set(l);
             }
         }
     }
