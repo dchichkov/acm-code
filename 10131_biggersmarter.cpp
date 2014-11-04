@@ -44,6 +44,8 @@ struct srt
 {
     bool operator() (const triple& a, const triple& b)
     {
+        if (a.second == b.second)
+            return a.first < b.first;
         return a.second > b.second;
     }
 };
@@ -96,7 +98,6 @@ void process()
 
     vi LIS;
     LIS.push_back(1);
-    LIS.push_back(1);
     int j = 0, mx, dif = 1;
     vi BACK;
     BACK.push_back(elephants[0].third);
@@ -106,7 +107,8 @@ void process()
         mx = 1;
         for (j = i-1; j >= 0; --j)
         {
-            if (elephants[j].first < elephants[i].first)
+            if (elephants[j].first < elephants[i].first
+                && elephants[j].second > elephants[i].second)
             {
                 mx = max(LIS[j]+1, mx);
             }
@@ -120,6 +122,15 @@ void process()
             BACK.push_back(elephants[i].third);
             dif = LIS.back();
         }
+        
+        else if (dif == LIS.back())
+        {
+            debug(elephants[i].first, TAB);
+            debug(elephants[i].second, TAB);
+            debug(elephants[i].third, endl);
+            BACK.back() = elephants[i].third;
+        }
+        
     }
 
     dbg (
