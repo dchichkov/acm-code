@@ -31,7 +31,7 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-#define MAX_S 1000010
+#define MAX_S 32999
 int n;
 bitset<MAX_S> sieve;
 vi primes;
@@ -53,29 +53,13 @@ bool getInput()
 void process()
 {
     //process input
-    int b, a;
-    int i = lower_bound(primes.begin(), primes.end(), n)-primes.begin();
-    for (; i >= 0; --i)
-    {
-        b = primes[i];
-        for (int j = i; j >= 0; --j)
-        {
-            if (b + primes[j] > n) continue;
-            
-            if (b + primes[j] == n)
-            {
-                a = primes[j];
-                goto done;
-            }
-        }
-    }
+    int cnt = 0;
+    for (int i = 0; primes[i] < n; ++i)
+        for (int j = 0; j <= i; ++j)
+            if (primes[i] + primes[j] == n)
+                ++cnt;
 
-done:
-    if (i < 0)
-        printf("Goldbach's conjecture is wrong.");
-    else
-        printf("%d = %d + %d", n, a, b);
-    puts("");
+    printf("%d\n", cnt);
 }
 
 int main()

@@ -5,11 +5,10 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
-#include <bitset>
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -31,10 +30,7 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-#define MAX_S 1000010
-int n;
-bitset<MAX_S> sieve;
-vi primes;
+int test;
 /*global variables*/
 
 void dump()
@@ -45,55 +41,26 @@ void dump()
 bool getInput()
 {
     //get input
-    scanf("%d ", &n);
-    if (n == 0) return false;
+    if (feof(stdin)) return false;
+    scanf("%d ", &test);
     return true;
 }
 
 void process()
 {
     //process input
-    int b, a;
-    int i = lower_bound(primes.begin(), primes.end(), n)-primes.begin();
-    for (; i >= 0; --i)
+    int base = 1;
+    int t = 1;
+    while (base % test != 0)
     {
-        b = primes[i];
-        for (int j = i; j >= 0; --j)
-        {
-            if (b + primes[j] > n) continue;
-            
-            if (b + primes[j] == n)
-            {
-                a = primes[j];
-                goto done;
-            }
-        }
+        base = (base*10+1)%test;
+        t++;
     }
-
-done:
-    if (i < 0)
-        printf("Goldbach's conjecture is wrong.");
-    else
-        printf("%d = %d + %d", n, a, b);
-    puts("");
+    printf("%d\n", t);
 }
 
 int main()
 {
-    //precompute
-    sieve[0] = 1;
-    sieve[1] = 1;
-    FOR(i, 2, MAX_S)
-    {
-        if (sieve[i] == 0)
-        {
-            primes.push_back(i);
-            for (int j = i*i; 2 < j && j <= MAX_S; j += i)
-            {
-                sieve[j] = 1;
-            }
-        }
-    }
     while (getInput())
     {
 

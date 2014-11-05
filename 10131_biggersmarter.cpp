@@ -45,7 +45,7 @@ struct srt
     bool operator() (const triple& a, const triple& b)
     {
         if (a.second == b.second)
-            return a.first < b.first;
+            return a.first > b.first;
         return a.second > b.second;
     }
 };

@@ -30,7 +30,9 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-
+int B[30];
+int N[30];
+int b, n;
 /*global variables*/
 
 void dump()
@@ -41,12 +43,42 @@ void dump()
 bool getInput()
 {
     //get input
+    scanf("%d %d ", &b, &n);
+    if (!b && !n) return false;
+
+    int amt;
+    FOR(i, 1, b+1)
+    {
+        scanf("%d ", &amt);
+        B[i] = amt;
+    }
     return true;
 }
 
 void process()
 {
     //process input
+    int d, c, a;
+    REP(i, n)
+    {
+        scanf("%d %d %d ", &d, &c, &a);
+        B[c] += a;
+        B[d] -= a;
+    }
+
+    bool gtz = true;
+    FOR(i, 1, b+1)
+    {
+        //debug(B[i], endl);
+        if (B[i] < 0)
+        {
+            gtz = false;
+            break;
+        }
+    }
+
+    printf("%s\n", gtz ? "S" : "N");
+        
 }
 
 int main()
@@ -57,7 +89,8 @@ int main()
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        CL(B, 0);
+        CL(N, 0);
         /*CLEAR GLOBAL VARIABLES!*/
     }
 

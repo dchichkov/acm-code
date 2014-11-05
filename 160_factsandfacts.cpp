@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -31,10 +31,11 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-#define MAX_S 1000010
+const int MAX_P = 100;
+bitset<MAX_P> sieve;
 int n;
-bitset<MAX_S> sieve;
 vi primes;
+int counter[100];
 /*global variables*/
 
 void dump()
@@ -46,61 +47,68 @@ bool getInput()
 {
     //get input
     scanf("%d ", &n);
-    if (n == 0) return false;
+    if (!n) return false;
     return true;
 }
 
 void process()
 {
     //process input
-    int b, a;
-    int i = lower_bound(primes.begin(), primes.end(), n)-primes.begin();
-    for (; i >= 0; --i)
+    int t;
+    FOR(i, 2, n+1)
     {
-        b = primes[i];
-        for (int j = i; j >= 0; --j)
+        t = i;
+        for (int j = 0; primes[j] <= i && t != 1; ++j)
         {
-            if (b + primes[j] > n) continue;
-            
-            if (b + primes[j] == n)
+            while (t % primes[j] == 0)
             {
-                a = primes[j];
-                goto done;
+                
+                t /= primes[j];
+                counter[primes[j]]++;
             }
         }
     }
 
-done:
-    if (i < 0)
-        printf("Goldbach's conjecture is wrong.");
-    else
-        printf("%d = %d + %d", n, a, b);
+    int omg = 0;
+    printf("%3d! =", n);
+    FOR(i, 2, 100)
+    {
+        if (counter[i] != 0)
+        {
+            if (omg && omg % 15 == 0)
+                printf("\n      ");
+            ++omg;
+            dbg(cout << endl; );
+            debug(counter[i], TAB); debug(i, endl);
+            printf(" %2d", counter[i]);
+        }
+    }
+
     puts("");
 }
 
 int main()
 {
-    //precompute
     sieve[0] = 1;
     sieve[1] = 1;
-    FOR(i, 2, MAX_S)
+    FOR(i, 2, MAX_P)
     {
-        if (sieve[i] == 0)
+        if (!sieve[i])
         {
             primes.push_back(i);
-            for (int j = i*i; 2 < j && j <= MAX_S; j += i)
-            {
+            for (int j = i*i; j < MAX_P; j += i)
                 sieve[j] = 1;
-            }
         }
     }
+
+    
     while (getInput())
     {
 
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        CL(counter, 0);
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
