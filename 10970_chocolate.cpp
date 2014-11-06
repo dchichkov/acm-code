@@ -8,7 +8,7 @@
 
 using namespace std;
 
-//#define DEBUG  //comment this line to pull out print statements
+#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -19,8 +19,8 @@ using namespace std;
 #endif
 
 typedef pair<int, int> point;
-typedef vector<int> vi; //?
-typedef vector<point> vp; //?
+typedef vector<int> vi;
+typedef vector<point> vp;
 
 #define UN(v) SORT(v),v.erase(unique(v.begin(),v.end()),v.end())   
 #define SORT(c) sort((c).begin(),(c).end())   
@@ -30,7 +30,7 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-long long i, j;
+int a,b;
 /*global variables*/
 
 void dump()
@@ -41,35 +41,22 @@ void dump()
 bool getInput()
 {
     //get input
-    scanf("%lld %lld ", &i, &j);
-    if (i < 0 && j < 0) return false;
+    if (feof(stdin)) return false;
+    scanf("%d %d ", &a, &b);
     return true;
 }
 
 void process()
 {
     //process input
-    int c = 0;
-    long long t;
-    for (t = min(i,j); t <= max(i, j) && t != 1;)
-    {
-        debug(t, endl);
-        if (t%2)
-            t = 3*t+1;
-        else
-            t /= 2;
-        c++;
-    }
-    if (t == 1) ++c;
-    printf("A = %lld, limit = %lld, number of terms = %d\n", i, j, c);
+    printf("%d\n", a*b-1);
 }
 
 int main()
 {
-    int count = 0;
     while (getInput())
     {
-        printf("Case %d: ", ++count);
+
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
