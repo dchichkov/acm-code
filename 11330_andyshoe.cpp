@@ -30,7 +30,7 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-string a;
+vi nums;
 /*global variables*/
 
 void dump()
@@ -41,35 +41,57 @@ void dump()
 bool getInput()
 {
     //get input
-    if (feof(stdin)) return false;
-    getline(cin, a);
-    scanf(" ");
+    int n, a;
+    scanf("%d ", &n);
+    REP(i, n*2)
+    {
+        scanf("%d ", &a);
+        nums.push_back(a);
+    }
     return true;
+}
+
+int chknms(int i)
+{
+    while (i < nums.size())
+    {
+        if (nums[i] != nums[i-1])
+            return i;
+        i += 2;
+    }
+    return 0;
 }
 
 void process()
 {
     //process input
-    long long b, c;
-    SORT(a);
-    while (a[0] == '0') a.insert(a.find_first_not_of("0")+1, "0"), a.erase(a.begin());
-    sscanf(a.c_str(), "%lld", &b);
-    reverse(a.begin(), a.end());
-    while (a[0] == '0') a.insert(a.find_first_not_of("0")+1, "0"), a.erase(a.begin());
-    sscanf(a.c_str(), "%lld", &c);
-    printf("%lld - %lld = %lld = 9 * %lld\n", c, b, c-b, (c-b)/9);
-    
+    int i = 1, tf, ttl = 0, z;
+    vi::iterator x, y;
+    while ((i = chknms(i)) && i != 0)
+    {
+        tf = nums[i-1];
+        y = find(nums.begin()+i, nums.end(), tf);
+        x = nums.begin()+i;
+        z = *x;
+        *x = *y;
+        *y = z;
+        ++ttl;
+        i += 2;
+    }
+    printf("%d\n", ttl);
 }
 
 int main()
 {
-    while (getInput())
+    int tc;
+    scanf("%d ", &tc);
+    while (tc-- > 0)
     {
-
+        getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        nums.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
