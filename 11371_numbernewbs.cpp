@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -51,12 +51,14 @@ void process()
 {
     //process input
     long long b, c;
+    string e = a;
+    sort(e.begin(), e.end(), std::greater<char>());
     SORT(a);
+    debug(a, endl);
     while (a[0] == '0') a.insert(a.find_first_not_of("0")+1, "0"), a.erase(a.begin());
     sscanf(a.c_str(), "%lld", &b);
-    reverse(a.begin(), a.end());
-    while (a[0] == '0') a.insert(a.find_first_not_of("0")+1, "0"), a.erase(a.begin());
-    sscanf(a.c_str(), "%lld", &c);
+    debug(e, endl);
+    sscanf(e.c_str(), "%lld", &c);
     printf("%lld - %lld = %lld = 9 * %lld\n", c, b, c-b, (c-b)/9);
     
 }
