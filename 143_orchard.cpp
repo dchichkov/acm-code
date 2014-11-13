@@ -76,7 +76,7 @@ void process()
     double perimeter = sqrt(pow((vertices[0].first - vertices[1].first), 2) + pow(vertices[0].second - vertices[1].second, 2)) + 
         sqrt(pow((vertices[1].first - vertices[2].first), 2) + pow(vertices[1].second - vertices[2].second, 2)) +
         sqrt(pow((vertices[2].first - vertices[0].first), 2) + pow(vertices[2].second - vertices[0].second, 2));
-    printf("%4.0lf\n", ceil(fabs(area) + fabs(perimeter)));
+    printf("%4.0lf\n", ceil(fabs(area)));//fabs(perimeter)));
 }
 
 int main()
