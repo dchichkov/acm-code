@@ -94,6 +94,8 @@ Knight
 ........ 
  */ 
 
+char board[12][12];
+
 /*global variables*/
 
 void dump()
@@ -104,7 +106,105 @@ void dump()
 bool getInput()
 {
     //get input
-    return true;
+    bool isdone = false;
+    FOR(i, 2, 10)
+    {
+        FOR(j, 2, 10)
+        {
+            scanf("%c ", &board[i][j]);
+            if (board[i][j] != '.') isdone = true;
+        }
+    }
+    return isdone;
+}
+
+bool king(bool isW, int x, int y)
+{
+    char chk = isW ? 'K' : 'k';
+    if (board[x+1][y] == chk ||
+        board[x+1][y+1] == chk ||
+        board[x][y+1] == chk ||
+        board[x-1][y+1] == chk ||
+        board[x-1][y] == chk ||
+        board[x-1][y-1] == chk ||
+        board[x][y-1] == chk ||
+        board[x+1][y-1] == chk)
+        return true;
+    return false;
+}
+
+bool knight(bool isW, int x, int y)
+{
+    char chk = isW ? 'K' : 'k';
+    if (board[x+1][y] == chk ||
+        board[x+1][y+1] == chk ||
+        board[x][y+1] == chk ||
+        board[x-1][y+1] == chk ||
+        board[x-1][y] == chk ||
+        board[x-1][y-1] == chk ||
+        board[x][y-1] == chk ||
+        board[x+1][y-1] == chk)
+        return true;
+    return false;
+}
+
+
+bool rook(bool isW, int x, int y)
+{
+    char chk = isW ? 'K' : 'k';
+    while (x > 0)
+    {
+        if ()
+            }
+    return false;
+}
+
+bool bishop(bool isW, int x, int y)
+{
+    char chk = isW ? 'K' : 'k';
+    if (board[x+1][y] == chk ||
+        board[x+1][y+1] == chk ||
+        board[x][y+1] == chk ||
+        board[x-1][y+1] == chk ||
+        board[x-1][y] == chk ||
+        board[x-1][y-1] == chk ||
+        board[x][y-1] == chk ||
+        board[x+1][y-1] == chk)
+        return true;
+    return false;
+}
+
+bool queen(bool isW, int x, int y)
+{
+    char chk = isW ? 'K' : 'k';
+        if (board[x+1][y] == chk ||
+        board[x+1][y+1] == chk ||
+        board[x][y+1] == chk ||
+        board[x-1][y+1] == chk ||
+        board[x-1][y] == chk ||
+        board[x-1][y-1] == chk ||
+        board[x][y-1] == chk ||
+        board[x+1][y-1] == chk)
+        return true;
+    return false;
+}
+
+bool pawn(bool isW, int x, int y)
+{
+    char chk = isW ? 'K' : 'k';
+    if (isW)
+    {
+        if (board[x+1][y+1] == chk ||
+            board[x-1][y+1] == chk)
+            return true;
+    }
+    else
+    {
+        if (board[x+1][y-1] == chk ||
+            board[x-1][y-1] == chk)
+            return true;
+    }
+    return false;
 }
 
 void process()
@@ -120,7 +220,7 @@ int main()
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        CL2d(board, 0, 10, 10);
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
