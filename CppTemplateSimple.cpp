@@ -25,7 +25,7 @@ typedef vector<point> vp;
 #define UN(v) SORT(v),v.erase(unique(v.begin(),v.end()),v.end())   
 #define SORT(c) sort((c).begin(),(c).end())   
 #define FOR(i,a,b) for (int  i=(a); i < (b); i++)    
-#define REP(i,n) FOR(i,0,n)    
+#define REP(i,n) FOR(i,0,(int)n)    
 #define CL(a,b) memset(a,b,sizeof(a))
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 

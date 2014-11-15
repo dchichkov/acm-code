@@ -52,22 +52,18 @@ bool getInput()
     return true;
 }
 
-bool ismod131071(unsigned long long hmm)
-{
-    return ((hmm % 131071) == 0);
-}
-
 void process()
 {
     //process input
-    unsigned long long idk = 0;
-    REP(i, num.length())
+    int idk = 1;
+    for(int i = 0; i < num.length(); ++i)
     {
-        idk += (pow(2, i) * (num[num.length()-i-1] - 0x30));
-        if (ismod131071(idk)) break;
+        debug((num[num.length()-i-1] - 0x30), TAB);
+        debug(idk, endl);
+        idk = (((idk * 2)%131071) * (num[num.length()-i-1] - 0x30)) % 131071;
     }
 
-    if (ismod131071(idk)) printf("YES");
+    if (idk == 0) printf("YES");
     else printf("NO");
 
     puts("");
