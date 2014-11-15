@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <set>
 
 using namespace std;
 
@@ -30,10 +31,8 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-const int MAX = 2000000;
-int primes[MAX + 10];
-vi sorted_list;
-int n;
+int lena, lenb;
+set<int> alice, betty, aerase;
 /*global variables*/
 
 void dump()
@@ -44,63 +43,52 @@ void dump()
 bool getInput()
 {
     //get input
-    scanf("%d ", &n);
-    if (n == 0) return false;
+    int a;
+    scanf("%d %d ", &lena, &lenb);
+
+    if (!lena && !lenb) return false;
+    REP(i, lena)
+    {
+        scanf("%d ", &a);
+        alice.insert(a);
+    }
+
+    REP(i, lenb)
+    {
+        scanf("%d ", &a);
+        if (alice.find(a) == alice.end())
+        {
+            betty.insert(a);
+        }
+        else
+            aerase.insert(a);
+    }
+
+    for (set<int>::iterator it = aerase.begin(); it != aerase.end(); ++it)
+    {
+        debug(*it, endl);
+        alice.erase(*it);
+    }
     return true;
 }
 
 void process()
 {
     //process input
-    printf("%d\n", sorted_list[n-1]);
+    printf("%d\n", min((int)betty.size(), (int)alice.size()));
 }
 
 int main()
 {
-    //precompute
-    REP(i, MAX+1)
-        primes[i] = 1;
-    primes[0] = 0;
-    int mx = 0;
-    FOR(i, 2, MAX+1)
-    {
-        if (primes[i] == 1)
-        {
-            for (int j = i+i, x; j <= MAX && j > 0; j += i)
-            {
-                x = j;
-                while (x%i == 0)
-                {
-                    primes[j]++;
-                    x /= i;
-                }
-                mx = max(mx, primes[j]);
-            }
-        }
-    }
-
-    debug(mx, endl);
-    for (int i = 1; i <= mx; ++i)
-    {
-        for (int j = 1; j <= MAX; ++j)
-        {
-            if (primes[j] == i)
-            {
-                sorted_list.push_back(j);
-            }
-        }
-    }
-
-
-    debug(sorted_list.size(), endl);
-    int casen = 1;
     while (getInput())
     {
-        printf("Case %d: ", casen++);
+
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        alice.clear();
+        betty.clear();
+        aerase.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
