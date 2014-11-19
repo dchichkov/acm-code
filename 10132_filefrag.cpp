@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -31,7 +31,8 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-
+vector<string> frags;
+int B;
 /*global variables*/
 
 void dump()
@@ -42,23 +43,59 @@ void dump()
 bool getInput()
 {
     //get input
+    char line[300];
+    while (fgets(line, 300, stdin))
+    {
+        if (line[strlen(line)-1] == '\n')
+            line[strlen(line)-1] = 0;
+        if (strlen(line) == 0) break;
+        debug(line, TAB); debug(B, endl);
+        frags.push_back(line);
+        B += strlen(line);
+        if (feof(stdin)) break;
+    }
+    B /= (int)frags.size()/2;
     return true;
 }
 
 void process()
 {
     //process input
+    map<string, int> comps;
+    REP(i, (int)frags.size())
+    {
+        REP(j, (int)frags.size())
+        {
+            if ((frags[i] + frags[j]).length() == B)
+                comps[frags[i] + frags[j]]++;
+        }
+    }
+
+    int mx = 0;
+    string final;
+    for (map<string, int>::iterator it = comps.begin(); it != comps.end(); ++it)
+    {
+        if (it->second > mx)
+        {
+            mx = it->second;
+            final = it->first;
+        }
+    }
+    cout << final << endl;
 }
 
 int main()
 {
-    while (getInput())
+    int tc;
+    scanf("%d ", &tc);
+    while (tc-- > 0)
     {
-
+        getInput();
         process();
-
+        if (tc != 0) puts("");
         /*CLEAR GLOBAL VARIABLES!*/
-
+        frags.clear();
+        B = 0;
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
