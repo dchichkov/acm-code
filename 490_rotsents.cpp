@@ -46,10 +46,10 @@ bool getInput()
     i = i2 = 0;
     while(!feof(stdin))
     {
-        fgets(sentences[i], 100, stdin);
-        i2 = max((int)strlen(sentences[i])-1, i2);
+        fgets(sentences[i], 105, stdin);
         if (sentences[i][strlen(sentences[i])-1] == '\n')
             sentences[i][strlen(sentences[i])-1] = 0;
+        i2 = max((int)strlen(sentences[i]), i2);
         if (strlen(sentences[i]) == 0) break;
         i++;
     }
@@ -91,7 +91,7 @@ int main()
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        CL2d(sentences, 0, 105, 105);
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
