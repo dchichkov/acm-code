@@ -58,8 +58,6 @@ void normalize(char* s)
         else
         if (!isalpha(s[i]))
             s[i] = ' ';
- 
-
     }
 
 }
@@ -128,7 +126,6 @@ void process()
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
     int nc;
     int count = 0;
     scanf("%d\n", &nc);

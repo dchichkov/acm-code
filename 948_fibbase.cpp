@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <numeric>
 
 using namespace std;
 
@@ -25,12 +26,13 @@ typedef vector<point> vp;
 #define UN(v) SORT(v),v.erase(unique(v.begin(),v.end()),v.end())   
 #define SORT(c) sort((c).begin(),(c).end())   
 #define FOR(i,a,b) for (int  i=(a); i < (b); i++)    
-#define REP(i,n) FOR(i,0,n)    
+#define REP(i,n) FOR(i,0,(int)n)    
 #define CL(a,b) memset(a,b,sizeof(a))
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-string line;
+int n;
+vi fibs = {102334155, 63245986, 39088169, 24157817, 14930352, 9227465, 5702887, 3524578, 2178309, 1346269, 832040, 514229, 317811, 196418, 121393, 75025, 46368, 28657, 17711, 10946, 6765, 4181, 2584, 1597, 987, 610, 377, 233, 144, 89, 55, 34, 21, 13, 8, 5, 3, 2, 1, 1};
 /*global variables*/
 
 void dump()
@@ -41,33 +43,45 @@ void dump()
 bool getInput()
 {
     //get input
-    if (cin.eof()) return false;
-    getline(cin, line);
-    if (cin.fail()) return false;
+    scanf("%d ", &n);
     return true;
 }
 
 void process()
 {
     //process input
-    int mx = 0, cur = 0;
-    REP(i, line.length())
+    string fs;
+    int i = 0;
+    printf("%d = ", n);
+    while (true)
     {
-        if (line[i] == ' ')
-            cur++;
+        if (fibs[i] <= n)
+        {
+            debug(fibs[i], endl);
+            n -= fibs[i];
+            fs += '1';
+        }
         else
-            cur = 0;
-        mx = max(mx, cur);
+            fs += '0';
+        i++;
+        if (i >= fibs.size()-1) break;
     }
-    debug(mx, TAB); debug((log2(mx)), endl);
-    cout << (int)ceil(log2(mx)) << endl;
+    int x = fs.find_first_not_of('0');
+    debug(x, endl);
+    if (x != string::npos)
+        fs = fs.substr(x, fs.length()-x);
+
+    printf("%s (fib)\n", fs.c_str());
 }
 
 int main()
 {
-    while (getInput())
-    {
+    int tc;
+    scanf("%d ", &tc);
 
+    while (tc-- > 0)
+    {
+        getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
