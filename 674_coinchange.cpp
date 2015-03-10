@@ -30,7 +30,9 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-
+int coins[] = { 50, 25, 10, 5, 1 };
+int change;
+int ways[6][7490];
 /*global variables*/
 
 void dump()
@@ -41,16 +43,31 @@ void dump()
 bool getInput()
 {
     //get input
+    if (feof(stdin)) return false;
+    scanf("%d ", &change);
     return true;
+}
+
+int make_change(int type, int val)
+{
+    if (val == 0)
+        return 1;
+    if (val < 0 || type == 5)
+        return 0;
+    if (ways[type][val] != -1) return ways[type][val];
+    return ways[type][val] = make_change(type+1, val) + //if we ignore the coin
+        make_change(type, val - coins[type]); //if we use the coin
 }
 
 void process()
 {
     //process input
+    printf("%d\n", make_change(0, change));
 }
 
 int main()
 {
+    CL2d(ways, -1, 6, 7490);
     while (getInput())
     {
 

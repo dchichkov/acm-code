@@ -31,7 +31,10 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
+typedef unsigned long long ull;
 int cents;
+ull ways[6][30010];
+int coins[] = {50, 25, 10, 5, 1};
 /*global variables*/
 
 void dump()
@@ -47,44 +50,33 @@ bool getInput()
     return true;
 }
 
+ull make_change(int type, int val)
+{
+    if (val == 0)
+        return 1;
+    if (val < 0 || type == 5)
+        return 0;
+    if (ways[type][val] != -1) return ways[type][val];
+    return ways[type][val] = make_change(type+1, val) + //if we ignore the coin
+        make_change(type, val - coins[type]); //if we use the coin
+}
+
 void process()
 {
     //process input
-    if (cents < 5) printf("There is only 1 way to produce %d cents change.", cents);
+    if (make_change(0, cents) == 1)
+        printf("There is only 1 way to produce %d cents change.", cents);
     else
-    {
-        int tmp = cents;
-        int h, q, d, n;
-        h = q = d = n = 0;
-        while (tmp > 50)
-        {
-            tmp -= 50;
-            h++;
-        }
-        while (tmp > 25)
-        {
-            tmp -= 25;
-            q++;
-        }
-        while (tmp > 10)
-        {
-            tmp -= 10;
-            d++;
-        }
-        while (tmp > 5)
-        {
-            tmp -= 5;
-            n++;
-        }
+        printf("There are %llu ways to produce %d cents change.",
+               make_change(0, cents),
+               cents);
 
-        printf("There are %d ways to produce %d cents change.", h*16+q*8+d*4+n*2, cents);
-    }
     puts("");
-    
 }
 
 int main()
 {
+    CL2d(ways, -1, 6, 30010);
     while (getInput())
     {
 
