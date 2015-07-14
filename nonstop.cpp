@@ -28,7 +28,7 @@
 using namespace std;
 
 #define DEBUG
-#undef DEBUG //uncomment this line to pull out print statements
+//#undef DEBUG //uncomment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -103,7 +103,7 @@ int main()
         vi successful_speeds;
         for (int i = 0; i < num_cases; ++i)
         {
-            scanf("%lf %d %d %d", &mi, &g, &y, &r);
+            scanf("%lf%d%d%d", &mi, &g, &y, &r);
             mi_[i] = mi;
             gy_[i] = g+y;
             r_[i] = r;
