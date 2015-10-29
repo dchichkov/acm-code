@@ -53,7 +53,7 @@ bool getInput()
 void process()
 {
     //process input
-    vi::iterator it = lower_bound(plist.begin(), plist.end(), a);
+    vi::iterator it = upper_bound(plist.begin(), plist.end(), a);
     int cnt;
     cnt = it - plist.begin();
     debug(cnt, endl);
