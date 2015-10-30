@@ -7,10 +7,11 @@
 #include <algorithm>
 #include <set>
 #include <iterator>
+#include <map>
 
 using namespace std;
 
-//#define DEBUG  //comment this line to pull out print statements
+#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -32,7 +33,9 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int bridges[100001];
+//int bridges[100001];
+typedef map<int, int> bridge;
+bridge bridges;
 int counted[100001];
 int n, m, k;
 char line[100];
@@ -58,7 +61,7 @@ bool getInput()
     REP(i, n)
     {
         scanf("%d ", &h);
-        bridges[i] = h;
+        bridges[h]++;
     }
 
     return true;
@@ -98,7 +101,7 @@ void process()
     int counter = 0;
     int a, b;
 
-    sort(bridges, bridges+n);
+    //sort(bridges, bridges+n);
 
     int bound = 1, j;
 
@@ -111,6 +114,8 @@ void process()
         b = strtol(next, NULL, 10);
         */
                            
+
+        /*
         j = ugh(a);
         for (; j >= 0; --j)
         {
@@ -120,14 +125,26 @@ void process()
             }
             else break;
         }
-
+        */
+        j = 0;
+        for (bridge::iterator it = bridges.begin();
+             it != bridges.end(); ++it, ++j)
+        {
+            if (it->first > bound)
+            {
+                if (it->first <= a)
+                    counted[j]++;
+                else break;
+            }
+        }
         bound = b;
     }
-
-    REP(i, n)
+    j = 0;
+    for (bridge::iterator it = bridges.begin();
+         it != bridges.end(); ++it, ++j)
     {
-        if (counted[i] >= k)
-            counter += 1;
+        if (counted[j] >= k)
+            counter += it->second;
     }
     if (counter == 0)
     {
@@ -157,6 +174,7 @@ int main()
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
+        bridges.clear();
         CL(counted, 0);
         /*CLEAR GLOBAL VARIABLES!*/
     }
