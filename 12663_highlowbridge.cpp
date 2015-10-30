@@ -5,7 +5,8 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
-#include <stack>
+#include <set>
+#include <iterator>
 
 using namespace std;
 
@@ -31,10 +32,11 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-stack<vi::reverse_iterator> toremove;
-vi bridges;
+int bridges[100001];
 int counted[100001];
 int n, m, k;
+char line[100];
+char* next;
 /*global variables*/
 
 void dump()
@@ -47,21 +49,25 @@ bool getInput()
     //get input
     if (feof(stdin)) return false;
     
-    scanf("%d %d %d ", &n, &m, &k);
+    //scanf("%d %d %d ", &n, &m, &k);
+    fgets(line, 100, stdin);
+    n = strtol(line, &next, 10);
+    m = strtol(next, &next, 10);
+    k = strtol(next, NULL, 10);
     int h;
-    
     REP(i, n)
     {
         scanf("%d ", &h);
-        bridges.push_back(h);
+        bridges[i] = h;
     }
+
     return true;
 }
+
 int ugh(int item)
 {
-    debug("in ugh ", TAB); debug(item, endl);
     int first = 0;
-    int last = bridges.size()-1;
+    int last = n-1;
     int middle = (first+last)/2;
 
     while (first <= last)
@@ -79,113 +85,79 @@ int ugh(int item)
 
         middle = (first+last)/2;
     }
-    debug(first, TAB); debug(last, endl);
+
     if (first > last)
-    {
-        /*while (bridges[last] < item)
-          last++;*/
         return last;
-    }
     
     return 0;
 }
-
-int ugh2(int item)
-{
-    int i;
-    for (i = 0; i < bridges.size() && bridges[i] != item; ++i);
-    return i;
-}           
 
 void process()
 {
     //process input
     int counter = 0;
     int a, b;
-    //sort(bridges.begin(), bridges.end(), greater<int>());
-    SORT(bridges);
-    REP(i, bridges.size())
-    {
-        debug(bridges[i], TAB);
-    }
-    dbg( cout << endl; );
-/*    SORT(bridges);
-    vi::reverse_iterator c;
 
-    REP(i, bridges.size())
-    {
-        debug(bridges[i], TAB);
-    }
-    dbg ( cout << endl; );
+    sort(bridges, bridges+n);
+
+    int bound = 1, j;
+
     REP(i, m)
     {
         scanf("%d %d ", &a, &b);
-        debug(a, TAB); debug(b, endl);
-        c = upper_bound(bridges.rbegin(), bridges.rend(), a);
-
-        for (int i = c - bridges.rbegin();
-             c != bridges.rbegin();
-             ++c, --i)
-        {
-            debug(i, TAB);
-            debug(*c, endl);
-            if (*c > b)
-                counted[i]++;
-            else
-                break;
-            if (counted[i] >= k)
-            {
-                counter++;
-                toremove.push(c);
-            }
-        }
-    }
-
-    while (!toremove.empty())
-    {
-        bridges.erase(toremove.top().base());
-        toremove.pop();
-    }
-*/
-    int bound = 0, j;
-    REP(i, m)
-    {
-        scanf("%d %d ", &a, &b);
+        /* This causes a runtime error for some reason:
+        fgets(line, 100, stdin);
+        a = strtol(line, &next, 10);
+        b = strtol(next, NULL, 10);
+        */
+                           
         j = ugh(a);
-        debug(j, endl);
-        for(; j >= 0; --j)
+        for (; j >= 0; --j)
         {
             if (bridges[j] > bound)
-                counted[j]++;
+            {
+                counted[j] += 1;
+            }
             else break;
         }
+
         bound = b;
     }
-    dbg( cout << endl; )
+
     REP(i, n)
     {
-        debug(counted[i], endl);
         if (counted[i] >= k)
-            counter++;
+            counter += 1;
     }
-    printf("%d\n", counter);
+    if (counter == 0)
+    {
+        fputs("0\n", stdout);
+    }
+    else
+    {
+        int offset = log10(counter) + 1;
+        char answer[offset];
+        for (int i = offset-1; i >= 0; --i)
+        {
+            answer[i] = (counter % 10) + 0x30;
+            counter /= 10;
+        }
+        fwrite(answer, sizeof(char), offset, stdout);
+        //printf("%d\n", counter);
+        fputs("\n", stdout);
+    }
 }
 
 int main()
 {
     int nc = 1;
-    bridges.reserve(10000);
     while (getInput())
     {
         printf("Case %d: ", nc++);
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        bridges.clear();
         CL(counted, 0);
-        /*      while (!toremove.empty())
-                toremove.pop();*/
-        
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
