@@ -31,6 +31,7 @@ typedef vector<point> vp; //?
 
 /*global variables*/
 int len;
+vector<string> operations;
 /*global variables*/
 
 void dump()
@@ -43,26 +44,78 @@ bool getInput()
     //get input
     scanf("%d ", &len);
     if (len == 0) return false;
+
+    char op[3];
+    FOR(i, 1, len)
+    {
+        scanf("%2s ", op);
+        operations.push_back(op);
+    }
     return true;
 }
 
 void process()
 {
-    string ans;
-    //process input
-    //x reverses z
-    //y reverses x
-    //z reverses y
-    string last_bend;
-    cin >> last_bend;
-    ans = last_bend;
-    int dir = 1; //1 for positive, 0 for neg
+    char pn[3] = "+x";
     REP(i, len-1)
     {
-        cin >> last_bend;
-        if (last_bend[1] == 'z') 
-
+        if (operations[i] == "+x")
+        {
+            if (strcmp(pn, "+x") == 0) {}
+            else if (strcmp(pn, "-x") == 0) {}
+            else if (strcmp(pn, "+y") == 0) {}
+            else if (strcmp(pn, "-y") == 0) {}
+            else if (strcmp(pn, "+z") == 0) {}
+            else if (strcmp(pn, "-z") == 0) {}
+        }
+        else if (operations[i] == "-x")
+        {
+            if (strcmp(pn, "+x") == 0) { strcpy(pn, "-x"); }
+            else if (strcmp(pn, "-x") == 0) { strcpy(pn, "+x"); }
+            else if (strcmp(pn, "+y") == 0) {}
+            else if (strcmp(pn, "-y") == 0) //{ strcpy(pn, "-y"); }
+            else if (strcmp(pn, "+z") == 0) { strcpy(pn, "-z"); }
+            else if (strcmp(pn, "-z") == 0) { strcpy(pn, "+z"); }
+        }
+        else if (operations[i] == "+y")
+        {
+            if (strcmp(pn, "+x") == 0) { strcpy(pn, "+y"); }
+            else if (strcmp(pn, "-x") == 0) { strcpy(pn, "-y"); }
+            else if (strcmp(pn, "+y") == 0) { strcpy(pn, "-x"); }
+            else if (strcmp(pn, "-y") == 0) { strcpy(pn, "+x"); }
+            else if (strcmp(pn, "+z") == 0) {}
+            else if (strcmp(pn, "-z") == 0) {}
+        }
+        else if (operations[i] == "-y")
+        {
+            if (strcmp(pn, "+x") == 0) { strcpy(pn, "-y"); }
+            else if (strcmp(pn, "-x") == 0) { strcpy(pn, "+y"); }
+            else if (strcmp(pn, "+y") == 0) { strcpy(pn, "+x"); }
+            else if (strcmp(pn, "-y") == 0) { strcpy(pn, "-x"); }
+            else if (strcmp(pn, "+z") == 0) {}
+            else if (strcmp(pn, "-z") == 0) {}
+        }
+        else if (operations[i] == "+z")
+        {
+            if (strcmp(pn, "+x") == 0) strcpy(pn, "+z");
+            else if (strcmp(pn, "-x") == 0) strcpy(pn, "-z");
+            else if (strcmp(pn, "+y") == 0) {}
+            else if (strcmp(pn, "-y") == 0) {}
+            else if (strcmp(pn, "+z") == 0) strcpy(pn, "-x");
+            else if (strcmp(pn, "-z") == 0) strcpy(pn, "+x");
+        }
+        else if (operations[i] == "-z")
+        {
+            if (strcmp(pn, "+x") == 0) strcpy(pn, "-z");
+            else if (strcmp(pn, "-x") == 0) strcpy(pn, "+z");
+            else if (strcmp(pn, "+y") == 0) {}
+            else if (strcmp(pn, "-y") == 0) {}
+            else if (strcmp(pn, "+z") == 0) strcpy(pn, "+x");
+            else if (strcmp(pn, "-z") == 0) strcpy(pn, "-x");
+        }
+        //printf("%s\n", pn);
     }
+    printf("%s\n", pn);
 }
 
 int main()
@@ -73,7 +126,7 @@ int main()
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-
+        operations.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
