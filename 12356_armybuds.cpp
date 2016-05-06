@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -31,16 +31,13 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int buds[100020];
+
 int nb, nr;
 /*global variables*/
 
 void dump()
 {
     //dump data
-    printf("%d", buds[0]);
-    FOR(i, 1, nb)
-        printf(" %d", buds[i]);        
 }
 
 bool getInput()
@@ -55,40 +52,13 @@ bool getInput()
 void process()
 {
     //process input
-    REP(i, nb-1)
-    {
-        buds[i] = i+2;
-    }
-    buds[nb-1] = nb;
-    int l, r, newb;
-    bool ifd = false, ild = false;
+    int l, r;
+
     REP(i, nr)
     {
         scanf("%d %d ", &l, &r);
-        if (r == nb){
-            ild = true;
-            newb = 0;
-        }
-        else
-            newb = buds[r-1];
-
-        if (l == 1) ifd = true;
         
-        FOR(i, l-1, r-1)
-        {
-            buds[i] = newb;
-        }
-
-        if (ifd)
-            printf("* ");
-        else
-            printf("%d ", l-1);
-        if (newb == 0 && ild)
-            printf("*");
-        else
-            printf("%d", buds[l-1]);
-        dbg( puts(""); dump(););
-        puts("");
+        
     }
     printf("-\n");
 }
@@ -96,11 +66,11 @@ void process()
 int main()
 {
     while (getInput())
-    {
-        CL(buds, 0);
+    {        
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
+        FK.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
