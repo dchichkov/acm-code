@@ -32,7 +32,7 @@ typedef vector<point> vp; //?
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-map<int, int> solution, solution2;
+vi solution, solution2;
 vi guess;
 int num;
 /*global variables*/
@@ -49,11 +49,11 @@ bool getInput()
     scanf("%d ", &num);
     if (num == 0)
         return false;
-    debug(num, endl);
+    //debug(num, endl);
     REP(i, num)
     {
         scanf("%d ", &n);
-        solution[i] = n;
+        solution.push_back(n);
     }
     return true;
 }
@@ -62,7 +62,7 @@ void process()
 {
     //process input
     int n = 0, rp, wp;
-    map<int, int>::iterator it;
+    solution2.resize(solution.size());
     while (true)
     {
         guess.clear();
@@ -82,21 +82,26 @@ void process()
         }
         if (guess.empty()) break;
         rp = wp = 0;
-        for (it = solution.begin(); it != solution.end(); ++it)
-            solution2[it->first] = it->second;
+
+        copy(solution.begin(), solution.end(), solution2.begin());
         REP(i, num)
         {
             if (solution2[i] == guess[i])
             {
                 rp++;
-                solution2[i] = 0;
+                solution2[i] = -1;
+                guess[i] = -1;
             }
         }
+        vi::iterator it;
         REP(i, num)
         {
-            if(solution2.find(guess[i]) != solution2.end())
+            if (guess[i] == -1) continue;
+            it = find(solution2.begin(), solution2.end(), guess[i]);
+            if(it != solution2.end())
             {
                 wp++;
+                *it = -1;
             }
         }
         if (n) printf("    (%d,%d)\n", rp, wp);

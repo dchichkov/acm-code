@@ -49,9 +49,10 @@ bool getInput()
         {
             first_time = false;
         }
-        else puts("");
+        //else puts("");
     }
     scanf("%lld ", &year);
+    debug(year, endl);
     return true;
 }
 
@@ -71,7 +72,7 @@ bool ishuluculu()
 
 bool isbulukulu()
 {
-    if (year % 55 == 0) return true;
+    if (year % 55 == 0 && isleapyear()) return true;
     return false;
 }
 
@@ -86,6 +87,7 @@ void process()
         puts("This is bulukulu festival year.");
     if (!isleapyear() && !ishuluculu() && !isbulukulu())
         puts("This is an ordinary year.");
+    puts("");
 }
 
 int main()
