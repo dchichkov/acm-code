@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <map>
 
 using namespace std;
 
@@ -49,9 +50,10 @@ bool getInput()
 void process()
 {
     //process input
-
-    
-    printf("%d\n", );
+    long long sum = 1;
+    for (long long i = n*2; i > 5; i -= 4)
+        sum += i;
+    printf("%lld\n", (sum-2)*3);
 }
 
 int main()
