@@ -60,9 +60,8 @@ bool getInput()
 void process()
 {
     c++;
-    //process input
-
-    int t, k = 0, l = 0, j = 0;
+    //process input    
+    int t, k = 0, l = 0, j = 0, gap = 0;
     int meh = 0, msf = 0;
     vector<int> v;
     REP(i, n-1)
@@ -77,53 +76,31 @@ void process()
         meh = meh + v[i];
         if (meh > msf)
         {
-            k = j;
-            l = i;
             msf = meh;
+            l = i;
+            k = j;
+            gap = (i+1)-j;
         }
         else if (meh < 0)
         {
             meh = 0;
             j = i+1;
-        }
-        else if (meh == msf && j == k)
+        }        
+        else if (meh == msf)
         {
-            l = i;
+            debug(gap, endl);
+            if ((i - j) > gap)
+            {
+                l = i;
+                k = j;
+                gap = (i+1)-j;
+            }
         }
 
         //msf = max(msf, meh);
         debug(meh, TAB); debug(msf, endl);
     }
 
-    /*while (v.back() < 0) { debug(v.back(), endl); v.pop_back(); if (v.empty()) break; }
-    int maxx = 0, ma = 0;
-    REP(i, v.size())
-    {
-        if (v[i] < 0) continue;
-        ma = v[i];
-        FOR(j, i, v.size())
-        {
-            ma += v[j];
-            if (ma == maxx)
-                l = j;
-            if (ma > maxx)
-            {
-                k = i;
-                l = j;
-                maxx = ma;
-            }
-        }
-
-        debug(maxx, TAB); debug(ma , endl);
-    }
-    debug(k, TAB); debug(l, endl);
-    */
-    /*int w = 0;
-    debug(k, TAB); debug(l, endl);
-    FOR(i, k, l)
-    {
-        w += v[i];
-    }*/
     if (msf != 0)
         printf("The nicest part of route %d is between stops %d and %d", c, k+1, l+2);
     else

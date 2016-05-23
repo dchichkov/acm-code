@@ -10,7 +10,7 @@
 using namespace std;
 
 #define DEBUG
-//#undef DEBUG //uncomment this line to pull out print statements
+#undef DEBUG //uncomment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -41,6 +41,11 @@ vector<int> v;
 void dump()
 {
     //dump data
+    for (int i = 0; i < v.size(); ++i)
+    {
+        debug(v[i], TAB);
+    }
+    cout << endl;
 }
 
 bool getInput()
@@ -49,6 +54,7 @@ bool getInput()
     if (feof(stdin)) return false;
     string line;
     getline(cin, line);
+    if (line.length() == 0) return false;
     istringstream s(line);
     int t;
     while (s >> t)
@@ -68,18 +74,37 @@ void process()
         printf(" %d", v[i]);
     cout << endl;
     
-    int count = 0;
-    for (int j = 0; j < v.size(); ++j)
+    int pos = v.size()-1;
+
+    while (pos != 0)
     {
-        if (v[0] > v[1])
+        int largest = 0, px;
+        for (int j = pos; j >= 0; --j)
         {
-            ++count;
-            reverse(v.begin(), v.end()-j);
-
-            printf("%d ", count);
+            if (v[j] > largest)
+            {
+                largest = v[j];
+                px = j;
+            }
         }
+        debug(largest, TAB); debug(px, endl);
+        if (px != pos)
+        {
+            if (px != 0)
+            {
+                //flip to front
+                printf("%d ", (int)v.size()-px);
+                reverse(v.begin(), v.begin()+px+1);
+                dbg( dump() );
+            }
+            //flip to pos
+            printf("%d ", (int)v.size()-pos);
+            reverse(v.begin(), v.begin()+pos+1);
+            dbg( dump() );
+        }
+        pos--;
     }
-
+    
     printf("0\n");
 }
 
