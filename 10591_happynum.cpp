@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <map>
 
 using namespace std;
 
@@ -19,19 +20,19 @@ using namespace std;
 #endif
 
 typedef pair<int, int> point;
-typedef vector<int> vi; //?
-typedef vector<point> vp; //?
+typedef vector<int> vi;
+typedef vector<point> vp;
 
 #define UN(v) SORT(v),v.erase(unique(v.begin(),v.end()),v.end())   
 #define SORT(c) sort((c).begin(),(c).end())   
 #define FOR(i,a,b) for (int  i=(a); i < (b); i++)    
-#define REP(i,n) FOR(i,0,n)    
+#define REP(i,n) FOR(i,0,(int)n)    
 #define CL(a,b) memset(a,b,sizeof(a))
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-vector<string> codes;
-string line;
+int num;
+map<long long, bool> prevv;
 /*global variables*/
 
 void dump()
@@ -42,49 +43,46 @@ void dump()
 bool getInput()
 {
     //get input
-    if (feof(stdin)) return false;
-    char code[1000];
-    scanf("%s ", code);
-    while (code[0] != '9')
-    {
-        if (feof(stdin)) return false;
-        codes.push_back(code);
-        scanf("%s ", code);
-    }
+    scanf("%d ", &num);
     return true;
 }
 
 void process()
 {
     //process input
-    //SORT(codes);
-    bool decodable = true;
-    REP(i, codes.size())
+    long S1 = 0;
+    long long nnum = num, nn2;
+    char c;
+    while (S1 != 1 && S1 != num)
     {
-        FOR(j, 0, codes.size())
+        S1 = 0;
+        while (nnum != 0)
         {
-            if (j == i) continue;
-            if (codes[j].substr(0, codes[i].length()).compare(codes[i]) == 0)
-            {
-                decodable = false;
-                goto end;
-            }
+            nn2 = nnum%10;
+            S1 += nn2 * nn2;
+            nnum /= 10;
         }
+        nnum = S1;
+        if (prevv[nnum]) break;
+
+        prevv[nnum] = true;
     }
-end:
-    printf("is %simmediately decodable\n", decodable ? "" : "not ");
+    printf("%d is a%s number.\n", num, nnum == 1 ? " Happy" : "n Unhappy");
 }
 
 int main()
 {
-    int count = 0;
-    while (getInput())
+    int nc;
+    scanf("%d ", &nc);
+    int count = 1;
+    while (nc-- > 0)
     {
-        printf("Set %d ", ++count);
+        printf("Case #%d: ", count++);
+        getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        codes.clear();
+        prevv.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 

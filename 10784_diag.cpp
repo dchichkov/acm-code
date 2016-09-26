@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
-#include <iomanip>
 
 using namespace std;
 
@@ -26,14 +25,12 @@ typedef vector<point> vp;
 #define UN(v) SORT(v),v.erase(unique(v.begin(),v.end()),v.end())   
 #define SORT(c) sort((c).begin(),(c).end())   
 #define FOR(i,a,b) for (int  i=(a); i < (b); i++)    
-#define REP(i,n) FOR(i,0,n)    
+#define REP(i,n) FOR(i,0,(int)n)    
 #define CL(a,b) memset(a,b,sizeof(a))
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-vector<string> fls;
-int longest;
-int a;
+long long n;
 /*global variables*/
 
 void dump()
@@ -44,68 +41,52 @@ void dump()
 bool getInput()
 {
     //get input
-    cin >> a;    
-    if (cin.eof()) return false;
-
-    string name;
-    REP(i, a)
-    {
-        cin >> name;
-        debug(name, endl);
-        fls.push_back(name);
-        longest = max(longest, (int)name.length());
-    }
+    scanf("%lld ", &n);
+    if (n == 0) return false;    
     return true;
 }
 
 void process()
 {
     //process input
-
-    int rm = longest;
-    int col_width = longest+2;
-    SORT(fls);
-    debug(rm, TAB); debug(col_width, endl);
-    int rows;
-    int cols = 60 / col_width;
-    if (cols == 0) cols = 1;
-    if (rm+col_width == 60) cols = 2;
-    rows = a / cols;
-    if (rows * cols < a) ++rows;
-
-    for (int i = 0; i < 60; ++i)
-        cout << "-";
-    cout << endl;
-    
-    int b = 0, c = 0;
-    for (int i = 0; i < rows; ++i)
+    int low = 4;
+    int high = 44721362;
+    long long mid;
+    long long f;
+    n *= 2;
+    while (low < high)
     {
-        b = c;
-        for (int j = 0, z = col_width; j < 61; j += z)
+        mid = (high + low) / 2;
+        f = (mid) * (mid - 3);
+        debug(f, TAB); debug(n, TAB); debug(mid, endl);
+        if (f > n)
         {
-            if (b >= a) break;
-            if (b+rows >= a) z -= 2;
-            cout << left << setw(z) << fls[b];
-            b += rows;
+            high = mid;
         }
-        cout << endl;
-        c++;
+        else if (f == n)
+        {
+            low = high = mid;
+        }
+        else
+        {
+            low = mid+1;
+        }
     }
-
-    debug(cols, endl);
-    debug(rows, endl);
+    debug(low, endl);
+    printf("%d\n", high);
 }
 
 int main()
 {
+    int count = 1;
+
     while (getInput())
     {
-
+        printf("Case %d: ", count++);
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        fls.clear();
-        longest = 0;
+
         /*CLEAR GLOBAL VARIABLES!*/
     }
 

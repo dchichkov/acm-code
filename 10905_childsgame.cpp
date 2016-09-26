@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -30,20 +30,27 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-vi nums;
+vector<string> nums;
 
 struct csrt
 {
-    bool operator() (const int& a, const int& b)
+    bool operator() (const string a, const string b)
     {
-        char c[100];
-        char d[100];
-        sprintf(c, "%d", a);
-        sprintf(d, "%d", b);
-        strcat(c, d);
-        strcat(d, c);
+        char c[1000];
+        char d[1000];
+        sprintf(c, "%s", a.data());
+        strcat(c, b.c_str());
+        sprintf(d, "%s", b.data());
+        strcat(d, a.c_str());
 
-        return strcmp(c, d) == 0;
+        debug(c, TAB); debug(d, endl);
+        int l = strlen(c);
+        for (int i = 0; i < l; ++i)
+        {
+            if (c[i] < d[i]) return 0; //RIGHT
+            if (c[i] > d[i]) return 1; //LEFT
+        }
+        return 0;
     }
 
 };
@@ -63,11 +70,12 @@ bool getInput()
     if (n == 0)
         return false;
 
-    int a;
+    char fthisprob[1000];
     REP(i, n)
     {
-        scanf("%d ", &a);
-        nums.push_back(a);
+        scanf("%s ", &fthisprob);
+        debug(fthisprob, endl);
+        nums.push_back(fthisprob);
     }
     return true;
 }
@@ -78,7 +86,7 @@ void process()
     sort(nums.begin(), nums.end(), csrt());
     REP(i, nums.size())
     {
-        printf("%d", nums[i]);
+        printf("%s", nums[i].c_str());
     }
     puts("");
 }
