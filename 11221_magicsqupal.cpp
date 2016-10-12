@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
-#include <numeric>
 
 using namespace std;
 
@@ -26,14 +25,13 @@ typedef vector<point> vp;
 #define UN(v) SORT(v),v.erase(unique(v.begin(),v.end()),v.end())   
 #define SORT(c) sort((c).begin(),(c).end())   
 #define FOR(i,a,b) for (int  i=(a); i < (b); i++)    
-#define REP(i,n) FOR(i,0,n)    
+#define REP(i,n) FOR(i,0,(int)n)    
 #define CL(a,b) memset(a,b,sizeof(a))
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-int qis[100010], pis[100010];
-int overhead[100010];
-int stations;
+string line;
+#define EPS 1e-9
 /*global variables*/
 
 void dump()
@@ -44,69 +42,51 @@ void dump()
 bool getInput()
 {
     //get input
-    scanf("%d ", &stations);
-    int a;
-
-    REP(i, stations)
+    char st[10010];
+    fgets(st, 10010, stdin);
+    REP(i, strlen(st))
     {
-        scanf("%d ", &a);
-        pis[i] = a;
+        if (isalpha(st[i]))
+            line += st[i];
     }
-    REP(i, stations)
-    {
-        scanf("%d ", &a);
-        qis[i] = a;
-        overhead[i] = pis[i] - qis[i];
-    }
+    
     return true;
 }
 
 void process()
 {
-    bool cando = false;
-    int n, j, idx;
-    //THE MAGIC LINE.
-    if (accumulate(pis, pis+stations, 0) < accumulate(qis, qis+stations, 0)) goto done;
-    //END THE MAGIC LINE.
-    
-    FOR(i, 0, stations)
+    //process input
+    int sqr = sqrt(line.length());
+    string line2;
+    line2 = line;
+    reverse(line2.begin(), line2.end());
+    debug(line, endl);
+    debug(line2, endl);
+    if (sqr*sqr == line.length() && line.compare(line2) == 0)
     {
-        n = overhead[i];
-        if (n < 0) continue;
-        for (j = i+1; j != i; j++)
-        {
-            if (j == stations) {  j = -1; continue; }
-            n += overhead[j];
-            if (n < 0) break;
-        }
-        if (j == i)
-        {
-            cando = true;
-            idx = i;
-            break;
-        }
+        printf("%d", sqr);
     }
-done:
-    if (!cando)
-        printf("Not possible");
-    else printf("Possible from station %d", idx+1);
+    else
+    {
+        printf("No magic :(");
+    }
     puts("");
+           
 }
 
 int main()
 {
     int nc;
     scanf("%d ", &nc);
-    int count = 0;
+    int count = 1;
     while (nc-- > 0)
     {
-        printf("Case %d: ", ++count);
+        printf("Case #%d:\n", count++);
         getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        CL(qis, 0);
-        CL(pis, 0);
+        line.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
