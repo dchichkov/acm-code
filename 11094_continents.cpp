@@ -58,7 +58,6 @@ bool getInput()
         REP(j, strlen(line)-1)
         {
             mat[i][j+1] = line[j];
-            choices.insert(line[j]);
         }
     }
     scanf("%d %d ", &sx, &sy);
@@ -71,18 +70,24 @@ bool getInput()
 
 int floodfill(int x, int y)
 {
-    int ttl = 1, zz;
     mat[x][y] = water;
+    
+    int ttl = 1;
+    int newx, newy;
     REP(i, 4)
     {
-        zz = y+mvy[i];
-        debug(zz, endl);
-        if (zz > h)
-            zz = 0;
-        if (zz < 1)
-            zz = h;
-        if (mat[x+mvx[i]][zz] == land)
-            ttl += floodfill(x+mvx[i],zz);
+        newx = x + mvx[i];
+        newy = y + mvy[i];
+        if (newy < 1)
+            newy = w;
+        else if (newy > w)
+            newy = 1;
+        debug(newx, TAB); debug(newy, TAB); debug(mat[newx][newy], endl);
+        if (mat[newx][newy] == land)
+        {
+            ttl += floodfill(newx, newy);
+        }
+
     }
 
     return ttl;
