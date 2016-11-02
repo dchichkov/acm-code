@@ -5,11 +5,12 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <map>
 
 using namespace std;
 
 #define DEBUG
-//#undef DEBUG //uncomment this line to pull out print statements
+#undef DEBUG //uncomment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -43,8 +44,8 @@ void dump()
 bool getInput()
 {
     //get input
-    cin >> a;
     if (cin.eof()) return false;
+    cin >> a;
     return true;
 }
 
@@ -52,12 +53,8 @@ void process()
 {
     //process input
     int total = 0;
-    b = a;
-    UN(a);
-    total += a.length();
-    a = b;
-
-    for (int i = 2; i < a.length(); ++i)
+    map<string, int> uniq;
+    for (int i = 1; i <= a.length(); ++i)
     {
         for (int j = 0; j+i <= a.length(); ++j)
         {
@@ -65,16 +62,17 @@ void process()
             b = b.substr(j, i);
             reverse(b.begin(), b.end());
             debug(b, endl);
-            if (a.substr(j, i).compare(b) == 0)
+            if (a.substr(j, i).compare(b) == 0 && !uniq[b])
             {
                 debug(a.substr(j, i), TAB); debug(b, endl);
                 total++;
+                uniq[b] = 1;
             }
         }
     }
 
     debug(total, endl);
-    
+    printf("The string '%s' contains %d palindromes.\n", a.c_str(), total);
 }
 
 int main()

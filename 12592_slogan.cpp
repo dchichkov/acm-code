@@ -1,3 +1,7 @@
+/*
+ * std::map implementation 
+ */
+
 #include <cstdio>
 #include <iostream>
 #include <vector>
@@ -5,6 +9,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <map>
 
 using namespace std;
 
@@ -30,8 +35,7 @@ typedef vector<point> vp;
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-#define LSOne(x) ((x)&(-x))
-int a, b;
+map<string, string> slogans;
 /*global variables*/
 
 void dump()
@@ -42,43 +46,48 @@ void dump()
 bool getInput()
 {
     //get input
-    scanf("%d %d ", &a, &b);
-    if (!(a|b)) return false;
+    int ns;
+    string s1, s2;
+    cin >> ns;
+    cin.ignore();
+    debug(ns, endl);
+    REP(i, ns)
+    {
+        getline(cin, s1);
+        getline(cin, s2);
+        debug(s1, TAB); debug(s2, endl);
+        slogans[s1] = s2;
+
+    }
     return true;
 }
 
 void process()
 {
     //process input
-    int cnt = 0;
-    int x;
-    debug(a, TAB); debug(b, endl);
-    FOR(i, a, b+1)
+    string line;
+    int nr;
+    cin >> nr;
+    cin.ignore();
+    debug(nr, endl);
+    REP(i, nr)
     {
-        x = i;
-        do
-        {
-            //debug(x, endl);
-            if (x&1)
-                cnt++;
-        } while (x>>=1);
+        getline(cin, line);
+        cout << slogans[line] << endl;
     }
-    printf("%d,", cnt);
 }
 
 int main()
 {
-    
-    int cnt = 1;
-    while (getInput())
+    //while ()
     {
-        //printf("Case %d: ", cnt++);
+        getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
 
         /*CLEAR GLOBAL VARIABLES!*/
     }
-    puts("");
+
     return 0;
 }
