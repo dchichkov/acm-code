@@ -51,13 +51,14 @@ void process()
 {
     //process input
     char c;
-    long long num;
-    int e;
+    int num;
     stringstream sstr(line);
     while (sstr)
     {
         sstr >> c;
         sstr >> num;
+        
+        
         REP(i, num)
             printf("%c", toupper(c));
         if (sstr.eof())
@@ -68,7 +69,7 @@ void process()
 
 int main()
 {
-    int tc, cnt;
+    int tc, cnt = 0;
     scanf("%d ", &tc);
     while (tc-- > 0)
     {

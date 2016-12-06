@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <map>
 
 using namespace std;
 
@@ -25,12 +26,13 @@ typedef vector<point> vp;
 #define UN(v) SORT(v),v.erase(unique(v.begin(),v.end()),v.end())   
 #define SORT(c) sort((c).begin(),(c).end())   
 #define FOR(i,a,b) for (int  i=(a); i < (b); i++)    
-#define REP(i,n) FOR(i,0,n)    
+#define REP(i,n) FOR(i,0,(int)n)    
 #define CL(a,b) memset(a,b,sizeof(a))
 #define CL2d(a,b,x,y) memset(a, b, sizeof(a[0][0])*x*y)
 
 /*global variables*/
-char line[100];
+map<int, int> parents;
+int m, n;
 /*global variables*/
 
 void dump()
@@ -41,49 +43,50 @@ void dump()
 bool getInput()
 {
     //get input
-    fgets(line, 100, stdin);
-    scanf(" ");
+    scanf("%d %d ", &m, &n);
+    if (m == 0 && n == 0)
+        return false;
+    int a, b;
+
+    REP(i, m)
+    {
+        parents[i+1] = 0;
+    }
+
+    REP(i, n)
+    {
+        scanf("%d %d ", &a, &b);
+        parents[b]++;
+    }
     return true;
 }
 
 void process()
 {
     //process input
-    if (line[strlen(line)-1] == '\n') line[strlen(line)-1] = 0;
-
-    bool match;
-    int i, j, y = 0;
-    char word[100];
-    CL(word, 0);
-    for (i = 1; i < strlen(line); ++i)
+    
+    for (int i = 0; i < m; ++i)
     {
-        REP(x, i)
-            word[x] = line[x];
-        y = strlen(word);
-        match = true;
-        for (j = i; j < strlen(line); ++j)
+        for (int j = 1; j <= m; ++j)
         {
-            for (int k = j; k+y < strlen(line); ++k)
-                if (line[k] != word[k]) match = false;
-            if (match) break;
+            if (parents[j] == i)
+            {
+                printf("%d ", j);
+            }
         }
-        if (match) break;
     }
-    printf("%d\n", i+1);
+    puts("");
 }
 
 int main()
 {
-    int tc;
-    scanf("%d ", &tc);
-    while (tc-- > 0)
+    while (getInput())
     {
-        getInput();
+
         process();
 
-        if (tc != 0) puts("");
         /*CLEAR GLOBAL VARIABLES!*/
-        
+        parents.clear();
         /*CLEAR GLOBAL VARIABLES!*/
     }
 

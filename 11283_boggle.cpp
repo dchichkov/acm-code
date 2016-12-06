@@ -64,7 +64,10 @@ bool getInput()
 
     FOR(i, 1, 5)
     {
-        scanf("%s ", &matrix[i][1]);
+        FOR(j, 1, 5)
+        {
+            scanf("%c ", &matrix[i][j]);
+        }
     }
 
     dbg(
@@ -74,7 +77,7 @@ bool getInput()
     }
     puts("");
         );
-    char word[18];
+    char word[20];
     int n;
     scanf("%d ", &n);
     REP(i, n)
@@ -86,24 +89,32 @@ bool getInput()
     return true;
 }
 
-bool check_match(int x, int y, direction pos, string word, int char_pos)
+bool check_match(int x, int y, direction pos, string word, int char_pos, char mat2[mxlen][mxlen])
 {
-    debug(word, TAB); debug(word[char_pos], TAB); debug(matrix[x][y], endl);
-    if (word[char_pos] == matrix[x][y] && char_pos == word.length()-1)
-    {
-
+    debug(word, TAB); debug(word[char_pos], TAB); debug(mat2[x][y], endl);
+    if (word[char_pos] == mat2[x][y] && char_pos == word.length()-1)
+    { 
         return true;
     }
-    else if (word[char_pos] != matrix[x][y]) return false;
-
-    return (check_match(x+movx[EAST], y+movy[EAST], EAST, word, char_pos+1) || 
-                        check_match(x+movx[NORTHEAST], y+movy[NORTHEAST], NORTHEAST, word, char_pos+1) || 
-                        check_match(x+movx[NORTH], y+movy[NORTH], NORTH, word, char_pos+1) || 
-                        check_match(x+movx[NORTHWEST], y+movy[NORTHWEST], NORTHWEST, word, char_pos+1) || 
-                        check_match(x+movx[WEST], y+movy[WEST], WEST, word, char_pos+1) || 
-                        check_match(x+movx[SOUTHWEST], y+movy[SOUTHWEST], SOUTHWEST, word, char_pos+1) || 
-                        check_match(x+movx[SOUTH], y+movy[SOUTH], SOUTH, word, char_pos+1) || 
-                        check_match(x+movx[SOUTHEAST], y+movy[SOUTHEAST], SOUTHEAST, word, char_pos+1));
+    else if (word[char_pos] != mat2[x][y]) return false;
+    char mat3[mxlen][mxlen];
+    REP(i, 6)
+    {
+        REP(j, 6)
+        {
+            mat3[i][j] = mat2[i][j];
+        }
+    }
+        
+    mat3[x][y] = 0;
+    return (check_match(x+movx[EAST], y+movy[EAST], EAST, word, char_pos+1, mat3) || 
+            check_match(x+movx[NORTHEAST], y+movy[NORTHEAST], NORTHEAST, word, char_pos+1, mat3) || 
+            check_match(x+movx[NORTH], y+movy[NORTH], NORTH, word, char_pos+1, mat3) || 
+            check_match(x+movx[NORTHWEST], y+movy[NORTHWEST], NORTHWEST, word, char_pos+1, mat3) || 
+            check_match(x+movx[WEST], y+movy[WEST], WEST, word, char_pos+1, mat3) || 
+            check_match(x+movx[SOUTHWEST], y+movy[SOUTHWEST], SOUTHWEST, word, char_pos+1, mat3) || 
+            check_match(x+movx[SOUTH], y+movy[SOUTH], SOUTH, word, char_pos+1, mat3) || 
+            check_match(x+movx[SOUTHEAST], y+movy[SOUTHEAST], SOUTHEAST, word, char_pos+1, mat3));
 }
 
 void process()
@@ -112,25 +123,36 @@ void process()
     dbg(
     dump();
         );
+    UN(words);
     bool is_match = false;
     int j, k, total = 0;
+    char mat2[mxlen][mxlen];
     REP(i, (int)words.size())
     {
-        for (j = 1; j < 6; ++j)
+        debug(words[i], endl);
+        for (j = 1; j < 5; ++j)
         {
-            for (k = 1; k < 6; ++k)
+            for (k = 1; k < 5; ++k)
             {
                 if (matrix[j][k] == words[i][0])
                 {
+                    REP(i, 6)
+                    {
+                        REP(j, 6)
+                        {
+                            mat2[i][j] = matrix[i][j];
+                        }
+                    }
+                    mat2[j][k] = 0;
                     debug(j, TAB); debug(k, endl);
-                    if (check_match(j+movx[EAST], k+movy[EAST], EAST, words[i], 1) || 
-                        check_match(j+movx[NORTHEAST], k+movy[NORTHEAST], NORTHEAST, words[i], 1) || 
-                        check_match(j+movx[NORTH], k+movy[NORTH], NORTH, words[i], 1) || 
-                        check_match(j+movx[NORTHWEST], k+movy[NORTHWEST], NORTHWEST, words[i], 1) || 
-                        check_match(j+movx[WEST], k+movy[WEST], WEST, words[i], 1) || 
-                        check_match(j+movx[SOUTHWEST], k+movy[SOUTHWEST], SOUTHWEST, words[i], 1) || 
-                        check_match(j+movx[SOUTH], k+movy[SOUTH], SOUTH, words[i], 1) || 
-                        check_match(j+movx[SOUTHEAST], k+movy[SOUTHEAST], SOUTHEAST, words[i], 1))
+                    if (check_match(j+movx[EAST], k+movy[EAST], EAST, words[i], 1, mat2) || 
+                        check_match(j+movx[NORTHEAST], k+movy[NORTHEAST], NORTHEAST, words[i], 1, mat2) || 
+                        check_match(j+movx[NORTH], k+movy[NORTH], NORTH, words[i], 1, mat2) || 
+                        check_match(j+movx[NORTHWEST], k+movy[NORTHWEST], NORTHWEST, words[i], 1, mat2) || 
+                        check_match(j+movx[WEST], k+movy[WEST], WEST, words[i], 1, mat2) || 
+                        check_match(j+movx[SOUTHWEST], k+movy[SOUTHWEST], SOUTHWEST, words[i], 1, mat2) || 
+                        check_match(j+movx[SOUTH], k+movy[SOUTH], SOUTH, words[i], 1, mat2) || 
+                        check_match(j+movx[SOUTHEAST], k+movy[SOUTHEAST], SOUTHEAST, words[i], 1, mat2))
                     {
                         is_match = true;
                         break;
