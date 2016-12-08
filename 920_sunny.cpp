@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <numeric>
 
 using namespace std;
 

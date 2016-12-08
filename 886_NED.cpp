@@ -39,7 +39,7 @@ struct listing
 };
 vector<listing> listings;
 vector<string> dialed;
-map<char, string> numpad;
+string numpad[10];
 /*global variables*/
 
 void dump()
@@ -71,19 +71,6 @@ bool getInput()
         }
         in.clear();
         cin >> in;
-        debug(in , endl);
-    }
-
-    REP(i, dialed.size())
-    {
-        debug(dialed[i], endl);
-    }
-
-    REP(i, listings.size())
-    {
-        debug(listings[i].fname, TAB);
-        debug(listings[i].lname, TAB);
-        debug(listings[i].pnum, endl);
     }
     return true;
 }
@@ -107,18 +94,12 @@ void process()
             
             REP(k, dialed[i].length())
             {
-                if (k == 0)
-                { debug(numpad[dialed[i][k]], TAB); debug(listings[j].fname[k], TAB);
-                    debug(numpad[dialed[i][k]].find(listings[j].fname[k]), endl); }
-                else
-                { debug(numpad[dialed[i][k]], TAB); debug(listings[j].lname[k-1], endl); }
-                
-                if (k == 0 && numpad[dialed[i][0]].find(toupper(listings[j].fname[0])) == string::npos)
+                if (k == 0 && numpad[dialed[i][0]-'0'].find(toupper(listings[j].fname[0])) == string::npos)
                 {
                     match = false;
                     break;
                 }
-                else if (k != 0 && numpad[dialed[i][k]].find(toupper(listings[j].lname[k-1])) == string::npos)
+                else if (k != 0 && numpad[dialed[i][k]-'0'].find(toupper(listings[j].lname[k-1])) == string::npos)
                 {
                     match = false;
                     break;
@@ -150,23 +131,22 @@ int main()
 {
     //while ()
     {
-        numpad['1'] = "";
-        numpad['2'] = "ABC";
-        numpad['3'] = "DEF";
-        numpad['4'] = "GHI";
-        numpad['5'] = "JKL";
-        numpad['6'] = "MNO";
-        numpad['7'] = "PQRS";
-        numpad['8'] = "TUV";
-        numpad['9'] = "WXYZ";
-        numpad['0'] = "";
+        numpad[1] = "";
+        numpad[2] = "ABC";
+        numpad[3] = "DEF";
+        numpad[4] = "GHI";
+        numpad[5] = "JKL";
+        numpad[6] = "MNO";
+        numpad[7] = "PQRS";
+        numpad[8] = "TUV";
+        numpad[9] = "WXYZ";
+        numpad[0] = "";
         
         getInput();
         process();
 
         /*CLEAR GLOBAL VARIABLES!*/
-        listings.clear();
-        dialed.clear();
+        
         /*CLEAR GLOBAL VARIABLES!*/
     }
 
