@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define DEBUG  //comment this line to pull out print statements
+//#define DEBUG  //comment this line to pull out print statements
 #ifdef DEBUG
 #define TAB '\t'
 #define debug(a, end) cout << #a << ": " << a << end
@@ -81,14 +81,14 @@ bool getInput()
 
     for (map<string,string>::iterator it = keyv.begin(); it != keyv.end(); ++it)
     {
-        if (keyw.find(it->first) == keyw.end())
+        if (keyw.find(it->first) == keyw.end() && it->first != "")
             cr.push_back(it->first);
         else if (keyw[it->first] != it->second)
             s.push_back(it->first);
     }
     for (map<string,string>::iterator it = keyw.begin(); it != keyw.end(); ++it)
     {
-        if (keyv.find(it->first) == keyv.end())
+        if (keyv.find(it->first) == keyv.end() && it->first != "")
             cc.push_back(it->first);
     }
     
@@ -98,6 +98,7 @@ bool getInput()
 void process()
 {
     //process input
+    debug(cc.size(), TAB); debug(cr.size(), TAB); debug(s.size(), endl);
     if (cc.size() > 0)
     {
         printf("+");
@@ -140,7 +141,7 @@ int main()
     {
         getInput();
         process();
-        if (nc != 0) puts("");
+        puts("");
 
         /*CLEAR GLOBAL VARIABLES!*/
         keyv.clear();
